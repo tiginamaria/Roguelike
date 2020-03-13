@@ -12,7 +12,7 @@ namespace Roguelike
         
         public void Update()
         {
-            player.Update();
+            
         }
     }
 }

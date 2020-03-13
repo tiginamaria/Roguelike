@@ -2,7 +2,7 @@ namespace Roguelike
 {
     public class Wall : GameObject
     {
-        public Wall(int startY, int startX) : base(startY, startX)
+        public Wall(Position position) : base(position)
         {
         }
     }

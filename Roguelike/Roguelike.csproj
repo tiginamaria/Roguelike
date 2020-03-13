@@ -45,9 +45,10 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="IGameState.cs" />
-    <Compile Include="InputController.cs" />
+    <Compile Include="IInputController.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelFactory.cs" />
+    <Compile Include="MoveController.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayGameState.cs" />
     <Compile Include="Position.cs" />

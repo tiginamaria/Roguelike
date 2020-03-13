@@ -4,12 +4,9 @@ namespace Roguelike
     {
         public Position Position { get; }
 
-        public GameObject(int startY, int startX)
+        public GameObject(Position initPosition)
         {
-            Position = new Position(startY, startX);
+            Position = initPosition;
         }
-        
-        public void Update()
-        {}
     }
 }

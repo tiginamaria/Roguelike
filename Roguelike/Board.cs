@@ -14,24 +14,34 @@ namespace Roguelike
             gameObjects = new GameObject[Height, Width];
         }
 
-        public GameObject GetObject(int y, int x)
+        public GameObject GetObject(Position position)
         {
-            return gameObjects[y, x];
+            return gameObjects[position.Y, position.X];
         }
 
-        public bool IsWall(int y, int x)
+        public bool IsWall(Position position)
         {
-            return gameObjects[y, x] is Wall;
+            return gameObjects[position.Y, position.X] is Wall;
         }
         
-        public bool IsEmpty(int y, int x)
+        public bool IsEmpty(Position position)
         {
-            return gameObjects[y, x] is EmptyCell;
+            return gameObjects[position.Y, position.X] is EmptyCell;
         }
 
-        public void SetObject(GameObject gameObject, int y, int x)
+        public void SetObject(GameObject gameObject, Position position)
         {
-            gameObjects[y, x] = gameObject;
+            gameObjects[position.Y, position.X] = gameObject;
+        }
+
+        public void MoveObject(Position from, Position to)
+        {
+            if (from == to)
+            {
+                return;
+            }
+            gameObjects[to.Y, to.X] = gameObjects[from.Y, from.X];
+            gameObjects[from.Y, from.X] = new EmptyCell(from);
         }
     }
 }
