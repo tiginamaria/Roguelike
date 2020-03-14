@@ -1,13 +1,9 @@
-using System;
-
 namespace Roguelike
 {
     public class Board
     {
         public int Width { get; }
         public int Height { get; }
-        
-        public event EventHandler OnChange;
 
         private GameObject[,] gameObjects;
         
@@ -41,8 +37,12 @@ namespace Roguelike
             }
             gameObjects[to.Y, to.X] = gameObjects[from.Y, from.X];
             gameObjects[from.Y, from.X] = new EmptyCell(from);
-            
-            OnChange?.Invoke(this, null);
+        }
+
+        public bool CheckOnBoard(Position position)
+        {
+            return position.X >= 0 && position.X < Width &&
+                   position.Y >= 0 && position.Y < Height;
         }
     }
 }

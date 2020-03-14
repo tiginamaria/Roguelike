@@ -4,7 +4,7 @@ namespace Roguelike
     {
         private ILevelFactory levelFactory;
         private Level currentLevel;
-        private PlayView playView = new PlayView();
+        private ConsolePlayView playView = new ConsolePlayView();
         private MoveConsoleController moveConsoleController;
 
         public PlayGameState(ILevelFactory levelFactory)

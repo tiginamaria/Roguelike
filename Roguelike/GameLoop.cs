@@ -18,7 +18,6 @@ namespace Roguelike
             stopped = false;
             stateManager.ChangeState(startState);
             
-            // TODO: timer handler
             while (!stopped)
             {
                 stateManager.CurrentState.Update();

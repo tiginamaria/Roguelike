@@ -3,10 +3,10 @@ namespace Roguelike
     public class MoveInteractor
     {
         private Player player;
-        private PlayView playView;
+        private ConsolePlayView playView;
         private Level level;
 
-        public MoveInteractor(Level level, PlayView playView)
+        public MoveInteractor(Level level, ConsolePlayView playView)
         {
             player = level.Player;
             this.playView = playView;

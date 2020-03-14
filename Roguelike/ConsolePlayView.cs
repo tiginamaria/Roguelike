@@ -2,7 +2,7 @@ using System;
 
 namespace Roguelike
 {
-    public class PlayView
+    public class ConsolePlayView
     {
         private const char Wall = '#';
         private const char Empty = '.';

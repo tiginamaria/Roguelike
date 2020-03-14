@@ -9,7 +9,7 @@ namespace Roguelike
         public virtual void Move(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
             var newPosition = Position.Add(intentVerticalMove, intentHorizontalMove);
-            if (newPosition == Position || board.IsWall(newPosition))
+            if (!CanMoveTo(newPosition, board))
             {
                 return;
             }
@@ -20,6 +20,12 @@ namespace Roguelike
             }
 
             Position = newPosition;
+        }
+
+        private bool CanMoveTo(Position newPosition, Board board)
+        {
+            return newPosition != Position && board.CheckOnBoard(newPosition) &&
+                   !board.IsWall(newPosition);
         }
     }
 }

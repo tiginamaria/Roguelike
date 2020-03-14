@@ -15,25 +15,34 @@ namespace Roguelike
         {
             var deltaX = 0;
             var deltaY = 0;
-            
-            if (Console.ReadKey().Key == ConsoleKey.RightArrow)
+
+            if (!Console.KeyAvailable)
+            {
+                return;
+            }
+
+            var key = Console.ReadKey().Key;
+            if (key == ConsoleKey.RightArrow)
             {
                 deltaX = 1;
             }
-            else if (Console.ReadKey().Key == ConsoleKey.LeftArrow)
+            else if (key == ConsoleKey.LeftArrow)
             {
                 deltaX = -1;
             } 
-            else if (Console.ReadKey().Key == ConsoleKey.DownArrow)
+            else if (key == ConsoleKey.DownArrow)
             {
                 deltaY = 1;
             }
-            else if (Console.ReadKey().Key == ConsoleKey.UpArrow)
+            else if (key == ConsoleKey.UpArrow)
             {
                 deltaY = -1;
             }
 
-            moveInteractor.IntentMove(deltaY, deltaX);
+            if (deltaY != 0 || deltaX != 0)
+            {
+                moveInteractor.IntentMove(deltaY, deltaX);
+            }
         }
     }
 }
