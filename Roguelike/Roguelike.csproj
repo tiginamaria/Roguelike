@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
-    <Compile Include="Character.cs" />
     <Compile Include="EmptyCell.cs" />
     <Compile Include="FileLevelFactory.cs" />
     <Compile Include="GameObject.cs" />
@@ -48,7 +47,8 @@
     <Compile Include="IGameState.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="ILevelFactory.cs" />
-    <Compile Include="MoveController.cs" />
+    <Compile Include="MoveConsoleController.cs" />
+    <Compile Include="MoveInteractor.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayGameState.cs" />
     <Compile Include="PlayView.cs" />

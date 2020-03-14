@@ -2,7 +2,7 @@ namespace Roguelike
 {
     /// <summary>
     /// Class for convenient change between game states.
-    /// Automatically calls Invoke and Close methods.
+    /// Automatically calls Invoke method.
     /// </summary>
     public class StateManager
     {
@@ -21,7 +21,6 @@ namespace Roguelike
 
         public void ChangeState(IGameState newGameState)
         {
-            CurrentState?.CloseState();
             CurrentState = newGameState;
             CurrentState?.InvokeState();
         }

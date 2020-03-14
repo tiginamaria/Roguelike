@@ -22,7 +22,6 @@ namespace Roguelike
             while (!stopped)
             {
                 stateManager.CurrentState.Update();
-                stateManager.CurrentState.Draw();
             }
         }
 

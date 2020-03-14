@@ -5,7 +5,7 @@ namespace Roguelike
         private ILevelFactory levelFactory;
         private Level currentLevel;
         private PlayView playView = new PlayView();
-        private MoveController moveController;
+        private MoveConsoleController moveConsoleController;
 
         public PlayGameState(ILevelFactory levelFactory)
         {
@@ -14,24 +14,14 @@ namespace Roguelike
         
         public void Update()
         {
-            moveController.Update();
-            currentLevel.Update();
-        }
-
-        public void Draw()
-        {
-            playView.Draw(currentLevel);
+            moveConsoleController.Update();
         }
 
         public void InvokeState()
         {
             currentLevel = levelFactory.CreateLevel();
-            moveController = new MoveController(currentLevel.Player);
-        }
-
-        public void CloseState()
-        {
-            throw new System.NotImplementedException();
+            var moveInteractor = new MoveInteractor(currentLevel, playView);
+            moveConsoleController = new MoveConsoleController(moveInteractor);
         }
     }
 }

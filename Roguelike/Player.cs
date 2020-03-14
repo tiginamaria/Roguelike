@@ -1,16 +1,14 @@
-using System;
-
 namespace Roguelike
 {
-    public class Player : Character
+    public class Player : GameObject
     {
         public Player(Position startPosition) : base(startPosition)
         {
         }
 
-        public virtual void Update(Board board)
+        public virtual void Move(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
-            var newPosition = Position.Add(IntentVerticalMove, IntentHorizontalMove);
+            var newPosition = Position.Add(intentVerticalMove, intentHorizontalMove);
             if (newPosition == Position || board.IsWall(newPosition))
             {
                 return;
@@ -22,7 +20,6 @@ namespace Roguelike
             }
 
             Position = newPosition;
-            ClearMoveIntent();
         }
     }
 }

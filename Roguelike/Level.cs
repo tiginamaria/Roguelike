@@ -31,10 +31,5 @@ namespace Roguelike
             }
             throw new Exception("Player not found.");
         }
-
-        public void Update()
-        {
-            Player.Update(Board);
-        }
     }
 }
