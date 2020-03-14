@@ -30,14 +30,9 @@ namespace Roguelike
             IntentVerticalMove = -1;
         }
         
-        
         public void IntentMoveDown()
         {
             IntentVerticalMove = 1;
-        }
-
-        public virtual void Update(Board board)
-        {
         }
     }
 }

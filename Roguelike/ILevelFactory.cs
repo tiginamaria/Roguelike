@@ -1,6 +1,6 @@
 namespace Roguelike
 {
-    public interface LevelFactory
+    public interface ILevelFactory
     {
         Level CreateLevel();
     }

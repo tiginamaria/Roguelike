@@ -2,13 +2,19 @@ namespace Roguelike
 {
     public class PlayGameState : IGameState
     {
-        //TODO: assign somewhere
-        private LevelFactory levelFactory;
+        private ILevelFactory levelFactory;
         private Level currentLevel;
-        private PlayView playView;
+        private PlayView playView = new PlayView();
+        private MoveController moveController;
 
+        public PlayGameState(ILevelFactory levelFactory)
+        {
+            this.levelFactory = levelFactory;
+        }
+        
         public void Update()
         {
+            moveController.Update();
             currentLevel.Update();
         }
 
@@ -20,6 +26,7 @@ namespace Roguelike
         public void InvokeState()
         {
             currentLevel = levelFactory.CreateLevel();
+            moveController = new MoveController(currentLevel.Player);
         }
 
         public void CloseState()

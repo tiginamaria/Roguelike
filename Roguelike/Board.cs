@@ -7,11 +7,11 @@ namespace Roguelike
 
         private GameObject[,] gameObjects;
         
-        public Board(int width, int height)
+        public Board(int width, int height, GameObject[,] objects)
         {
             Width = width;
             Height = height;
-            gameObjects = new GameObject[Height, Width];
+            gameObjects = objects;
         }
 
         public GameObject GetObject(Position position)
@@ -27,11 +27,6 @@ namespace Roguelike
         public bool IsEmpty(Position position)
         {
             return gameObjects[position.Y, position.X] is EmptyCell;
-        }
-
-        public void SetObject(GameObject gameObject, Position position)
-        {
-            gameObjects[position.Y, position.X] = gameObject;
         }
 
         public void MoveObject(Position from, Position to)

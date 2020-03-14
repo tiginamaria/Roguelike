@@ -2,19 +2,13 @@ namespace Roguelike
 {
     public struct Position
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get; }
+        public int Y { get; }
 
         public Position(int y, int x)
         {
             X = x;
             Y = y;
-        }
-
-        public void Change(int deltaY, int deltaX)
-        {
-            X += deltaX;
-            Y += deltaY;
         }
         
         public Position Add(int deltaY, int deltaX)

@@ -19,26 +19,10 @@ namespace Roguelike
             return instance ?? (instance = new StateManager());
         }
 
-        public void ChangeState(StateType newStateType)
+        public void ChangeState(IGameState newGameState)
         {
             CurrentState?.CloseState();
-
-            switch (newStateType)
-            {
-//                case StateType.Start:
-//                    CurrentState = new StartGameState();
-//                    break;
-                case StateType.Play:
-                    CurrentState = new PlayGameState();
-                    break;
-//                case StateType.ResultWin:
-//                    CurrentState = new ResultGameState(true);
-//                    break;
-//                case StateType.ResultLose:
-//                    CurrentState = new ResultGameState(false);
-//                    break;
-            }
-
+            CurrentState = newGameState;
             CurrentState?.InvokeState();
         }
     }

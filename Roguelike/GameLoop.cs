@@ -13,17 +13,16 @@ namespace Roguelike
             stateManager = StateManager.GetInstance();
         }
         
-        public void Start()
+        public void Start(IGameState startState)
         {
             stopped = false;
-            stateManager.ChangeState(StateType.Play);
+            stateManager.ChangeState(startState);
             
             // TODO: timer handler
             while (!stopped)
             {
                 stateManager.CurrentState.Update();
-                
-                Thread.Sleep(TimeSpan.FromMilliseconds(10));
+                stateManager.CurrentState.Draw();
             }
         }
 

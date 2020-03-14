@@ -1,13 +1,18 @@
-﻿using System;
-
-namespace Roguelike
+﻿namespace Roguelike
 {
     internal class Program
     {
         public static void Main(string[] args)
         {
             var loop = new GameLoop();
-            loop.Start();
+            var factory = GetFactory(args);
+            var startState = new PlayGameState(factory);
+            loop.Start(startState);
+        }
+        
+        private static ILevelFactory GetFactory(string[] args)
+        {
+            return new FileLevelFactory(args[0]);
         }
     }
 }

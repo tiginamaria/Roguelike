@@ -2,7 +2,7 @@ using System;
 
 namespace Roguelike
 {
-    public class MoveController : IInputController
+    public class MoveController
     {
         private Player player;
 

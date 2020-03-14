@@ -1,7 +1,13 @@
+using System;
+
 namespace Roguelike
 {
     public class PlayView
     {
+        private const char Wall = '#';
+        private const char Empty = '.';
+        private const char Player = '$';
+        
         public void Draw(Level level)
         {
             DrawBoard(level.Board);
@@ -23,7 +29,30 @@ namespace Roguelike
 
         private void DrawObject(Board board, Position position)
         {
+            Console.SetCursorPosition(position.X, position.Y);
+            var objectChar = GetObjectChar(board, position);
+            Console.Write(objectChar);
+        }
+
+        private char GetObjectChar(Board board, Position position)
+        {
+            if (board.IsWall(position))
+            {
+                return Wall;
+            }
+
+            if (board.IsEmpty(position))
+            {
+                return Empty;
+            }
+
+            var gameObject = board.GetObject(position);
+            if (gameObject is Player)
+            {
+                return Player;
+            }
             
+            throw new Exception($"Invalid object found: {gameObject}");
         }
     }
 }

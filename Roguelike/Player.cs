@@ -1,3 +1,5 @@
+using System;
+
 namespace Roguelike
 {
     public class Player : Character
@@ -6,9 +8,9 @@ namespace Roguelike
         {
         }
 
-        public override void Update(Board board)
+        public virtual void Update(Board board)
         {
-            var newPosition = Position.Add(IntentVerticalMove, IntentVerticalMove);
+            var newPosition = Position.Add(IntentVerticalMove, IntentHorizontalMove);
             if (newPosition == Position || board.IsWall(newPosition))
             {
                 return;
