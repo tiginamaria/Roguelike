@@ -4,16 +4,28 @@ namespace Roguelike
 {
     public class ConsolePlayView
     {
-        private const char Wall = '#';
-        private const char Empty = '.';
-        private const char Player = '$';
+        private const char WallChar = '#';
+        private const char EmptyChar = '.';
+        private const char PlayerChar = '$';
+
+        private Rectangle bufferRectangle;
+
+        public ConsolePlayView()
+        {
+            bufferRectangle = new Rectangle(
+                left: 0,
+                right: Console.WindowWidth,
+                top: 0,
+                bottom: Console.WindowHeight);
+            Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
+        }
         
         public void Draw(Level level)
         {
-            DrawBoard(level.Board);
+            DrawBoard(level.Board, level.Player);
         }
 
-        private void DrawBoard(Board board)
+        private void DrawBoard(Board board, Player player)
         {
             var width = board.Width;
             var height = board.Height;
@@ -38,18 +50,18 @@ namespace Roguelike
         {
             if (board.IsWall(position))
             {
-                return Wall;
+                return WallChar;
             }
 
             if (board.IsEmpty(position))
             {
-                return Empty;
+                return EmptyChar;
             }
 
             var gameObject = board.GetObject(position);
             if (gameObject is Player)
             {
-                return Player;
+                return PlayerChar;
             }
             
             throw new Exception($"Invalid object found: {gameObject}");

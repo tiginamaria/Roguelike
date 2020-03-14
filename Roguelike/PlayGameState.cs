@@ -22,6 +22,7 @@ namespace Roguelike
             currentLevel = levelFactory.CreateLevel();
             var moveInteractor = new MoveInteractor(currentLevel, playView);
             moveConsoleController = new MoveConsoleController(moveInteractor);
+            playView.Draw(currentLevel);
         }
     }
 }
