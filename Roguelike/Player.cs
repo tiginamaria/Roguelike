@@ -18,6 +18,9 @@ namespace Roguelike
             {
                 board.MoveObject(Position, newPosition);
             }
+
+            Position = newPosition;
+            ClearMoveIntent();
         }
     }
 }

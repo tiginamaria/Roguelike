@@ -51,6 +51,7 @@
     <Compile Include="MoveController.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayGameState.cs" />
+    <Compile Include="PlayView.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

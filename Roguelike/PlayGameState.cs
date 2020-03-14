@@ -5,6 +5,7 @@ namespace Roguelike
         //TODO: assign somewhere
         private LevelFactory levelFactory;
         private Level currentLevel;
+        private PlayView playView;
 
         public void Update()
         {
@@ -13,7 +14,7 @@ namespace Roguelike
 
         public void Draw()
         {
-            throw new System.NotImplementedException();
+            playView.Draw(currentLevel);
         }
 
         public void InvokeState()
