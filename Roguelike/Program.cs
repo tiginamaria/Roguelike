@@ -12,7 +12,7 @@
         
         private static ILevelFactory GetFactory(string[] args)
         {
-            return new FileLevelFactory(args[0]);
+            return new RandomLevelFactory();
         }
     }
 }
