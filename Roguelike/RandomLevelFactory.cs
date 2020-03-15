@@ -40,7 +40,7 @@ namespace Roguelike
                     var row = CellIdToBoard(cellRow);
                     var col = CellIdToBoard(cellCol);
                     AddEmptyCell(row, col, boardTable);
-                    for (var i = 0; i < 2; ++i)
+                    for (var i = 0; i < 2; i++)
                     {
                         if (!labyrinth.IsValidCell(cellRow + dy[i], cellCol + dx[i])) continue;
                         ConnectCells(cellRow, cellCol, cellRow + dy[i], cellCol + dx[i], boardTable);
@@ -83,7 +83,7 @@ namespace Roguelike
             var rows = new[] {0, height - 1};
             foreach (var row in rows)
             {
-                for (var col = 0; col < width; ++col)
+                for (var col = 0; col < width; col++)
                 {
                     AddWall(row, col, boardTable);
                 }
@@ -92,7 +92,7 @@ namespace Roguelike
             var cols = new[] {0, width - 1};
             foreach (var col in cols)
             {
-                for (var row = 0; row < height; ++row)
+                for (var row = 0; row < height; row++)
                 {
                     AddWall(row, col, boardTable);
                 }

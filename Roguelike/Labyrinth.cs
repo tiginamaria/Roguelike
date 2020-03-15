@@ -18,9 +18,9 @@ namespace Roguelike
             this.width = width;
             n = width * height;
             matrix = new bool[n, n];
-            for (var i = 0; i < n; ++i)
+            for (var i = 0; i < n; i++)
             {
-                for (var j = 0; j < n; ++j)
+                for (var j = 0; j < n; j++)
                 {
                     matrix[i, j] = false;
                 }
@@ -32,7 +32,7 @@ namespace Roguelike
         private void Build()
         {
             var used = new bool[n];
-            for (var i = 0; i < n; ++i)
+            for (var i = 0; i < n; i++)
             {
                 used[i] = false;
             }
@@ -45,11 +45,11 @@ namespace Roguelike
             used[v] = true;
             usedNumber--;
             var neighbors = new List<int>();
-            var stack = new List<int>();
+            var stack = new Stack<int>();
             while (usedNumber > 0)
             {
                 neighbors.Clear();
-                for (var i = 0; i < 4; ++i)
+                for (var i = 0; i < 4; i++)
                 {
                     var nx = x + Dx[i];
                     var ny = y + Dy[i];
@@ -63,12 +63,11 @@ namespace Roguelike
 
                 if (neighbors.Count == 0)
                 {
-                    v = stack[stack.Count - 1];
-                    stack.RemoveAt(stack.Count - 1);
+                    v = stack.Pop();
                 }
                 else
                 {
-                    stack.Add(v);
+                    stack.Push(v);
                     var u = neighbors[random.Next(neighbors.Count)];
                     used[u] = true;
                     --usedNumber;
@@ -81,10 +80,10 @@ namespace Roguelike
             }
         }
 
-        /**
-         * Checks is cells (y1, x1) and (y2, x2) are connected.
-         * Returns false if any coordinate is out of bounds.
-         */
+        /// <summary>
+        /// Checks is cells (y1, x1) and (y2, x2) are connected.
+        /// Returns false if any coordinate is out of bounds.
+        /// </summary>
         public bool AreConnected(int y1, int x1, int y2, int x2)
         {
             if (!(IsValidCell(y1, x1) && IsValidCell(y2, x2)))
