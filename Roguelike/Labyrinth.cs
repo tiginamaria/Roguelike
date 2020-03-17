@@ -70,7 +70,7 @@ namespace Roguelike
                     stack.Push(v);
                     var u = neighbors[random.Next(neighbors.Count)];
                     used[u] = true;
-                    --usedNumber;
+                    usedNumber--;
                     matrix[u, v] = matrix[v, u] = true;
                     v = u;
                 }
