@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-
 namespace Roguelike
 {
     public class GameLoop
@@ -11,22 +8,23 @@ namespace Roguelike
         public GameLoop()
         {
             stateManager = StateManager.GetInstance();
+            stateManager.ExitEvent += 
+                (sender, args) =>
+                {
+                    stopped = true;
+                };
         }
         
-        public void Start(IGameState startState)
+        public void Run(IGameState startState)
         {
             stopped = false;
             stateManager.ChangeState(startState);
             
             while (!stopped)
             {
+                Keyboard.Update();
                 stateManager.CurrentState.Update();
             }
-        }
-
-        public void Stop()
-        {
-            stopped = true;
         }
     }
 }

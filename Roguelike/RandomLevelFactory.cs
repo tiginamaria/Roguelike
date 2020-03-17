@@ -3,8 +3,8 @@ namespace Roguelike
 {
     public class RandomLevelFactory : ILevelFactory
     {
-        private const int DefaultHeight = 15;
-        private const int DefaultWidth = 15;
+        private const int DefaultHeight = 100;
+        private const int DefaultWidth = 100;
         private readonly Random random = new Random();
         private const float WallProbability = 0.5f;
 
@@ -20,10 +20,7 @@ namespace Roguelike
             {
                 return x + 1;
             }
-            else
-            {
-                return x;
-            }
+            return x;
         }
 
         public Level CreateLevel()
@@ -41,7 +38,10 @@ namespace Roguelike
                     AddEmptyCell(row, col, boardTable);
                     for (var i = 0; i < 2; i++)
                     {
-                        if (!labyrinth.IsValidCell(cellRow + dy[i], cellCol + dx[i])) continue;
+                        if (!labyrinth.IsValidCell(cellRow + dy[i], cellCol + dx[i]))
+                        {
+                            continue;
+                        }
                         ConnectCells(cellRow, cellCol, cellRow + dy[i], cellCol + dx[i], boardTable);
                     }
 
