@@ -42,11 +42,12 @@
     <Compile Include="Board.cs" />
     <Compile Include="EmptyCell.cs" />
     <Compile Include="FileLevelFactory.cs" />
-    <Compile Include="GameObject.cs" />
     <Compile Include="GameLoop.cs" />
+    <Compile Include="GameObject.cs" />
     <Compile Include="IGameState.cs" />
-    <Compile Include="Level.cs" />
     <Compile Include="ILevelFactory.cs" />
+    <Compile Include="Level.cs" />
+    <Compile Include="Labyrinth.cs" />
     <Compile Include="MoveConsoleController.cs" />
     <Compile Include="MoveInteractor.cs" />
     <Compile Include="Player.cs" />
