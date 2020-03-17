@@ -41,11 +41,13 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="EmptyCell.cs" />
+    <Compile Include="ExitGameController.cs" />
     <Compile Include="FileLevelFactory.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="IGameState.cs" />
     <Compile Include="ILevelFactory.cs" />
+    <Compile Include="Keyboard.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Labyrinth.cs" />
     <Compile Include="MoveConsoleController.cs" />

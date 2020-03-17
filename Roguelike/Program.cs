@@ -7,7 +7,7 @@
             var loop = new GameLoop();
             var factory = GetFactory(args);
             var startState = new PlayGameState(factory);
-            loop.Start(startState);
+            loop.Run(startState);
         }
         
         private static ILevelFactory GetFactory(string[] args)

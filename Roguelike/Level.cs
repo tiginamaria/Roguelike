@@ -4,10 +4,8 @@ namespace Roguelike
 {
     public class Level
     {
-        public Player Player 
-        { get; }
-        public Board Board
-        { get; }
+        public Player Player { get; }
+        public Board Board { get; }
 
         public Level(Board board)
         {

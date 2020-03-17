@@ -16,12 +16,7 @@ namespace Roguelike
             var deltaX = 0;
             var deltaY = 0;
 
-            if (!Console.KeyAvailable)
-            {
-                return;
-            }
-
-            var key = Console.ReadKey().Key;
+            var key = Keyboard.GetKey();
             if (key == ConsoleKey.RightArrow)
             {
                 deltaX = 1;
