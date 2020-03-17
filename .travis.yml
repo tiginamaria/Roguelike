@@ -1,0 +1,11 @@
+﻿language: csharp
+solution: Roguelike.sln
+
+install:
+  - sudo apt-get install nuget
+  - sudo apt-get install nunit-console
+  - nuget restore Roguelike.sln
+
+script:
+  - xbuild Roguelike.sln
+  - nunit-console RoguelikeTest/bin/Debug/RoguelikeTest.dll
