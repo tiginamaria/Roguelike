@@ -1,5 +1,8 @@
 namespace Roguelike
 {
+    /// <summary>
+    /// Represents the position in a grid with integer nodes.
+    /// </summary>
     public struct Position
     {
         public int X { get; }
@@ -24,6 +27,28 @@ namespace Roguelike
         public static bool operator !=(Position first, Position second)
         {
             return first.X != second.X || first.Y != second.Y;
+        }
+        
+        public bool Equals(Position other)
+        {
+            return X == other.X && Y == other.Y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            return obj is Position && Equals((Position) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (X * 397) ^ Y;
+            }
         }
     }
 }

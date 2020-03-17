@@ -1,5 +1,8 @@
 namespace Roguelike
 {
+    /// <summary>
+    /// Represents a single play mode.
+    /// </summary>
     public class PlayGameState : IGameState
     {
         private ILevelFactory levelFactory;
@@ -13,6 +16,9 @@ namespace Roguelike
             this.levelFactory = levelFactory;
         }
         
+        /// <summary>
+        /// Updates the controllers.
+        /// </summary>
         public void Update()
         {
             exitGameController.Update();

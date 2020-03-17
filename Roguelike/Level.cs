@@ -2,6 +2,9 @@ using System;
     
 namespace Roguelike
 {
+    /// <summary>
+    /// Stores the information about the game level.
+    /// </summary>
     public class Level
     {
         public Player Player { get; }

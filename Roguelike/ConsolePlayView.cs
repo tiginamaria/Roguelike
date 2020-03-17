@@ -2,18 +2,23 @@ using System;
 
 namespace Roguelike
 {
+    /// <summary>
+    /// A class for displaying the play state using the console.
+    /// </summary>
     public class ConsolePlayView
     {
         private const char WallChar = '#';
         private const char EmptyChar = '.';
         private const char PlayerChar = '$';
 
-
         public ConsolePlayView()
         {
             Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
         }
         
+        /// <summary>
+        /// Displays the given level by drawing its board in the console.
+        /// </summary>
         public void Draw(Level level)
         {
             DrawBoard(level.Board, level.Player);
@@ -33,6 +38,10 @@ namespace Roguelike
             }
         }
 
+        /// <summary>
+        /// Returns a rectangle focused on the given Game Object,
+        /// so that its centre equals to the object position if possible.
+        /// </summary>
         private FixedBoundRectangle GetFocusRectangle(Board board, GameObject focus)
         {
             var focusRectangle = new FixedBoundRectangle(
