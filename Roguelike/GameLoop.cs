@@ -1,5 +1,8 @@
 namespace Roguelike
 {
+    /// <summary>
+    /// Main loop for the game.
+    /// </summary>
     public class GameLoop
     {
         private StateManager stateManager;
@@ -15,6 +18,9 @@ namespace Roguelike
                 };
         }
         
+        /// <summary>
+        /// Starts an infinite loop and updates the current game state.
+        /// </summary>
         public void Run(IGameState startState)
         {
             stopped = false;

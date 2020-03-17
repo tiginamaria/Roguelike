@@ -1,5 +1,10 @@
 namespace Roguelike
 {
+    /// <summary>
+    /// Represents a rectangle with fixed dimensions.
+    /// Width and Height are set in the constructor.
+    /// While changing coordinates, the opposite one shifts automatically.
+    /// </summary>
     public class FixedBoundRectangle
     {
         private int left;
