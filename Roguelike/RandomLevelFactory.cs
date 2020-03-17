@@ -1,18 +1,23 @@
 using System;
 namespace Roguelike
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A factory to generate random levels.
+    /// Default dimensions are 100 * 100.
+    /// </summary>
     public class RandomLevelFactory : ILevelFactory
     {
-        private const int DefaultHeight = 15;
-        private const int DefaultWidth = 15;
-        private readonly Random random = new Random();
+        private const int DefaultHeight = 100;
+        private const int DefaultWidth = 100;
+        private Random random = new Random();
         private const float WallProbability = 0.5f;
 
-        private static readonly int Height = RoundToOdd(DefaultHeight);
-        private static readonly int Width = RoundToOdd(DefaultWidth);
-        private static readonly int CellHeight = (Height - 1) / 2;
-        private static readonly int CellWidth = (Width - 1) / 2;
-        private readonly Labyrinth labyrinth = new Labyrinth(CellHeight, CellWidth);
+        private static int Height = RoundToOdd(DefaultHeight);
+        private static int Width = RoundToOdd(DefaultWidth);
+        private static int CellHeight = (Height - 1) / 2;
+        private static int CellWidth = (Width - 1) / 2;
+        private Labyrinth labyrinth = new Labyrinth(CellHeight, CellWidth);
 
         private static int RoundToOdd(int x)
         {
@@ -20,10 +25,7 @@ namespace Roguelike
             {
                 return x + 1;
             }
-            else
-            {
-                return x;
-            }
+            return x;
         }
 
         public Level CreateLevel()
@@ -41,7 +43,10 @@ namespace Roguelike
                     AddEmptyCell(row, col, boardTable);
                     for (var i = 0; i < 2; i++)
                     {
-                        if (!labyrinth.IsValidCell(cellRow + dy[i], cellCol + dx[i])) continue;
+                        if (!labyrinth.IsValidCell(cellRow + dy[i], cellCol + dx[i]))
+                        {
+                            continue;
+                        }
                         ConnectCells(cellRow, cellCol, cellRow + dy[i], cellCol + dx[i], boardTable);
                     }
 
@@ -72,12 +77,12 @@ namespace Roguelike
             }
         }
 
-        private static int CellIdToBoard(int id)
+        private int CellIdToBoard(int id)
         {
             return 1 + id * 2;
         }
 
-        private static void CreateBorders(int height, int width, GameObject[,] boardTable)
+        private void CreateBorders(int height, int width, GameObject[,] boardTable)
         {
             var rows = new[] {0, height - 1};
             foreach (var row in rows)
@@ -98,7 +103,7 @@ namespace Roguelike
             }
         }
 
-        private static void AddWall(int row, int col, GameObject[,] boardTable)
+        private void AddWall(int row, int col, GameObject[,] boardTable)
         {
             boardTable[row, col] = new Wall(new Position(row, col));
         }
@@ -115,12 +120,12 @@ namespace Roguelike
             }
         }
 
-        private static void AddEmptyCell(int row, int col, GameObject[,] boardTable)
+        private void AddEmptyCell(int row, int col, GameObject[,] boardTable)
         {
             boardTable[row, col] = new EmptyCell(new Position(row, col));
         }
 
-        private static void AddPlayerCell(int row, int col, GameObject[,] boardTable)
+        private void AddPlayerCell(int row, int col, GameObject[,] boardTable)
         {
             boardTable[row, col] = new Player(new Position(row, col));
         }

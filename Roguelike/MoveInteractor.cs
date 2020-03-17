@@ -1,5 +1,9 @@
 namespace Roguelike
 {
+    /// <summary>
+    /// A class for performing player move logic.
+    /// Notifies the view on update.
+    /// </summary>
     public class MoveInteractor
     {
         private Player player;
@@ -13,6 +17,10 @@ namespace Roguelike
             this.level = level;
         }
 
+        /// <summary>
+        /// Notifies a user about the move intent.
+        /// Notifies the view.
+        /// </summary>
         public void IntentMove(int deltaY, int deltaX)
         {
             player.Move(deltaY, deltaX, level.Board);

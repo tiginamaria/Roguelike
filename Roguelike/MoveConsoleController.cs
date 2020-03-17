@@ -2,6 +2,9 @@ using System;
 
 namespace Roguelike
 {
+    /// <summary>
+    /// A controller to handle player move actions.
+    /// </summary>
     public class MoveConsoleController
     {
         private MoveInteractor moveInteractor;
@@ -11,17 +14,15 @@ namespace Roguelike
             this.moveInteractor = moveInteractor;
         }
         
+        /// <summary>
+        /// Handles the user input.
+        /// </summary>
         public void Update()
         {
             var deltaX = 0;
             var deltaY = 0;
 
-            if (!Console.KeyAvailable)
-            {
-                return;
-            }
-
-            var key = Console.ReadKey().Key;
+            var key = Keyboard.GetKey();
             if (key == ConsoleKey.RightArrow)
             {
                 deltaX = 1;

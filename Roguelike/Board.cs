@@ -1,5 +1,8 @@
 namespace Roguelike
 {
+    /// <summary>
+    /// Represents a game board with Game Objects on it.
+    /// </summary>
     public class Board
     {
         public int Width { get; }
@@ -29,6 +32,10 @@ namespace Roguelike
             return gameObjects[position.Y, position.X] is EmptyCell;
         }
 
+        /// <summary>
+        /// Moves an object from one position to another,
+        /// inserting an Empty Cell to the old position.
+        /// </summary>
         public void MoveObject(Position from, Position to)
         {
             if (from == to)
@@ -39,6 +46,9 @@ namespace Roguelike
             gameObjects[from.Y, from.X] = new EmptyCell(from);
         }
 
+        /// <summary>
+        /// Returns true iff the given position is inside the board dimensions.
+        /// </summary>
         public bool CheckOnBoard(Position position)
         {
             return position.X >= 0 && position.X < Width &&

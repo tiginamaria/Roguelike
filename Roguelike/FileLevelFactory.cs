@@ -3,6 +3,15 @@ using System.Linq;
 
 namespace Roguelike
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Creates a level by the given file.
+    /// The first line must contain two integers: height and width.
+    /// The next height lines contains width characters separated with spaces:
+    /// # -- wall
+    /// . -- empty
+    /// $ -- player start position
+    /// </summary>
     public class FileLevelFactory : ILevelFactory
     {
         private const string Wall = "#";
@@ -11,6 +20,9 @@ namespace Roguelike
         
         private string pathToFile;
         
+        /// <summary>
+        /// Creates the factory by the path to a file with a level description.
+        /// </summary>
         public FileLevelFactory(string path)
         {
             pathToFile = path;

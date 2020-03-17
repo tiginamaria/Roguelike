@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace Roguelike
 {
-    internal class Labyrinth
+    /// <summary>
+    /// A class for creating a random labyrinth.
+    /// </summary>
+    public class Labyrinth
     {
         private readonly int height;
         private readonly int width;
@@ -12,6 +15,9 @@ namespace Roguelike
         private static readonly int[] Dx = {0, 0, -1, 1};
         private static readonly int[] Dy = {-1, 1, 0, 0};
 
+        /// <summary>
+        /// Generates a random labyrinth with the given dimensions.
+        /// </summary>
         public Labyrinth(int height, int width)
         {
             this.height = height;
@@ -70,7 +76,7 @@ namespace Roguelike
                     stack.Push(v);
                     var u = neighbors[random.Next(neighbors.Count)];
                     used[u] = true;
-                    --usedNumber;
+                    usedNumber--;
                     matrix[u, v] = matrix[v, u] = true;
                     v = u;
                 }
