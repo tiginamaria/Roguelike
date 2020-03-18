@@ -24,3 +24,5 @@ msbuild Roguelike.sln
 Roguelike/bin/Debug/Roguelike.exe [<path>]
 [<path>] - путь до файла с картой
 ```
+
+Примеры карт и их формат можно найти в RoguelikeTest/test_maps/
