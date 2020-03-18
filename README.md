@@ -22,4 +22,5 @@ msbuild Roguelike.sln
 Запуск:
 ```
 Roguelike/bin/Debug/Roguelike.exe [<path>]
+[<path>] - путь до файла с картой
 ```
