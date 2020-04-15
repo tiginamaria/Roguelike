@@ -1,6 +1,6 @@
 using Roguelike.Model;
 
-namespace Roguelike
+namespace Roguelike.View
 {
     public interface IPlayView
     {

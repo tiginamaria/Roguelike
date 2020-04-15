@@ -1,4 +1,5 @@
 using Roguelike.Model;
+using Roguelike.View;
 
 namespace Roguelike.Interaction
 {
