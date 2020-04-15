@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using NUnit.Framework;
-using Roguelike;
 using Roguelike.Initialization;
 using Roguelike.Model;
 
