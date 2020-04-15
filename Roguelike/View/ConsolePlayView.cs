@@ -1,11 +1,12 @@
 using System;
+using Roguelike.Model;
 
-namespace Roguelike
+namespace Roguelike.View
 {
     /// <summary>
     /// A class for displaying the play state using the console.
     /// </summary>
-    public class ConsolePlayView
+    public class ConsolePlayView : IPlayView
     {
         private const char WallChar = '#';
         private const char EmptyChar = '.';
@@ -19,10 +20,7 @@ namespace Roguelike
         /// <summary>
         /// Displays the given level by drawing its board in the console.
         /// </summary>
-        public void Draw(Level level)
-        {
-            DrawBoard(level.Board, level.Player);
-        }
+        public void Draw(Level level) => DrawBoard(level.Board, level.Player);
 
         private void DrawBoard(Board board, GameObject focus)
         {

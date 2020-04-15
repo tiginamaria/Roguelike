@@ -1,4 +1,4 @@
-namespace Roguelike
+namespace Roguelike.Model
 {
     /// <summary>
     /// Represents a player.

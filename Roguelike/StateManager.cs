@@ -1,4 +1,5 @@
 using System;
+using Roguelike.Initialization;
 
 namespace Roguelike
 {
@@ -8,8 +9,6 @@ namespace Roguelike
     /// </summary>
     public class StateManager
     {
-        public event EventHandler ExitEvent; 
-        
         public IGameState CurrentState { get; private set; }
 
         private static StateManager instance;
@@ -30,14 +29,6 @@ namespace Roguelike
         {
             CurrentState = newGameState;
             CurrentState?.InvokeState();
-        }
-
-        /// <summary>
-        /// Rises an exit event.
-        /// </summary>
-        public void Exit()
-        {
-            ExitEvent?.Invoke(this, null);
         }
     }
 }

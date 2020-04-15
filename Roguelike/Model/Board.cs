@@ -1,4 +1,6 @@
-namespace Roguelike
+using System;
+
+namespace Roguelike.Model
 {
     /// <summary>
     /// Represents a game board with Game Objects on it.
@@ -17,20 +19,11 @@ namespace Roguelike
             gameObjects = objects;
         }
 
-        public GameObject GetObject(Position position)
-        {
-            return gameObjects[position.Y, position.X];
-        }
+        public GameObject GetObject(Position position) => gameObjects[position.Y, position.X];
 
-        public bool IsWall(Position position)
-        {
-            return gameObjects[position.Y, position.X] is Wall;
-        }
-        
-        public bool IsEmpty(Position position)
-        {
-            return gameObjects[position.Y, position.X] is EmptyCell;
-        }
+        public bool IsWall(Position position) => gameObjects[position.Y, position.X] is Wall;
+
+        public bool IsEmpty(Position position) => gameObjects[position.Y, position.X] is EmptyCell;
 
         /// <summary>
         /// Moves an object from one position to another,
@@ -53,6 +46,24 @@ namespace Roguelike
         {
             return position.X >= 0 && position.X < Width &&
                    position.Y >= 0 && position.Y < Height;
+        }
+        
+        public Player FindPlayer()
+        {
+            for (var row = 0; row < Height; row++)
+            {
+                for (var col = 0; col < Width; col++)
+                {
+                    var position = new Position(row, col);
+                    var gameObject = GetObject(position);
+                    var player = gameObject as Player;
+                    if (player != null)
+                    {
+                        return player;
+                    }
+                }
+            }
+            throw new Exception("Player not found.");
         }
     }
 }

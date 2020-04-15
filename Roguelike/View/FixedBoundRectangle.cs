@@ -1,4 +1,4 @@
-namespace Roguelike
+namespace Roguelike.View
 {
     /// <summary>
     /// Represents a rectangle with fixed dimensions.

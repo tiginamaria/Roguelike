@@ -1,4 +1,6 @@
-﻿namespace Roguelike
+﻿using Roguelike.Initialization;
+
+namespace Roguelike
 {
     /// <summary>
     /// An entry point to the game.
@@ -10,19 +12,18 @@
     {
         public static void Main(string[] args)
         {
-            var loop = new GameLoop();
-            var factory = GetFactory(args);
-            var startState = new PlayGameState(factory);
-            loop.Run(startState);
+            var startState = GetStartState(args);
+            var stateManager = StateManager.GetInstance();
+            stateManager.ChangeState(startState);
         }
         
-        private static ILevelFactory GetFactory(string[] args)
+        private static IGameState GetStartState(string[] args)
         {
             if (args.Length > 0)
             {
-                return new FileLevelFactory(args[0]);
+                return new PlayGameState(args[0]);
             }
-            return new RandomLevelFactory();
+            return new PlayGameState();
         }
     }
 }

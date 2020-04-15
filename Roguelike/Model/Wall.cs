@@ -1,4 +1,4 @@
-namespace Roguelike
+namespace Roguelike.Model
 {
     /// <inheritdoc />
     /// <summary>

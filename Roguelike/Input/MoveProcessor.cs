@@ -1,28 +1,25 @@
 using System;
+using Roguelike.Interaction;
 
-namespace Roguelike
+namespace Roguelike.Input
 {
     /// <summary>
-    /// A controller to handle player move actions.
+    /// A processor to handle player move actions.
     /// </summary>
-    public class MoveConsoleController
+    public class MoveProcessor : IInputProcessor
     {
-        private MoveInteractor moveInteractor;
+        private readonly MoveInteractor moveInteractor;
         
-        public MoveConsoleController(MoveInteractor moveInteractor)
+        public MoveProcessor(MoveInteractor moveInteractor)
         {
             this.moveInteractor = moveInteractor;
         }
         
-        /// <summary>
-        /// Handles the user input.
-        /// </summary>
-        public void Update()
+        public void ProcessInput(ConsoleKey key)
         {
             var deltaX = 0;
             var deltaY = 0;
-
-            var key = Keyboard.GetKey();
+            
             if (key == ConsoleKey.RightArrow)
             {
                 deltaX = 1;
@@ -43,7 +40,7 @@ namespace Roguelike
             if (deltaY != 0 || deltaX != 0)
             {
                 moveInteractor.IntentMove(deltaY, deltaX);
-            }
+            }    
         }
     }
 }
