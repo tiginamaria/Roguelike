@@ -1,5 +1,7 @@
 using System;
-namespace Roguelike
+using Roguelike.Model;
+
+namespace Roguelike.Initialization
 {
     /// <inheritdoc />
     /// <summary>

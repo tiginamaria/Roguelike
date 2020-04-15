@@ -1,4 +1,6 @@
-namespace Roguelike
+using Roguelike.Model;
+
+namespace Roguelike.Interaction
 {
     /// <summary>
     /// A class for performing player move logic.
@@ -7,10 +9,10 @@ namespace Roguelike
     public class MoveInteractor
     {
         private Player player;
-        private ConsolePlayView playView;
+        private IPlayView playView;
         private Level level;
 
-        public MoveInteractor(Level level, ConsolePlayView playView)
+        public MoveInteractor(Level level, IPlayView playView)
         {
             player = level.Player;
             this.playView = playView;

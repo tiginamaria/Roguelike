@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Roguelike
+namespace Roguelike.Initialization
 {
     /// <summary>
     /// A class for creating a random labyrinth.

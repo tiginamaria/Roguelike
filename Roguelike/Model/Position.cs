@@ -1,4 +1,4 @@
-namespace Roguelike
+namespace Roguelike.Model
 {
     /// <summary>
     /// Represents the position in a grid with integer nodes.
@@ -14,11 +14,8 @@ namespace Roguelike
             Y = y;
         }
         
-        public Position Add(int deltaY, int deltaX)
-        {
-            return new Position(Y + deltaY, X + deltaX);
-        }
-        
+        public Position Add(int deltaY, int deltaX) => new Position(Y + deltaY, X + deltaX);
+
         public static bool operator ==(Position first, Position second)
         {
             return first.X == second.X && first.Y == second.Y;

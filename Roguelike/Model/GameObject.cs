@@ -1,4 +1,4 @@
-namespace Roguelike
+namespace Roguelike.Model
 {
     /// <summary>
     /// Base class for all game objects on the game board.

@@ -1,4 +1,6 @@
-namespace Roguelike
+using Roguelike.Model;
+
+namespace Roguelike.Initialization
 {
     /// <summary>
     /// Interface for level factories. 
