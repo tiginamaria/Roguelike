@@ -11,9 +11,6 @@ namespace Roguelike.Interaction
             this.target = target;
         }
 
-        public void Exit()
-        {    
-            target.Stop();
-        }
+        public void Exit() => target.Stop();
     }
 }
