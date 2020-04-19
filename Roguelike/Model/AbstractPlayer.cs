@@ -14,7 +14,7 @@ namespace Roguelike.Model
         protected bool CanMoveTo(Position newPosition, Board board)
         {
             return newPosition != Position && board.CheckOnBoard(newPosition) &&
-                   board.IsEmpty(newPosition);
+                   !board.IsWall(newPosition);
         }
 
         public abstract CharacterStatistics GetStatistics();

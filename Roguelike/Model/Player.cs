@@ -24,7 +24,7 @@ namespace Roguelike.Model
                 return;
             }
 
-            if (!board.IsWall(newPosition))
+            if (board.IsEmpty(newPosition))
             {
                 board.MoveObject(Position, newPosition);
             }
