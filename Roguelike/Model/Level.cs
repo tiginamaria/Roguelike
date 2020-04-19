@@ -9,11 +9,13 @@ namespace Roguelike.Model
     {
         public AbstractPlayer Player { get; set; }
         public Board Board { get; }
+        public BoardGraph Graph { get; }
 
         public Level(Func<Level, Board> boardCreator)
         {
             Board = boardCreator(this);
             Player = Board.FindPlayer();
+            Graph = new BoardGraph(Board);
         }
     }
 }
