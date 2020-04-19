@@ -59,7 +59,7 @@ namespace Roguelike.Model
                 {
                     var z = u.Add(Dy[i], Dx[i]);
                     var zId = PositionToId(z);
-                    if (!board.IsWall(z) && distance[vId, zId] == -1)
+                    if (board.CheckOnBoard(z) && !board.IsWall(z) && distance[vId, zId] == -1)
                     {
                         queue.Enqueue(z);
                         distance[vId, zId] = distance[vId, uId] + 1;
