@@ -1,3 +1,5 @@
+using System;
+
 namespace Roguelike.Model
 {
     /// <summary>
@@ -5,13 +7,13 @@ namespace Roguelike.Model
     /// </summary>
     public class Level
     {
-        public Player Player { get; }
+        public AbstractPlayer Player { get; set; }
         public Board Board { get; }
 
-        public Level(Board board)
+        public Level(Func<Level, Board> boardCreator)
         {
-            Board = board;
-            Player = board.FindPlayer();
+            Board = boardCreator(this);
+            Player = Board.FindPlayer();
         }
     }
 }

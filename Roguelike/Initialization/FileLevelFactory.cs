@@ -18,9 +18,9 @@ namespace Roguelike.Initialization
         private const string Wall = "#";
         private const string Empty = ".";
         private const string Player = "$";
-        
+
         private string pathToFile;
-        
+
         /// <summary>
         /// Creates the factory by the path to a file with a level description.
         /// </summary>
@@ -28,7 +28,7 @@ namespace Roguelike.Initialization
         {
             pathToFile = path;
         }
-        
+
         public Level CreateLevel()
         {
             var lines = File.ReadAllLines(pathToFile);
@@ -41,27 +41,29 @@ namespace Roguelike.Initialization
 
             lines = lines.Skip(1).ToArray();
             var boardTable = new GameObject[height, width];
-            for (var row = 0; row < height; row++)
+            return new Level(level =>
             {
-                var inputRow = lines[row].Split().ToArray();
-                for (var col = 0; col < width; col++)
+                for (var row = 0; row < height; row++)
                 {
-                    boardTable[row, col] = GetObject(inputRow[col], new Position(row, col));
+                    var inputRow = lines[row].Split().ToArray();
+                    for (var col = 0; col < width; col++)
+                    {
+                        boardTable[row, col] = GetObject(level, inputRow[col], new Position(row, col));
+                    }
                 }
-            }
 
-            var board = new Board(width, height, boardTable);
-            return new Level(board);
+                return new Board(width, height, boardTable);
+            });
         }
 
-        private GameObject GetObject(string input, Position position)
+        private GameObject GetObject(Level level, string input, Position position)
         {
             switch (input)
             {
                 case Wall:
                     return new Wall(position);
                 case Player:
-                    return new Player(position);
+                    return new Player(level, position);
                 default:
                     return new EmptyCell(position);
             }

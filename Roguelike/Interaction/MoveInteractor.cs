@@ -9,13 +9,11 @@ namespace Roguelike.Interaction
     /// </summary>
     public class MoveInteractor
     {
-        private Player player;
         private IPlayView playView;
         private Level level;
 
         public MoveInteractor(Level level, IPlayView playView)
         {
-            player = level.Player;
             this.playView = playView;
             this.level = level;
         }
@@ -26,7 +24,7 @@ namespace Roguelike.Interaction
         /// </summary>
         public void IntentMove(int deltaY, int deltaX)
         {
-            player.Move(deltaY, deltaX, level.Board);
+            level.Player.Move(deltaY, deltaX, level.Board);
             playView.Draw(level);
         }
     }

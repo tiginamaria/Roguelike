@@ -10,8 +10,8 @@ namespace Roguelike.Initialization
     /// </summary>
     public class RandomLevelFactory : ILevelFactory
     {
-        private const int DefaultHeight = 100;
-        private const int DefaultWidth = 100;
+        private const int DefaultHeight = 20;
+        private const int DefaultWidth = 20;
         private Random random = new Random();
         private const float WallProbability = 0.5f;
 
@@ -27,6 +27,7 @@ namespace Roguelike.Initialization
             {
                 return x + 1;
             }
+
             return x;
         }
 
@@ -49,6 +50,7 @@ namespace Roguelike.Initialization
                         {
                             continue;
                         }
+
                         ConnectCells(cellRow, cellCol, cellRow + dy[i], cellCol + dx[i], boardTable);
                     }
 
@@ -59,10 +61,11 @@ namespace Roguelike.Initialization
                 }
             }
 
-            AddPlayerCell(1, 1, boardTable);
-
-            var board = new Board(Width, Height, boardTable);
-            return new Level(board);
+            return new Level(level =>
+            {
+                AddPlayerCell(level, 1, 1, boardTable);
+                return new Board(Width, Height, boardTable);
+            });
         }
 
         private void ConnectCells(int cellY1, int cellX1, int cellY2, int cellX2, GameObject[,] boardTable)
@@ -127,9 +130,9 @@ namespace Roguelike.Initialization
             boardTable[row, col] = new EmptyCell(new Position(row, col));
         }
 
-        private void AddPlayerCell(int row, int col, GameObject[,] boardTable)
+        private void AddPlayerCell(Level level, int row, int col, GameObject[,] boardTable)
         {
-            boardTable[row, col] = new Player(new Position(row, col));
+            boardTable[row, col] = new Player(level, new Position(row, col));
         }
     }
 }
