@@ -18,7 +18,8 @@ namespace Roguelike.Input
 
         public void Update()
         {
-            foreach (var subscriber in subscribers)
+            var oldSubscribers = new List<ITickProcessor>(subscribers);
+            foreach (var subscriber in oldSubscribers)
             {
                 subscriber.ProcessTick();
             }

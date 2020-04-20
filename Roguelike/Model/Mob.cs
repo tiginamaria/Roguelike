@@ -6,7 +6,7 @@ namespace Roguelike.Model
     {
         private readonly Level level;
         private readonly IMobBehaviour behaviour;
-        private readonly CharacterStatistics statistics = new CharacterStatistics(2, 1, 1);
+        private readonly CharacterStatistics statistics = new CharacterStatistics(2, 2, 1);
 
         public event EventHandler OnDie;
 

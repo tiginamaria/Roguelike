@@ -93,8 +93,7 @@ namespace Roguelike.Model
             {
                 var z = from + new Position(Dy[i], Dx[i]);
                 var zId = PositionToId(z);
-                if (board.CheckOnBoard(z) && distance[toId, zId] < bestDistance &&
-                    (board.IsEmpty(z) || board.IsCharacter(z)))
+                if (board.CheckOnBoard(z) && distance[toId, zId] < bestDistance && !board.IsWall(z))
                 {
                     bestDistance = distance[toId, zId];
                     bestPosition = z;
@@ -122,8 +121,7 @@ namespace Roguelike.Model
             {
                 var z = from + new Position(Dy[i], Dx[i]);
                 var zId = PositionToId(z);
-                if (board.CheckOnBoard(z) && distance[toId, zId] > bestDistance &&
-                    (board.IsEmpty(z) || board.IsCharacter(z)))
+                if (board.CheckOnBoard(z) && distance[toId, zId] > bestDistance && !board.IsWall(z))
                 {
                     bestDistance = distance[toId, zId];
                     bestPosition = z;

@@ -25,9 +25,8 @@ namespace Roguelike.Model
             if (board.IsEmpty(newPosition))
             {
                 board.MoveObject(Position, newPosition);
+                Position = newPosition;
             }
-            
-            Position = newPosition;
         }
         public abstract void Confuse(Character other);
         public abstract void AcceptConfuse(Character other);

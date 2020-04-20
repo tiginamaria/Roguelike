@@ -97,5 +97,8 @@ namespace Roguelike.Model
 
             return mobs;
         }
+
+        public void SetObject(Position position, AbstractPlayer player) => 
+            gameObjects[position.Y, position.X] = player;
     }
 }

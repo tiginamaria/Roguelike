@@ -9,8 +9,8 @@ namespace Roguelike.Input
     /// </summary>
     public class InputLoop : IStoppable
     {
-        private readonly List<IUpdatable> subscribers = new List<IUpdatable>();
-        private readonly List<IUpdatable> fixedSubscribers = new List<IUpdatable>();
+        private List<IUpdatable> subscribers = new List<IUpdatable>();
+        private List<IUpdatable> fixedSubscribers = new List<IUpdatable>();
         private bool stopped;
         private Timer timer;
         private const float FixUpdatePeriodMillis = 500;
@@ -27,25 +27,30 @@ namespace Roguelike.Input
         public void Start()
         {
             stopped = false;
-
+            var fixedUpdate = false;
+            
             timer = new Timer(FixUpdatePeriodMillis);
-            timer.Elapsed += NotifyFixedSubscribers;
+            timer.Elapsed += (sender, args) => fixedUpdate = true;
             timer.Start();
 
             while (!stopped)
             {
-                foreach (var subscriber in subscribers) 
+                Notify(subscribers);
+
+                if (fixedUpdate)
                 {
-                    subscriber.Update();
+                    fixedUpdate = false;
+                    Notify(fixedSubscribers);
                 }
             }
             
             OnExit?.Invoke(this,EventArgs.Empty);
         }
 
-        private void NotifyFixedSubscribers(object sender, ElapsedEventArgs args)
+        private void Notify(List<IUpdatable> targetSubscribers)
         {
-            foreach (var subscriber in fixedSubscribers) 
+            var oldSubscribers = new List<IUpdatable>(targetSubscribers);
+            foreach (var subscriber in oldSubscribers) 
             {
                 subscriber.Update();
             }

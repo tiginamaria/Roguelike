@@ -14,7 +14,7 @@ namespace Roguelike.Model
             var newX = position.X + dx[i];
             var newY = position.Y + dy[i];
             var newPosition = new Position(newY, newX);
-            if (!level.Board.CheckOnBoard(position) || !level.Board.IsEmpty(newPosition))
+            if (!level.Board.CheckOnBoard(position) || level.Board.IsWall(newPosition))
             {
                 return position;
             }

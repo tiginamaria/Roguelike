@@ -7,7 +7,7 @@ namespace Roguelike.Model
     /// </summary>
     public class Player : AbstractPlayer
     {
-        private readonly CharacterStatistics statistics = new CharacterStatistics(1, 1, 1);
+        private readonly CharacterStatistics statistics = new CharacterStatistics(1, 10, 1);
         private readonly Level level;
 
         public Player(Level level, Position startPosition) : base(startPosition)
@@ -34,9 +34,11 @@ namespace Roguelike.Model
             if (statistics.Health <= 0)
             {
                 OnDie?.Invoke(this, EventArgs.Empty);
+                return;
             }
             statistics.Experience--;
             level.Player = new ConfusedPlayer(level, this);
+            level.Board.SetObject(Position, level.Player);
         }
     }
 }
