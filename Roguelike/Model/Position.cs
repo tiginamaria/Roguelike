@@ -14,7 +14,11 @@ namespace Roguelike.Model
             Y = y;
         }
         
-        public Position Add(int deltaY, int deltaX) => new Position(Y + deltaY, X + deltaX);
+        public static Position operator +(Position first, Position second) => 
+            new Position(first.Y + second.Y, first.X + second.X);
+        
+        public static Position operator -(Position first, Position second) => 
+            new Position(first.Y - second.Y, first.X - second.X);
 
         public static bool operator ==(Position first, Position second)
         {

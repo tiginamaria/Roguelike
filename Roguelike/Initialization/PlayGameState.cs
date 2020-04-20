@@ -9,7 +9,7 @@ namespace Roguelike.Initialization
     /// </summary>
     public class PlayGameState : IGameState
     {
-        private ILevelFactory levelFactory;
+        private readonly ILevelFactory levelFactory;
 
         public PlayGameState(string levelConfigPath)
         {
@@ -27,19 +27,32 @@ namespace Roguelike.Initialization
             var inputLoop = new InputLoop();
             var playView = new ConsolePlayView();
             
-            var moveInteractor = new MoveInteractor(level, playView);
+            var playerMoveInteractor = new PlayerMoveInteractor(level, playView);
+            var mobMoveInteractor = new MobMoveInteractor(level, playView);
             var exitGameInteractor = new ExitGameInteractor(inputLoop);
             
-            var moveProcessor = new MoveProcessor(moveInteractor);
+            var moveProcessor = new MoveProcessor(playerMoveInteractor);
             var exitGameProcessor = new ExitGameProcessor(exitGameInteractor);
-            
+
             var keyboardController = new KeyboardController();
+            var tickController = new TickController();
             
             keyboardController.AddInputProcessor(moveProcessor);
             keyboardController.AddInputProcessor(exitGameProcessor);
             
             inputLoop.AddUpdatable(keyboardController);
-            
+            inputLoop.AddFixedUpdatable(tickController);
+
+            var mobs = level.Mobs;
+            foreach (var mob in mobs)
+            {
+                var mobMoveProcessor = new MobMoveProcessor(mob, mobMoveInteractor);
+                tickController.AddTickProcessor(mobMoveProcessor);
+                mob.OnDie += (sender, args) => { tickController.RemoveTickProcessor(mobMoveProcessor); };
+            }
+
+            level.Player.OnDie += (sender, args) => { inputLoop.Stop(); };
+
             playView.Draw(level);
             inputLoop.Start();
         }

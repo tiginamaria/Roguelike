@@ -4,9 +4,7 @@ namespace Roguelike.Model
     {
         public Position MakeMove(Level level, Position position)
         {
-            var newPosition = level.Graph.Farthest(position, level.Player.Position);
-            level.Board.MoveObject(position, newPosition);
-            return newPosition;
+            return level.Graph.Farthest(position, level.Player.Position);
         }
     }
 }

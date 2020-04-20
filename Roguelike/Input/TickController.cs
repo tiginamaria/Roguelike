@@ -6,9 +6,14 @@ namespace Roguelike.Input
     {
         private readonly List<ITickProcessor> subscribers = new List<ITickProcessor>();
 
-        public void AddInputProcessor(ITickProcessor tickProcessor)
+        public void AddTickProcessor(ITickProcessor tickProcessor)
         {
             subscribers.Add(tickProcessor);
+        }
+
+        public void RemoveTickProcessor(ITickProcessor processor)
+        {
+            subscribers.Remove(processor);
         }
 
         public void Update()

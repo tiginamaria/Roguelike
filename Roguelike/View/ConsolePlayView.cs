@@ -9,8 +9,13 @@ namespace Roguelike.View
     public class ConsolePlayView : IPlayView
     {
         private const char WallChar = '#';
-        private const char EmptyChar = '.';
+        private const char EmptyChar = ' ';
         private const char PlayerChar = '$';
+        private const char AggressiveMobChar = '*';
+        private const char PassiveMobChar = '@';
+        private const char CowardMobChar = '%';
+
+        private FixedBoundRectangle focusRectangle;
 
         public ConsolePlayView()
         {
@@ -22,19 +27,62 @@ namespace Roguelike.View
         /// </summary>
         public void Draw(Level level) => DrawBoard(level.Board, level.Player);
 
+        public void UpdateMob(Level level, Position first, Position second)
+        {
+            RedrawPosition(level, first);
+            RedrawPosition(level, second);
+        }
+
+        public void UpdatePlayer(Level level, Position first, Position second)
+        {
+            RedrawPlayerPosition(level, first);
+            RedrawPlayerPosition(level, second);
+        }
+        
+        private void RedrawPlayerPosition(Level level, Position first)
+        {
+            var consoleFirstPosition = BoardToConsolePosition(first);
+            if (InsideConsole(consoleFirstPosition))
+            {
+                DrawObject(level.Board, first, consoleFirstPosition);
+            }
+            else
+            {
+                DrawBoard(level.Board, level.Player);
+            }
+        }
+
+
+        private void RedrawPosition(Level level, Position first)
+        {
+            var consoleFirstPosition = BoardToConsolePosition(first);
+            if (InsideConsole(consoleFirstPosition))
+            {
+                DrawObject(level.Board, first, consoleFirstPosition);
+            }
+        }
+
+        private bool InsideConsole(Position position)
+        {
+            return position.X >= 0 && position.X < Console.WindowWidth &&
+                   position.Y >= 0 && position.Y < Console.WindowHeight;
+        }
+
         private void DrawBoard(Board board, GameObject focus)
         {
-            var focusRectangle = GetFocusRectangle(board, focus);
+            focusRectangle = GetFocusRectangle(board, focus);
             for (var row = focusRectangle.Top; row < focusRectangle.Bottom; row++)
             {
                 for (var col = focusRectangle.Left; col < focusRectangle.Right; col++)
                 {
-                    DrawObject(board, 
-                        new Position(row, col), 
-                        new Position(row - focusRectangle.Top, col - focusRectangle.Left));
+                    var currentPosition = new Position(row, col);
+                    DrawObject(board, currentPosition, BoardToConsolePosition(currentPosition));
                 }
             }
         }
+
+        private Position BoardToConsolePosition(Position boardPosition) => 
+            new Position(boardPosition.Y - focusRectangle.Top, boardPosition.X - focusRectangle.Left);
 
         /// <summary>
         /// Returns a rectangle focused on the given Game Object,
@@ -42,7 +90,7 @@ namespace Roguelike.View
         /// </summary>
         private FixedBoundRectangle GetFocusRectangle(Board board, GameObject focus)
         {
-            var focusRectangle = new FixedBoundRectangle(
+            var newRectangle = new FixedBoundRectangle(
                             0,
                             0,
                             Math.Min(board.Width, Console.WindowWidth),
@@ -50,26 +98,26 @@ namespace Roguelike.View
 
             var playerPosition = focus.Position;
 
-            if (playerPosition.X - focusRectangle.Width / 2 >= 0)
+            if (playerPosition.X - newRectangle.Width / 2 >= 0)
             {
-                focusRectangle.Right = Math.Min(board.Width, playerPosition.X + focusRectangle.Width / 2);
+                newRectangle.Right = Math.Min(board.Width, playerPosition.X + newRectangle.Width / 2);
             }
             
-            if (playerPosition.X + focusRectangle.Width / 2 < board.Width)
+            if (playerPosition.X + newRectangle.Width / 2 < board.Width)
             {
-                focusRectangle.Left = Math.Max(0, playerPosition.X - focusRectangle.Width / 2);
+                newRectangle.Left = Math.Max(0, playerPosition.X - newRectangle.Width / 2);
             }
 
-            if (playerPosition.Y - focusRectangle.Height / 2 >= 0)
+            if (playerPosition.Y - newRectangle.Height / 2 >= 0)
             {
-                focusRectangle.Bottom = Math.Min(board.Height, playerPosition.Y + focusRectangle.Height / 2);
+                newRectangle.Bottom = Math.Min(board.Height, playerPosition.Y + newRectangle.Height / 2);
             }
 
-            if (playerPosition.Y + focusRectangle.Height / 2 < board.Height)
+            if (playerPosition.Y + newRectangle.Height / 2 < board.Height)
             {
-                focusRectangle.Top = Math.Max(0, playerPosition.Y - focusRectangle.Height / 2);
+                newRectangle.Top = Math.Max(0, playerPosition.Y - newRectangle.Height / 2);
             }
-            return focusRectangle;
+            return newRectangle;
         }
 
         private void DrawObject(Board board, Position boardPosition, Position consolePosition)
@@ -92,12 +140,37 @@ namespace Roguelike.View
             }
 
             var gameObject = board.GetObject(position);
-            if (gameObject is Player)
+            if (gameObject is AbstractPlayer)
             {
                 return PlayerChar;
             }
-            
+
+            if (gameObject is Mob)
+            {
+                return GetBehaviourChar(gameObject as Mob);
+            }
+
             throw new Exception($"Invalid object found: {gameObject}");
+        }
+
+        private char GetBehaviourChar(Mob mob)
+        {
+            var behaviour = mob.Behaviour;
+            if (behaviour is AggressiveMobBehaviour)
+            {
+                return AggressiveMobChar;
+            }
+            if (behaviour is PassiveMobBehaviour)
+            {
+                return PassiveMobChar;
+            }
+
+            if (behaviour is CowardMobBehaviour)
+            {
+                return CowardMobChar;
+            }
+
+            throw new Exception($"Invalid behaviour found: {behaviour}");
         }
     }
 }

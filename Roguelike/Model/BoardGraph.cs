@@ -7,6 +7,8 @@ namespace Roguelike.Model
         private static readonly int[] Dx = {0, 0, -1, 1};
         private static readonly int[] Dy = {-1, 1, 0, 0};
 
+        private const int MovesNumber = 4;
+
         private readonly Board board;
         private readonly int[,] distance;
         private readonly int n;
@@ -55,9 +57,9 @@ namespace Roguelike.Model
             {
                 var u = queue.Dequeue();
                 var uId = PositionToId(u);
-                for (var i = 0; i < 4; i++)
+                for (var i = 0; i < MovesNumber; i++)
                 {
-                    var z = u.Add(Dy[i], Dx[i]);
+                    var z = u + new Position(Dy[i], Dx[i]);
                     var zId = PositionToId(z);
                     if (board.CheckOnBoard(z) && !board.IsWall(z) && distance[vId, zId] == -1)
                     {
@@ -69,7 +71,7 @@ namespace Roguelike.Model
         }
 
         /// <summary>
-        /// Return the best empty position next to from in order to go to to.
+        /// Return the best empty position next to 'from' in order to go to 'to'.
         /// </summary>
         public Position Nearest(Position from, Position to)
         {
@@ -87,11 +89,12 @@ namespace Roguelike.Model
             }
 
             var bestPosition = from;
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < MovesNumber; i++)
             {
-                var z = from.Add(Dy[i], Dx[i]);
+                var z = from + new Position(Dy[i], Dx[i]);
                 var zId = PositionToId(z);
-                if (board.CheckOnBoard(z) && board.IsEmpty(z) && distance[toId, zId] < bestDistance)
+                if (board.CheckOnBoard(z) && distance[toId, zId] < bestDistance &&
+                    (board.IsEmpty(z) || board.IsCharacter(z)))
                 {
                     bestDistance = distance[toId, zId];
                     bestPosition = z;
@@ -102,7 +105,7 @@ namespace Roguelike.Model
         }
 
         /// <summary>
-        /// Return the best empty position next to from in order to go from to.
+        /// Return the best empty position next to 'from' in order to go from 'to'.
         /// </summary>
         public Position Farthest(Position from, Position to)
         {
@@ -115,11 +118,12 @@ namespace Roguelike.Model
             }
 
             var bestPosition = from;
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < MovesNumber; i++)
             {
-                var z = from.Add(Dy[i], Dx[i]);
+                var z = from + new Position(Dy[i], Dx[i]);
                 var zId = PositionToId(z);
-                if (board.CheckOnBoard(z) && board.IsEmpty(z) && distance[toId, zId] > bestDistance)
+                if (board.CheckOnBoard(z) && distance[toId, zId] > bestDistance &&
+                    (board.IsEmpty(z) || board.IsCharacter(z)))
                 {
                     bestDistance = distance[toId, zId];
                     bestPosition = z;

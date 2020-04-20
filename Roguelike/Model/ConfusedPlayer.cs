@@ -6,17 +6,17 @@ namespace Roguelike.Model
 {
     public class ConfusedPlayer : AbstractPlayer
     {
-        private const int ConfusionTimeMs = 10_000;
+        private const int ConfusionTimeMs = 10000;
         private readonly AbstractPlayer player;
         private readonly CancellationTokenSource cancellation = new CancellationTokenSource();
+        private static readonly Random Random = new Random();
 
         public ConfusedPlayer(Level level, AbstractPlayer player) : base(player.Position)
         {
             this.player = player;
-            Task.Delay(ConfusionTimeMs, cancellation.Token).ContinueWith(t => { level.Player = this.player; });
+            Task.Delay(ConfusionTimeMs, cancellation.Token).ContinueWith(t => 
+                { level.Player = this.player; });
         }
-
-        private static readonly Random Random = new Random();
 
         private static int Confusion()
         {
@@ -33,12 +33,12 @@ namespace Roguelike.Model
             return player.GetStatistics();
         }
 
-        public override void Confuse(ICharacter other)
+        public override void Confuse(Character other)
         {
             player.Confuse(other);
         }
 
-        public override void AcceptConfuse(ICharacter other)
+        public override void AcceptConfuse(Character other)
         {
             cancellation.Cancel();
             player.AcceptConfuse(other);

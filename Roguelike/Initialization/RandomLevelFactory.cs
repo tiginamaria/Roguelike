@@ -6,14 +6,16 @@ namespace Roguelike.Initialization
     /// <inheritdoc />
     /// <summary>
     /// A factory to generate random levels.
-    /// Default dimensions are 100 * 100.
+    /// Default dimensions are 20 * 20.
     /// </summary>
     public class RandomLevelFactory : ILevelFactory
     {
-        private const int DefaultHeight = 100;
-        private const int DefaultWidth = 100;
+        private const int DefaultHeight = 20;
+        private const int DefaultWidth = 20;
         private readonly Random random = new Random();
         private const float WallProbability = 0.5f;
+        private const float MobProbability = 0.05f;
+        private const float MobBehaviourProbability = 0.33f;
 
         private static readonly int Height = RoundToOdd(DefaultHeight);
         private static readonly int Width = RoundToOdd(DefaultWidth);
@@ -64,8 +66,48 @@ namespace Roguelike.Initialization
             return new Level(level =>
             {
                 AddPlayerCell(level, 1, 1, boardTable);
+                AddMobs(level, boardTable, Height, Width);
                 return new Board(Width, Height, boardTable);
             });
+        }
+
+        private void AddMobs(Level level, GameObject[,] boardTable, int height, int width)
+        {
+            for (var row = 0; row < height; row++)
+            {
+                for (var col = 0; col < width; col++)
+                {
+                    if (boardTable[row, col] is EmptyCell)
+                    {
+                        AddMobWithProbability(row, col, boardTable, level);
+                    }
+                }
+            }
+        }
+
+
+        private void AddMobWithProbability(int row, int col, GameObject[,] boardTable, Level level)
+        {
+            if (random.NextDouble() < MobProbability)
+            {
+                boardTable[row, col] = new Mob(level, GetRandomBehaviour(), new Position(row, col));
+            }
+        }
+
+        private IMobBehaviour GetRandomBehaviour()
+        {
+            var probability = random.NextDouble();
+            if (probability < MobBehaviourProbability)
+            {
+                return new AggressiveMobBehaviour();
+            }
+
+            if (probability < 2 * MobBehaviourProbability)
+            {
+                return new CowardMobBehaviour();
+            }
+
+            return new PassiveMobBehaviour();
         }
 
         private void ConnectCells(int cellY1, int cellX1, int cellY2, int cellX2, GameObject[,] boardTable)

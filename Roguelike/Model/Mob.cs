@@ -1,10 +1,16 @@
+using System;
+
 namespace Roguelike.Model
 {
-    public class Mob : GameObject, ICharacter
+    public class Mob : Character
     {
         private readonly Level level;
         private readonly IMobBehaviour behaviour;
-        private readonly CharacterStatistics statistics = new CharacterStatistics(1, 2, 1);
+        private readonly CharacterStatistics statistics = new CharacterStatistics(2, 1, 1);
+
+        public event EventHandler OnDie;
+
+        public IMobBehaviour Behaviour => behaviour;
 
         public Mob(Level level, IMobBehaviour behaviour, Position startPosition) : base(startPosition)
         {
@@ -12,31 +18,31 @@ namespace Roguelike.Model
             this.behaviour = behaviour;
         }
 
-        public CharacterStatistics GetStatistics()
+        public override CharacterStatistics GetStatistics()
         {
             return statistics;
         }
 
-        public void Confuse(ICharacter other)
+        public override void Confuse(Character other)
         {
             other.AcceptConfuse(this);
             statistics.Experience++;
             statistics.Force += other.GetStatistics().Force / 2;
         }
 
-        public void AcceptConfuse(ICharacter other)
+        public override void AcceptConfuse(Character other)
         {
             statistics.Health--;
             if (statistics.Health == 0)
             {
-                level.Board.SetObject(Position, new EmptyCell(Position));
-                Position = new Position(-10, -10);
+                level.Board.DeleteObject(Position);
+                OnDie?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        public void MakeMove()
+        public Position GetMove()
         {
-            Position = behaviour.MakeMove(level, Position);
+            return behaviour.MakeMove(level, Position);
         }
     }
 }

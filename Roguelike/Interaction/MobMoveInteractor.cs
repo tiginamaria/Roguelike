@@ -7,12 +7,12 @@ namespace Roguelike.Interaction
     /// A class for performing player move logic.
     /// Notifies the view on update.
     /// </summary>
-    public class MoveInteractor
+    public class MobMoveInteractor
     {
         private IPlayView playView;
         private Level level;
 
-        public MoveInteractor(Level level, IPlayView playView)
+        public MobMoveInteractor(Level level, IPlayView playView)
         {
             this.playView = playView;
             this.level = level;
@@ -22,10 +22,11 @@ namespace Roguelike.Interaction
         /// Notifies a user about the move intent.
         /// Notifies the view.
         /// </summary>
-        public void IntentMove(int deltaY, int deltaX)
+        public void IntentMove(Mob mob, int deltaY, int deltaX)
         {
-            level.Player.Move(deltaY, deltaX, level.Board);
-            playView.Draw(level);
+            var oldPosition = mob.Position;
+            mob.Move(deltaY, deltaX, level.Board);
+            playView.UpdateMob(level, oldPosition, mob.Position);
         }
     }
 }

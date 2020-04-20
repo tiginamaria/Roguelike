@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Roguelike.Model
 {
@@ -25,6 +26,8 @@ namespace Roguelike.Model
 
         public bool IsEmpty(Position position) => gameObjects[position.Y, position.X] is EmptyCell;
 
+        public bool IsCharacter(Position position) => gameObjects[position.Y, position.X] is Character;
+
         /// <summary>
         /// Moves an object from one position to another,
         /// inserting an Empty Cell to the old position.
@@ -49,12 +52,15 @@ namespace Roguelike.Model
                    position.Y >= 0 && position.Y < Height;
         }
 
-        public void SetObject(Position position, GameObject gameObject)
+        public void DeleteObject(Position position)
         {
-            gameObjects[position.Y, position.X] = gameObject;
+            if (CheckOnBoard(position))
+            {
+                gameObjects[position.Y, position.X] = new EmptyCell(position);
+            }
         }
 
-        public Player FindPlayer()
+        public AbstractPlayer FindPlayer()
         {
             for (var row = 0; row < Height; row++)
             {
@@ -62,7 +68,7 @@ namespace Roguelike.Model
                 {
                     var position = new Position(row, col);
                     var gameObject = GetObject(position);
-                    var player = gameObject as Player;
+                    var player = gameObject as AbstractPlayer;
                     if (player != null)
                     {
                         return player;
@@ -71,6 +77,25 @@ namespace Roguelike.Model
             }
 
             throw new Exception("Player not found.");
+        }
+
+        public List<Mob> FindMobs()
+        {
+            var mobs = new List<Mob>();
+            for (var row = 0; row < Height; row++)
+            {
+                for (var col = 0; col < Width; col++)
+                {
+                    var position = new Position(row, col);
+                    var gameObject = GetObject(position);
+                    if (gameObject is Mob)
+                    {
+                        mobs.Add(gameObject as Mob);
+                    }
+                }
+            }
+
+            return mobs;
         }
     }
 }

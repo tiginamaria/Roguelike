@@ -1,5 +1,6 @@
 using System;
 using Roguelike.Interaction;
+using Roguelike.Model;
 
 namespace Roguelike.Input
 {
@@ -8,9 +9,9 @@ namespace Roguelike.Input
     /// </summary>
     public class MoveProcessor : IInputProcessor
     {
-        private readonly MoveInteractor moveInteractor;
+        private readonly PlayerMoveInteractor moveInteractor;
         
-        public MoveProcessor(MoveInteractor moveInteractor)
+        public MoveProcessor(PlayerMoveInteractor moveInteractor)
         {
             this.moveInteractor = moveInteractor;
         }

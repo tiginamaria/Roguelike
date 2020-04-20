@@ -1,3 +1,5 @@
+using System;
+
 namespace Roguelike.Model
 {
     /// <summary>
@@ -13,40 +15,26 @@ namespace Roguelike.Model
             this.level = level;
         }
 
-        /// <summary>
-        /// Performs a logic of the move intent.
-        /// </summary>
-        public override void Move(int intentVerticalMove, int intentHorizontalMove, Board board)
-        {
-            var newPosition = Position.Add(intentVerticalMove, intentHorizontalMove);
-            if (!CanMoveTo(newPosition, board))
-            {
-                return;
-            }
-
-            if (board.IsEmpty(newPosition))
-            {
-                board.MoveObject(Position, newPosition);
-            }
-
-            Position = newPosition;
-        }
-
         public override CharacterStatistics GetStatistics()
         {
             return statistics;
         }
 
-        public override void Confuse(ICharacter other)
+        public override void Confuse(Character other)
         {
             other.AcceptConfuse(this);
             statistics.Experience++;
             statistics.Force += other.GetStatistics().Force / 2;
         }
 
-        public override void AcceptConfuse(ICharacter other)
+        public override void AcceptConfuse(Character other)
         {
             statistics.Health -= other?.GetStatistics().Force / 2 ?? 0;
+
+            if (statistics.Health <= 0)
+            {
+                OnDie?.Invoke(this, EventArgs.Empty);
+            }
             statistics.Experience--;
             level.Player = new ConfusedPlayer(level, this);
         }

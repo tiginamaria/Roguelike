@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Roguelike.Model
 {
@@ -8,6 +9,7 @@ namespace Roguelike.Model
     public class Level
     {
         public AbstractPlayer Player { get; set; }
+        public List<Mob> Mobs { get; }
         public Board Board { get; }
         public BoardGraph Graph { get; }
 
@@ -15,6 +17,7 @@ namespace Roguelike.Model
         {
             Board = boardCreator(this);
             Player = Board.FindPlayer();
+            Mobs = Board.FindMobs();
             Graph = new BoardGraph(Board);
         }
     }

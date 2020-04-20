@@ -12,12 +12,18 @@ namespace Roguelike.Initialization
     /// # -- wall
     /// . -- empty
     /// $ -- player start position
+    /// * --- aggressive mob
+    /// @ --- passive mob
+    /// % --- coward mob
     /// </summary>
     public class FileLevelFactory : ILevelFactory
     {
         private const string Wall = "#";
         private const string Empty = ".";
         private const string Player = "$";
+        private const string AggressiveMob = "*";
+        private const string PassiveMob = "@";
+        private const string CowardMob = "%";
 
         private string pathToFile;
 
@@ -64,6 +70,12 @@ namespace Roguelike.Initialization
                     return new Wall(position);
                 case Player:
                     return new Player(level, position);
+                case AggressiveMob:
+                    return new Mob(level, new AggressiveMobBehaviour(), position);
+                case CowardMob:
+                    return new Mob(level, new CowardMobBehaviour(), position);
+                case PassiveMob:
+                    return new Mob(level, new PassiveMobBehaviour(), position);
                 default:
                     return new EmptyCell(position);
             }
