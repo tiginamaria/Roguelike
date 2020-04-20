@@ -1,4 +1,4 @@
-namespace Roguelike.Input
+namespace Roguelike.Input.Processors
 {
     public interface ITickProcessor
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Roguelike.Model
+namespace Roguelike.Model.Mobs
 {
     public class PassiveMobBehaviour : IMobBehaviour
     {

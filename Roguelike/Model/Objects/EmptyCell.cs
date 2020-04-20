@@ -1,4 +1,4 @@
-namespace Roguelike.Model
+namespace Roguelike.Model.Objects
 {
     /// <summary>
     /// Represents an Empty Cell

@@ -1,8 +1,7 @@
-using System;
 using Roguelike.Interaction;
-using Roguelike.Model;
+using Roguelike.Model.Mobs;
 
-namespace Roguelike.Input
+namespace Roguelike.Input.Processors
 {
     public class MobMoveProcessor : ITickProcessor
     {

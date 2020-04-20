@@ -1,5 +1,8 @@
 using System;
 using Roguelike.Model;
+using Roguelike.Model.Mobs;
+using Roguelike.Model.Objects;
+using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.View
 {
@@ -51,7 +54,6 @@ namespace Roguelike.View
                 DrawBoard(level.Board, level.Player);
             }
         }
-
 
         private void RedrawPosition(Level level, Position first)
         {

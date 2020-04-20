@@ -1,6 +1,6 @@
 using System;
 
-namespace Roguelike.Input
+namespace Roguelike.Input.Processors
 {
     public interface IInputProcessor
     {

@@ -1,3 +1,5 @@
+using Roguelike.Model.Objects;
+
 namespace Roguelike.Model
 {
     public abstract class Character : GameObject

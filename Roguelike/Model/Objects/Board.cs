@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Roguelike.Model.Mobs;
+using Roguelike.Model.PlayerModel;
 
-namespace Roguelike.Model
+namespace Roguelike.Model.Objects
 {
     /// <summary>
     /// Represents a game board with Game Objects on it.

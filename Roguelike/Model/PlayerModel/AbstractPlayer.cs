@@ -1,6 +1,6 @@
 using System;
 
-namespace Roguelike.Model
+namespace Roguelike.Model.PlayerModel
 {
     public abstract class AbstractPlayer : Character
     {

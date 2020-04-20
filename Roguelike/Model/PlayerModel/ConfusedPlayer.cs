@@ -1,8 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Roguelike.Model.Objects;
 
-namespace Roguelike.Model
+namespace Roguelike.Model.PlayerModel
 {
     public class ConfusedPlayer : AbstractPlayer
     {

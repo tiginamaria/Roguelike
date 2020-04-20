@@ -1,7 +1,7 @@
 using System;
 using Roguelike.Interaction;
 
-namespace Roguelike.Input
+namespace Roguelike.Input.Processors
 {
     /// <summary>
     /// A controller to handle exit button click.

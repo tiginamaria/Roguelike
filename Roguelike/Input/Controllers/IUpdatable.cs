@@ -1,4 +1,4 @@
-namespace Roguelike.Input
+namespace Roguelike.Input.Controllers
 {
     public interface IUpdatable
     {

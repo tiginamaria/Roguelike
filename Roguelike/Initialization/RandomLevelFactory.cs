@@ -1,5 +1,8 @@
 using System;
 using Roguelike.Model;
+using Roguelike.Model.Mobs;
+using Roguelike.Model.Objects;
+using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.Initialization
 {
@@ -84,7 +87,6 @@ namespace Roguelike.Initialization
                 }
             }
         }
-
 
         private void AddMobWithProbability(int row, int col, GameObject[,] boardTable, Level level)
         {

@@ -1,4 +1,6 @@
 using Roguelike.Input;
+using Roguelike.Input.Controllers;
+using Roguelike.Input.Processors;
 using Roguelike.Interaction;
 using Roguelike.View;
 

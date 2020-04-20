@@ -1,8 +1,7 @@
 using System;
 using Roguelike.Interaction;
-using Roguelike.Model;
 
-namespace Roguelike.Input
+namespace Roguelike.Input.Processors
 {
     /// <summary>
     /// A processor to handle player move actions.

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Roguelike.Input.Processors;
 
-namespace Roguelike.Input
+namespace Roguelike.Input.Controllers
 {
     /// <summary>
     /// Wrapper class for the keyboard input.

@@ -1,13 +1,13 @@
 using System;
 
-namespace Roguelike.Model
+namespace Roguelike.Model.PlayerModel
 {
     /// <summary>
     /// Represents a player.
     /// </summary>
     public class Player : AbstractPlayer
     {
-        private readonly CharacterStatistics statistics = new CharacterStatistics(1, 10, 1);
+        private readonly CharacterStatistics statistics = new CharacterStatistics(1, 15, 1);
         private readonly Level level;
 
         public Player(Level level, Position startPosition) : base(startPosition)

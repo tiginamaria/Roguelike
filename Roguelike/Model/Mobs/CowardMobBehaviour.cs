@@ -1,4 +1,4 @@
-namespace Roguelike.Model
+namespace Roguelike.Model.Mobs
 {
     public class CowardMobBehaviour : IMobBehaviour
     {

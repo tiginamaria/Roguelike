@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Roguelike.Input.Processors;
 
-namespace Roguelike.Input
+namespace Roguelike.Input.Controllers
 {
     public class TickController : IUpdatable
     {
