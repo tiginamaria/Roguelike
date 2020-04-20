@@ -12,14 +12,14 @@ namespace Roguelike.Initialization
     {
         private const int DefaultHeight = 100;
         private const int DefaultWidth = 100;
-        private readonly Random random = new Random();
+        private Random random = new Random();
         private const float WallProbability = 0.5f;
 
-        private static readonly int Height = RoundToOdd(DefaultHeight);
-        private static readonly int Width = RoundToOdd(DefaultWidth);
-        private static readonly int CellHeight = (Height - 1) / 2;
-        private static readonly int CellWidth = (Width - 1) / 2;
-        private readonly Labyrinth labyrinth = new Labyrinth(CellHeight, CellWidth);
+        private static int Height = RoundToOdd(DefaultHeight);
+        private static int Width = RoundToOdd(DefaultWidth);
+        private static int CellHeight = (Height - 1) / 2;
+        private static int CellWidth = (Width - 1) / 2;
+        private Labyrinth labyrinth = new Labyrinth(CellHeight, CellWidth);
 
         private static int RoundToOdd(int x)
         {
@@ -27,7 +27,6 @@ namespace Roguelike.Initialization
             {
                 return x + 1;
             }
-
             return x;
         }
 
@@ -50,7 +49,6 @@ namespace Roguelike.Initialization
                         {
                             continue;
                         }
-
                         ConnectCells(cellRow, cellCol, cellRow + dy[i], cellCol + dx[i], boardTable);
                     }
 
@@ -61,11 +59,10 @@ namespace Roguelike.Initialization
                 }
             }
 
-            return new Level(level =>
-            {
-                AddPlayerCell(level, 1, 1, boardTable);
-                return new Board(Width, Height, boardTable);
-            });
+            AddPlayerCell(1, 1, boardTable);
+
+            var board = new Board(Width, Height, boardTable);
+            return new Level(board);
         }
 
         private void ConnectCells(int cellY1, int cellX1, int cellY2, int cellX2, GameObject[,] boardTable)
@@ -82,12 +79,12 @@ namespace Roguelike.Initialization
             }
         }
 
-        private static int CellIdToBoard(int id)
+        private int CellIdToBoard(int id)
         {
             return 1 + id * 2;
         }
 
-        private static void CreateBorders(int height, int width, GameObject[,] boardTable)
+        private void CreateBorders(int height, int width, GameObject[,] boardTable)
         {
             var rows = new[] {0, height - 1};
             foreach (var row in rows)
@@ -108,7 +105,7 @@ namespace Roguelike.Initialization
             }
         }
 
-        private static void AddWall(int row, int col, GameObject[,] boardTable)
+        private void AddWall(int row, int col, GameObject[,] boardTable)
         {
             boardTable[row, col] = new Wall(new Position(row, col));
         }
@@ -125,14 +122,14 @@ namespace Roguelike.Initialization
             }
         }
 
-        private static void AddEmptyCell(int row, int col, GameObject[,] boardTable)
+        private void AddEmptyCell(int row, int col, GameObject[,] boardTable)
         {
             boardTable[row, col] = new EmptyCell(new Position(row, col));
         }
 
-        private static void AddPlayerCell(Level level, int row, int col, GameObject[,] boardTable)
+        private void AddPlayerCell(int row, int col, GameObject[,] boardTable)
         {
-            boardTable[row, col] = new Player(level, new Position(row, col));
+            boardTable[row, col] = new Player(new Position(row, col));
         }
     }
 }

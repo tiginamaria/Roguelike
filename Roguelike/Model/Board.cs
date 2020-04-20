@@ -10,8 +10,8 @@ namespace Roguelike.Model
         public int Width { get; }
         public int Height { get; }
 
-        private readonly GameObject[,] gameObjects;
-
+        private GameObject[,] gameObjects;
+        
         public Board(int width, int height, GameObject[,] objects)
         {
             Width = width;
@@ -35,7 +35,6 @@ namespace Roguelike.Model
             {
                 return;
             }
-
             gameObjects[to.Y, to.X] = gameObjects[from.Y, from.X];
             gameObjects[from.Y, from.X] = new EmptyCell(from);
         }
@@ -48,12 +47,7 @@ namespace Roguelike.Model
             return position.X >= 0 && position.X < Width &&
                    position.Y >= 0 && position.Y < Height;
         }
-
-        public void SetObject(Position position, GameObject gameObject)
-        {
-            gameObjects[position.Y, position.X] = gameObject;
-        }
-
+        
         public Player FindPlayer()
         {
             for (var row = 0; row < Height; row++)
@@ -69,7 +63,6 @@ namespace Roguelike.Model
                     }
                 }
             }
-
             throw new Exception("Player not found.");
         }
     }
