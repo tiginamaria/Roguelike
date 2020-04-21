@@ -5,6 +5,10 @@ using Roguelike.Model.Objects;
 
 namespace Roguelike.Model.PlayerModel
 {
+    /// <summary>
+    /// Represents a confused player.
+    /// Every move may be reflected with the 0.5 probability.
+    /// </summary>
     public class ConfusedPlayer : AbstractPlayer
     {
         private const int ConfusionTimeMs = 6000;

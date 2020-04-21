@@ -3,6 +3,11 @@ using Roguelike.Model.Objects;
 
 namespace Roguelike.Model
 {
+    /// <summary>
+    /// Represents a graph, built by the given board.
+    /// Precalculates all pairwise distances between board cells
+    /// using the BFS algorithm.
+    /// </summary>
     public class BoardGraph
     {
         private static readonly int[] Dx = {0, 0, -1, 1};

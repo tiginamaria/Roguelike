@@ -1,5 +1,8 @@
 namespace Roguelike.Model
 {
+    /// <summary>
+    /// An information about character.
+    /// </summary>
     public class CharacterStatistics
     {
         public int Force { get; set; }

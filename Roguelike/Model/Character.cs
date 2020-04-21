@@ -2,6 +2,9 @@ using Roguelike.Model.Objects;
 
 namespace Roguelike.Model
 {
+    /// <summary>
+    /// Represents an abstract character that is able to move and fight.
+    /// </summary>
     public abstract class Character : GameObject
     {
         public abstract CharacterStatistics GetStatistics();
@@ -30,7 +33,15 @@ namespace Roguelike.Model
                 Position = newPosition;
             }
         }
+        
+        /// <summary>
+        /// Attacks another character. Calls AcceptConfuse on it.
+        /// </summary>
         public abstract void Confuse(Character other);
+        
+        /// <summary>
+        /// Updates itself when attacked by another character.
+        /// </summary>
         public abstract void AcceptConfuse(Character other);
 
         protected Character(Position initPosition) : base(initPosition)
