@@ -53,8 +53,7 @@ namespace Roguelike.Input
 
         private void Notify(List<IUpdatable> targetSubscribers)
         {
-            var oldSubscribers = new List<IUpdatable>(targetSubscribers);
-            foreach (var subscriber in oldSubscribers) 
+            foreach (var subscriber in targetSubscribers) 
             {
                 subscriber.Update();
             }

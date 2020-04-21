@@ -17,12 +17,14 @@ namespace Roguelike.View
         private const char AggressiveMobChar = '*';
         private const char PassiveMobChar = '@';
         private const char CowardMobChar = '%';
+        private const char ConfusedPlayerChar = '?';
 
         private FixedBoundRectangle focusRectangle;
 
         public ConsolePlayView()
         {
             Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
+            Console.CursorVisible = false;
         }
         
         /// <summary>
@@ -42,12 +44,12 @@ namespace Roguelike.View
             RedrawPlayerPosition(level, second);
         }
         
-        private void RedrawPlayerPosition(Level level, Position first)
+        private void RedrawPlayerPosition(Level level, Position position)
         {
-            var consoleFirstPosition = BoardToConsolePosition(first);
-            if (InsideConsole(consoleFirstPosition))
+            var consolePosition = BoardToConsolePosition(position);
+            if (InsideConsole(consolePosition))
             {
-                DrawObject(level.Board, first, consoleFirstPosition);
+                DrawObject(level.Board, position, consolePosition);
             }
             else
             {
@@ -55,12 +57,12 @@ namespace Roguelike.View
             }
         }
 
-        private void RedrawPosition(Level level, Position first)
+        private void RedrawPosition(Level level, Position position)
         {
-            var consoleFirstPosition = BoardToConsolePosition(first);
-            if (InsideConsole(consoleFirstPosition))
+            var consolePosition = BoardToConsolePosition(position);
+            if (InsideConsole(consolePosition))
             {
-                DrawObject(level.Board, first, consoleFirstPosition);
+                DrawObject(level.Board, position, consolePosition);
             }
         }
 
@@ -142,11 +144,16 @@ namespace Roguelike.View
             }
 
             var gameObject = board.GetObject(position);
-            if (gameObject is AbstractPlayer)
+            if (gameObject is Player)
             {
                 return PlayerChar;
             }
 
+            if (gameObject is ConfusedPlayer)
+            {
+                return ConfusedPlayerChar;
+            }
+            
             if (gameObject is Mob)
             {
                 return GetBehaviourChar(gameObject as Mob);

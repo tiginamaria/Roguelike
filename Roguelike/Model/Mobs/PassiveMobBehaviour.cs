@@ -14,7 +14,7 @@ namespace Roguelike.Model.Mobs
             var newX = position.X + Dx[i];
             var newY = position.Y + Dy[i];
             var newPosition = new Position(newY, newX);
-            if (!level.Board.CheckOnBoard(position) || level.Board.IsWall(newPosition))
+            if (!level.Board.CheckOnBoard(newPosition) || level.Board.IsWall(newPosition))
             {
                 return position;
             }

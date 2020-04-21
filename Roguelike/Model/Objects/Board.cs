@@ -100,7 +100,7 @@ namespace Roguelike.Model.Objects
             return mobs;
         }
 
-        public void SetObject(Position position, AbstractPlayer player) => 
-            gameObjects[position.Y, position.X] = player;
+        public void SetObject(Position position, GameObject gameObject) => 
+            gameObjects[position.Y, position.X] = gameObject;
     }
 }

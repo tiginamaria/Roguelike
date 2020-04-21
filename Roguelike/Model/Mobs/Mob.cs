@@ -33,7 +33,7 @@ namespace Roguelike.Model.Mobs
         public override void AcceptConfuse(Character other)
         {
             statistics.Health--;
-            if (statistics.Health == 0)
+            if (statistics.Health <= 0)
             {
                 level.Board.DeleteObject(Position);
                 OnDie?.Invoke(this, EventArgs.Empty);

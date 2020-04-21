@@ -8,7 +8,8 @@ namespace Roguelike.Input.Controllers
     /// </summary>
     public class TickController : IUpdatable
     {
-        private readonly List<ITickProcessor> subscribers = new List<ITickProcessor>();
+        private readonly HashSet<ITickProcessor> subscribers = new HashSet<ITickProcessor>();
+        private readonly HashSet<ITickProcessor> removedSubscribers = new HashSet<ITickProcessor>();
 
         public void AddTickProcessor(ITickProcessor tickProcessor)
         {
@@ -17,7 +18,7 @@ namespace Roguelike.Input.Controllers
 
         public void RemoveTickProcessor(ITickProcessor processor)
         {
-            subscribers.Remove(processor);
+            removedSubscribers.Add(processor);
         }
 
         /// <summary>
@@ -25,10 +26,17 @@ namespace Roguelike.Input.Controllers
         /// </summary>
         public void Update()
         {
-            var oldSubscribers = new List<ITickProcessor>(subscribers);
-            foreach (var subscriber in oldSubscribers)
+            foreach (var subscriber in subscribers)
             {
-                subscriber.ProcessTick();
+                if (!removedSubscribers.Contains(subscriber))
+                {
+                    subscriber.ProcessTick();
+                }
+            }
+
+            foreach (var subscriber in removedSubscribers)
+            {
+                subscribers.Remove(subscriber);
             }
         }
     }

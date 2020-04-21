@@ -27,8 +27,6 @@ namespace Roguelike.Interaction
         {
             var oldPosition = mob.Position;
             mob.Move(deltaY, deltaX, level.Board);
-            
-            // Redraw only the to changed positions.
             playView.UpdateMob(level, oldPosition, mob.Position);
         }
     }

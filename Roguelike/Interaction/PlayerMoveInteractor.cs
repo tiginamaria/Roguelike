@@ -27,8 +27,7 @@ namespace Roguelike.Interaction
             var player = level.Player;
             var oldPosition = player.Position;
             player.Move(deltaY, deltaX, level.Board);
-            //playView.UpdatePlayer(level, oldPosition, level.Player.Position);
-            playView.Draw(level);
+            playView.UpdatePlayer(level, oldPosition, level.Player.Position);
         }
     }
 }
