@@ -27,6 +27,11 @@ namespace Roguelike.Model
             CalculateDistances();
         }
 
+        public int GetDistance(Position from, Position to)
+        {
+            return distance[PositionToId(from), PositionToId(to)];
+        }
+
         private void CalculateDistances()
         {
             for (var y = 0; y < board.Height; y++)
