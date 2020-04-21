@@ -51,7 +51,7 @@ namespace Roguelike.Input
             }
         }
 
-        private void Notify(List<IUpdatable> targetSubscribers)
+        private void Notify(IEnumerable<IUpdatable> targetSubscribers)
         {
             foreach (var subscriber in targetSubscribers) 
             {

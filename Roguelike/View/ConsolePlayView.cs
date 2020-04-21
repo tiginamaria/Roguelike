@@ -50,7 +50,18 @@ namespace Roguelike.View
             var consolePosition = BoardToConsolePosition(position);
             if (InsideConsole(consolePosition))
             {
-                DrawObject(level.Board, position, consolePosition);
+                // Strange bug:
+                // Windows console clears the position right to the player 
+                // on attempts to redraw too frequently.
+                // Decided to redraw the whole line to the right of the player.
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    DrawLine(level.Board, position);
+                }
+                else
+                {
+                    DrawObject(level.Board, position, consolePosition);
+                }
             }
             else
             {
@@ -86,6 +97,15 @@ namespace Roguelike.View
             }
         }
 
+        private void DrawLine(Board board, Position position)
+        {
+            for (int col = position.X; col < focusRectangle.Right; col++)
+            {
+                var currentPosition = new Position(position.Y, col);
+                DrawObject(board, currentPosition, BoardToConsolePosition(currentPosition));
+            }
+        }
+        
         private Position BoardToConsolePosition(Position boardPosition) => 
             new Position(boardPosition.Y - focusRectangle.Top, boardPosition.X - focusRectangle.Left);
 
