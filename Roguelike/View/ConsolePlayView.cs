@@ -18,6 +18,7 @@ namespace Roguelike.View
         private const char PassiveMobChar = '@';
         private const char CowardMobChar = '%';
         private const char ConfusedPlayerChar = '?';
+        private const char ConfusedMobChar = 'o';
 
         private FixedBoundRectangle focusRectangle;
 
@@ -177,6 +178,11 @@ namespace Roguelike.View
             if (behaviour is CowardMobBehaviour)
             {
                 return CowardMobChar;
+            }
+
+            if (behaviour is ConfusedMobBehaviour)
+            {
+                return ConfusedMobChar;
             }
 
             throw new Exception($"Invalid behaviour found: {behaviour}");

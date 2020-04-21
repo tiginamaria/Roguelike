@@ -63,6 +63,7 @@
     <Compile Include="Model\CharacterStatistics.cs" />
     <Compile Include="Model\Level.cs" />
     <Compile Include="Model\Mobs\AggressiveMobBehaviour.cs" />
+    <Compile Include="Model\Mobs\ConfusedMobBehaviour.cs" />
     <Compile Include="Model\Mobs\CowardMobBehaviour.cs" />
     <Compile Include="Model\Mobs\IMobBehaviour.cs" />
     <Compile Include="Model\Mobs\Mob.cs" />

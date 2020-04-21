@@ -1,12 +1,19 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Roguelike.Model.Mobs
 {
     public class Mob : Character
     {
         private readonly Level level;
-        private readonly IMobBehaviour behaviour;
-        private readonly CharacterStatistics statistics = new CharacterStatistics(2, 2, 1);
+        private IMobBehaviour behaviour;
+        private readonly IMobBehaviour originalBehaviour;
+        private readonly CharacterStatistics statistics = new CharacterStatistics(2, 5, 1);
+        
+        private const int ConfusionTimeMs = 5000;
+        private readonly CancellationTokenSource cancellation = new CancellationTokenSource();
+        private bool cancelled = true;
 
         public event EventHandler OnDie;
 
@@ -16,6 +23,7 @@ namespace Roguelike.Model.Mobs
         {
             this.level = level;
             this.behaviour = behaviour;
+            originalBehaviour = behaviour;
         }
 
         public override CharacterStatistics GetStatistics()
@@ -37,6 +45,22 @@ namespace Roguelike.Model.Mobs
             {
                 level.Board.DeleteObject(Position);
                 OnDie?.Invoke(this, EventArgs.Empty);
+                return;
+            }
+
+            if (cancelled)
+            {
+                Task.Delay(ConfusionTimeMs, cancellation.Token).ContinueWith(t =>
+                {
+                    if (!cancelled)
+                    {
+                        behaviour = originalBehaviour;
+                        cancelled = true;
+                    }
+                });
+
+                behaviour = new ConfusedMobBehaviour();
+                cancelled = false;
             }
         }
 
