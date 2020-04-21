@@ -7,7 +7,7 @@ namespace Roguelike.Model.PlayerModel
     /// </summary>
     public class Player : AbstractPlayer
     {
-        private readonly CharacterStatistics statistics = new CharacterStatistics(1, 1000, 1);
+        private readonly CharacterStatistics statistics = new CharacterStatistics(1, 15, 1);
         private readonly Level level;
 
         public Player(Level level, Position startPosition) : base(startPosition)

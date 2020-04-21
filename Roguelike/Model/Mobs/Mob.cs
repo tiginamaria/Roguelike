@@ -9,7 +9,7 @@ namespace Roguelike.Model.Mobs
         private readonly Level level;
         private IMobBehaviour behaviour;
         private readonly IMobBehaviour originalBehaviour;
-        private readonly CharacterStatistics statistics = new CharacterStatistics(2, 5, 1);
+        private readonly CharacterStatistics statistics = new CharacterStatistics(2, 3, 1);
         
         private const int ConfusionTimeMs = 5000;
         private readonly CancellationTokenSource cancellation = new CancellationTokenSource();
