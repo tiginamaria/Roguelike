@@ -5,7 +5,7 @@ using Roguelike.View;
 namespace Roguelike.Interaction
 {
     /// <summary>
-    /// A class for performing player move logic.
+    /// A class for performing mob's move logic.
     /// Notifies the view on update.
     /// </summary>
     public class MobMoveInteractor
@@ -20,13 +20,15 @@ namespace Roguelike.Interaction
         }
 
         /// <summary>
-        /// Notifies a user about the move intent.
+        /// Notifies a mob about the move intent.
         /// Notifies the view.
         /// </summary>
         public void IntentMove(Mob mob, int deltaY, int deltaX)
         {
             var oldPosition = mob.Position;
             mob.Move(deltaY, deltaX, level.Board);
+            
+            // Redraw only the to changed positions.
             playView.UpdateMob(level, oldPosition, mob.Position);
         }
     }

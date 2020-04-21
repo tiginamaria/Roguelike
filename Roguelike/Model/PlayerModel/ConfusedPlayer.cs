@@ -27,6 +27,7 @@ namespace Roguelike.Model.PlayerModel
         public override void Move(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
             player.Move(Confusion() * intentVerticalMove, Confusion() * intentHorizontalMove, board);
+            Position = player.Position;
         }
 
         public override CharacterStatistics GetStatistics()

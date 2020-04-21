@@ -3,6 +3,9 @@ using Roguelike.Input.Processors;
 
 namespace Roguelike.Input.Controllers
 {
+    /// <summary>
+    /// Handles ticks and notifies the subscribed processors.
+    /// </summary>
     public class TickController : IUpdatable
     {
         private readonly List<ITickProcessor> subscribers = new List<ITickProcessor>();
@@ -17,6 +20,9 @@ namespace Roguelike.Input.Controllers
             subscribers.Remove(processor);
         }
 
+        /// <summary>
+        /// Notifies the subscribed processors.
+        /// </summary>
         public void Update()
         {
             var oldSubscribers = new List<ITickProcessor>(subscribers);

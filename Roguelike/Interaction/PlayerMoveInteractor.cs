@@ -19,13 +19,15 @@ namespace Roguelike.Interaction
         }
 
         /// <summary>
-        /// Notifies a user about the move intent.
+        /// Notifies a player about the move intent.
         /// Notifies the view.
         /// </summary>
         public void IntentMove(int deltaY, int deltaX)
         {
             var player = level.Player;
+            var oldPosition = player.Position;
             player.Move(deltaY, deltaX, level.Board);
+            //playView.UpdatePlayer(level, oldPosition, level.Player.Position);
             playView.Draw(level);
         }
     }

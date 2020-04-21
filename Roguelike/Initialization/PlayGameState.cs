@@ -23,6 +23,12 @@ namespace Roguelike.Initialization
             levelFactory = new RandomLevelFactory();
         }
 
+        ///<summary>
+        /// Creates Input, View and Interaction components:
+        /// Creates different move processors
+        /// for each character on board, registers them in controllers.
+        /// Creates interactors and passes created level and view to them.
+        /// </summary>
         public void InvokeState()
         {
             var level = levelFactory.CreateLevel();

@@ -18,6 +18,7 @@ namespace Roguelike.Input.Controllers
 
         /// <summary>
         /// Updates the input in non-blocking mode.
+        /// Notifies the subscribers.
         /// </summary>
         public void Update()
         {

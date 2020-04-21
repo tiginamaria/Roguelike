@@ -3,6 +3,9 @@ using Roguelike.Model.Mobs;
 
 namespace Roguelike.Input.Processors
 {
+    /// <summary>
+    /// A class for generating mob moves every tick.
+    /// </summary>
     public class MobMoveProcessor : ITickProcessor
     {
         private readonly Mob mob;
@@ -14,6 +17,9 @@ namespace Roguelike.Input.Processors
             this.interactor = interactor;
         }
         
+        /// <summary>
+        /// Receives the move from the mob, passes it to the interactor.
+        /// </summary>
         public void ProcessTick()
         {
             var oldPosition = mob.Position;
