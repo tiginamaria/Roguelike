@@ -1,9 +1,11 @@
+using System;
+
 namespace Roguelike.Model
 {
     /// <summary>
     /// An information about character.
     /// </summary>
-    public class CharacterStatistics
+    public class CharacterStatistics : ICloneable
     {
         public int Force { get; set; }
         public int Health { get; set; }
@@ -14,6 +16,11 @@ namespace Roguelike.Model
             Force = force;
             Health = health;
             Experience = experience;
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

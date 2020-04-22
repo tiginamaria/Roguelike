@@ -1,24 +1,24 @@
 ﻿﻿using NUnit.Framework;
 using Roguelike.Initialization;
 using Roguelike.Model;
- using Roguelike.Model.Mobs;
 
- namespace TestRoguelike
+namespace TestRoguelike
 {
     [TestFixture]
-    public class LevelConfigurationTests
+    public class LevelTests
     {
+
         [Test]
         public void LevelGenerationTest()
         {
             const int height = 3;
             const int width = 6;
             var boardConfiguration = new[] {
-                new[]{'#', '@', '#', '#', '#', '.'}, 
-                new[]{'#', '#', '.', '#', '#', '%'}, 
-                new[]{'#', '*', '#', '.', '$', '#'}
+                new[]{'#', '.', '#', '#', '#', '.'}, 
+                new[]{'#', '#', '.', '#', '#', '.'}, 
+                new[]{'#', '.', '#', '.', '$', '#'}
             };
-            var path = TestUtils.WriteToFile(boardConfiguration, "level_test_map.txt");
+            var path = TestUtils.WriteToFile(boardConfiguration, "level_test.txt");
             var level = new FileLevelFactory(path).CreateLevel();
             Assert.AreEqual(height, level.Board.Height);
             Assert.AreEqual(width, level.Board.Width);
@@ -37,21 +37,6 @@ using Roguelike.Model;
                         case '$':
                             Assert.AreEqual(level.Player.Position, new Position(i, j));
                             break;
-                        case '*':
-                            var aggressiveMob = level.Board.GetObject(new Position(i, j)) as Mob;
-                            Assert.IsNotNull(aggressiveMob);
-                            Assert.AreEqual(typeof(AggressiveMobBehaviour), aggressiveMob.Behaviour.GetType());
-                            break;
-                        case '@':
-                            var passiveMob = level.Board.GetObject(new Position(i, j)) as Mob;
-                            Assert.IsNotNull(passiveMob);
-                            Assert.AreEqual(typeof(PassiveMobBehaviour), passiveMob.Behaviour.GetType());
-                            break;
-                        case '%':
-                            var cowardMob = level.Board.GetObject(new Position(i, j)) as Mob;
-                            Assert.IsNotNull(cowardMob);
-                            Assert.AreEqual(typeof(CowardMobBehaviour), cowardMob.Behaviour.GetType());
-                            break;
                     }
                 }
             }
@@ -62,12 +47,13 @@ using Roguelike.Model;
         {
             const int height = 3;
             const int width = 6;
-            var boardConfiguration = new[] {
-                new[]{'#', '@', '#', '#', '#', '.'}, 
-                new[]{'#', '#', '.', '#', '#', '%'}, 
-                new[]{'#', '*', '#', '.', '$', '#'}
+            var boardConfiguration = new[]
+            {
+                new[] {'#', '.', '#', '#', '#', '.'},
+                new[] {'#', '#', '.', '#', '#', '.'},
+                new[] {'#', '.', '#', '.', '$', '#'}
             };
-            var path = TestUtils.WriteToFile(boardConfiguration, "level_test_map.txt");
+            var path = TestUtils.WriteToFile(boardConfiguration, "level_test.txt");
             var board = new FileLevelFactory(path).CreateLevel().Board;
             for (var i = 0; i < height; i++)
             {

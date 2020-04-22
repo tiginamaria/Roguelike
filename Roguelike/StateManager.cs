@@ -1,4 +1,3 @@
-using System;
 using Roguelike.Initialization;
 
 namespace Roguelike

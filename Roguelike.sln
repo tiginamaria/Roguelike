@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roguelike", "Roguelike\Roguelike.csproj", "{D696D709-7040-45B0-9A0C-2B8354F6C8A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoguelikeTest", "RoguelikeTest\RoguelikeTest.csproj", "{8E38992C-CB4E-46EC-8984-CC8FB610005F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoguelikeTest", "RoguelikeTest\RoguelikeTest.csproj", "{2249E592-EAD6-4EBC-A190-FAF1B4601C6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D696D709-7040-45B0-9A0C-2B8354F6C8A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D696D709-7040-45B0-9A0C-2B8354F6C8A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D696D709-7040-45B0-9A0C-2B8354F6C8A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D696D709-7040-45B0-9A0C-2B8354F6C8A9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E38992C-CB4E-46EC-8984-CC8FB610005F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E38992C-CB4E-46EC-8984-CC8FB610005F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E38992C-CB4E-46EC-8984-CC8FB610005F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E38992C-CB4E-46EC-8984-CC8FB610005F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2249E592-EAD6-4EBC-A190-FAF1B4601C6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2249E592-EAD6-4EBC-A190-FAF1B4601C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2249E592-EAD6-4EBC-A190-FAF1B4601C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2249E592-EAD6-4EBC-A190-FAF1B4601C6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
