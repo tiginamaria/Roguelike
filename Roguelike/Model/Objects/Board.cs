@@ -21,6 +21,8 @@ namespace Roguelike.Model.Objects
             Height = height;
             gameObjects = objects;
         }
+        
+        public GameObject[,] CloneGameObjects() => gameObjects.Clone() as GameObject[,];
 
         public GameObject GetObject(Position position) => gameObjects[position.Y, position.X];
 

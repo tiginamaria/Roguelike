@@ -7,12 +7,19 @@ namespace Roguelike.Model.PlayerModel
     /// </summary>
     public class Player : AbstractPlayer
     {
-        private readonly CharacterStatistics statistics = new CharacterStatistics(1, 15, 1);
+        private readonly CharacterStatistics statistics;
         private readonly Level level;
 
         public Player(Level level, Position startPosition) : base(startPosition)
         {
             this.level = level;
+            statistics = new CharacterStatistics(1, 15, 1);
+        }
+
+        public Player(Level level, Position startPosition, CharacterStatistics statistics) : base(startPosition)
+        {
+            this.level = level;
+            this.statistics = statistics;
         }
 
         public override CharacterStatistics GetStatistics()

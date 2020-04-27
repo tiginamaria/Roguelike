@@ -9,7 +9,7 @@ namespace Roguelike.Model.Mobs
         private readonly Level level;
         private IMobBehaviour behaviour;
         private readonly IMobBehaviour originalBehaviour;
-        private readonly CharacterStatistics statistics = new CharacterStatistics(2, 3, 1);
+        private readonly CharacterStatistics statistics;
         
         private const int ConfusionTimeMs = 5000;
         private readonly CancellationTokenSource cancellation = new CancellationTokenSource();
@@ -24,6 +24,19 @@ namespace Roguelike.Model.Mobs
             this.level = level;
             this.behaviour = behaviour;
             originalBehaviour = behaviour;
+            statistics = new CharacterStatistics(2, 3, 1);
+        }
+        
+        public Mob(Level level, IMobBehaviour behaviour, Position startPosition, CharacterStatistics statistics, bool confused = false) : base(startPosition)
+        {
+            this.level = level;
+            this.behaviour = behaviour;
+            originalBehaviour = behaviour;
+            this.statistics = statistics;
+            if (confused)
+            {
+                BecomeConfused();
+            }
         }
 
         public override CharacterStatistics GetStatistics()
@@ -50,18 +63,21 @@ namespace Roguelike.Model.Mobs
 
             if (cancelled)
             {
-                Task.Delay(ConfusionTimeMs, cancellation.Token).ContinueWith(t =>
-                {
-                    if (!cancelled)
-                    {
-                        behaviour = originalBehaviour;
-                        cancelled = true;
-                    }
-                });
-
-                behaviour = new ConfusedMobBehaviour();
-                cancelled = false;
+                BecomeConfused();
             }
+        }
+
+        private void BecomeConfused()
+        {
+            Task.Delay(ConfusionTimeMs, cancellation.Token).ContinueWith(t =>
+            {
+                if (cancelled) return;
+                behaviour = originalBehaviour;
+                cancelled = true;
+            });
+
+            behaviour = new ConfusedMobBehaviour();
+            cancelled = false;
         }
 
         public Position GetMove()

@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Roguelike.Input;
 using Roguelike.Input.Controllers;
 using Roguelike.Input.Processors;
@@ -13,9 +15,20 @@ namespace Roguelike.Initialization
     {
         private readonly ILevelFactory levelFactory;
 
-        public PlayGameState(string levelConfigPath)
+        public PlayGameState(string arg)
         {
-            levelFactory = new FileLevelFactory(levelConfigPath);
+            if (arg == "--load")
+            {
+                if (!File.Exists(SaveGameInteractor.SaveFileName))
+                {
+                    throw new ArgumentException("Loading is impossible as dump file is missing.");
+                }
+                levelFactory = new FileLevelFactory(SaveGameInteractor.SaveFileName);
+            }
+            else
+            {
+                levelFactory = new FileLevelFactory(arg);    
+            }
         }
         
         public PlayGameState()
@@ -38,15 +51,18 @@ namespace Roguelike.Initialization
             var playerMoveInteractor = new PlayerMoveInteractor(level, playView);
             var mobMoveInteractor = new MobMoveInteractor(level, playView);
             var exitGameInteractor = new ExitGameInteractor(inputLoop);
+            var saveGameInteractor = new SaveGameInteractor(level);
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);
-            var exitGameProcessor = new ExitGameProcessor(exitGameInteractor);
+            var exitGameProcessor = new ExitGameProcessor(exitGameInteractor, saveGameInteractor);
+            var saveGameProcessor = new SaveGameProcessor(saveGameInteractor);
 
             var keyboardController = new KeyboardController();
             var tickController = new TickController();
             
             keyboardController.AddInputProcessor(moveProcessor);
             keyboardController.AddInputProcessor(exitGameProcessor);
+            keyboardController.AddInputProcessor(saveGameProcessor);
             
             inputLoop.AddUpdatable(keyboardController);
             inputLoop.AddFixedUpdatable(tickController);
@@ -59,7 +75,11 @@ namespace Roguelike.Initialization
                 mob.OnDie += (sender, args) => { tickController.RemoveTickProcessor(mobMoveProcessor); };
             }
 
-            level.Player.OnDie += (sender, args) => { inputLoop.Stop(); };
+            level.Player.OnDie += (sender, args) =>
+            {
+                inputLoop.Stop();
+                saveGameInteractor.Delete();
+            };
 
             playView.Draw(level);
             inputLoop.Start();

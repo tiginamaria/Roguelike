@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Roguelike.Model;
@@ -18,6 +19,10 @@ namespace Roguelike.Initialization
     /// * --- aggressive mob
     /// @ --- passive mob
     /// % --- coward mob
+    /// ? --- confused player
+    /// o --- confused mob
+    /// Next lines contain triple (Experience, Force, Health) for every character on the board
+    /// (in order top to bottom left to right)
     /// </summary>
     public class FileLevelFactory : ILevelFactory
     {
@@ -27,8 +32,10 @@ namespace Roguelike.Initialization
         private const string AggressiveMob = "*";
         private const string PassiveMob = "@";
         private const string CowardMob = "%";
+        private const string ConfusedPlayer = "?";
+        private const string ConfusedMob = "o";
 
-        private string pathToFile;
+        private readonly string pathToFile;
 
         /// <summary>
         /// Creates the factory by the path to a file with a level description.
@@ -50,6 +57,16 @@ namespace Roguelike.Initialization
 
             lines = lines.Skip(1).ToArray();
             var boardTable = new GameObject[height, width];
+            var statistics = lines
+                .Skip(height)
+                .Select((s) =>
+                {
+                    var stats = s
+                        .Split()
+                        .Select(int.Parse)
+                        .ToArray();
+                    return new CharacterStatistics(stats[0], stats[1], stats[2]);
+                }).GetEnumerator();
             return new Level(level =>
             {
                 for (var row = 0; row < height; row++)
@@ -57,7 +74,8 @@ namespace Roguelike.Initialization
                     var inputRow = lines[row].Split().ToArray();
                     for (var col = 0; col < width; col++)
                     {
-                        boardTable[row, col] = GetObject(level, inputRow[col], new Position(row, col));
+                        var gameObject = GetObject(level, inputRow[col], new Position(row, col), statistics);
+                        boardTable[row, col] = gameObject;
                     }
                 }
 
@@ -65,20 +83,31 @@ namespace Roguelike.Initialization
             });
         }
 
-        private GameObject GetObject(Level level, string input, Position position)
+        private static GameObject GetObject(Level level, string input, Position position,
+            IEnumerator<CharacterStatistics> statistics)
         {
             switch (input)
             {
                 case Wall:
                     return new Wall(position);
                 case Player:
-                    return new Player(level, position);
+                    statistics.MoveNext();
+                    return new Player(level, position, statistics.Current);
+                case ConfusedPlayer:
+                    statistics.MoveNext();
+                    return new ConfusedPlayer(level, new Player(level, position, statistics.Current));
                 case AggressiveMob:
-                    return new Mob(level, new AggressiveMobBehaviour(), position);
+                    statistics.MoveNext();
+                    return new Mob(level, new AggressiveMobBehaviour(), position, statistics.Current);
                 case CowardMob:
-                    return new Mob(level, new CowardMobBehaviour(), position);
+                    statistics.MoveNext();
+                    return new Mob(level, new CowardMobBehaviour(), position, statistics.Current);
                 case PassiveMob:
-                    return new Mob(level, new PassiveMobBehaviour(), position);
+                    statistics.MoveNext();
+                    return new Mob(level, new PassiveMobBehaviour(), position, statistics.Current);
+                case ConfusedMob:
+                    statistics.MoveNext();
+                    return new Mob(level, new PassiveMobBehaviour(), position, statistics.Current, true);
                 default:
                     return new EmptyCell(position);
             }

@@ -55,13 +55,16 @@
     <Compile Include="Input\Processors\ITickProcessor.cs" />
     <Compile Include="Input\Processors\MobMoveProcessor.cs" />
     <Compile Include="Input\Processors\MoveProcessor.cs" />
+    <Compile Include="Input\Processors\SaveGameProcessor.cs" />
     <Compile Include="Interaction\ExitGameInteractor.cs" />
     <Compile Include="Interaction\MobMoveInteractor.cs" />
     <Compile Include="Interaction\PlayerMoveInteractor.cs" />
+    <Compile Include="Interaction\SaveGameInteractor.cs" />
     <Compile Include="Model\BoardGraph.cs" />
     <Compile Include="Model\Character.cs" />
     <Compile Include="Model\CharacterStatistics.cs" />
     <Compile Include="Model\Level.cs" />
+    <Compile Include="Model\LevelSnapshot.cs" />
     <Compile Include="Model\Mobs\AggressiveMobBehaviour.cs" />
     <Compile Include="Model\Mobs\ConfusedMobBehaviour.cs" />
     <Compile Include="Model\Mobs\CowardMobBehaviour.cs" />

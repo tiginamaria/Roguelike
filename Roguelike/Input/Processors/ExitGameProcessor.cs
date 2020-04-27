@@ -9,18 +9,22 @@ namespace Roguelike.Input.Processors
     /// </summary>
     public class ExitGameProcessor : IInputProcessor
     {
-        private readonly ExitGameInteractor interactor; 
-            
-        public ExitGameProcessor(ExitGameInteractor interactor)
+        private readonly ExitGameInteractor exitInteractor;
+        private readonly SaveGameInteractor saveGameInteractor;
+
+        public ExitGameProcessor(ExitGameInteractor exitInteractor, SaveGameInteractor saveGameInteractor)
         {
-            this.interactor = interactor;
+            this.exitInteractor = exitInteractor;
+            this.saveGameInteractor = saveGameInteractor;
         }
 
         public void ProcessInput(ConsoleKey key)
         {
             if (key == ConsoleKey.Escape)
             {
-                interactor.Exit();
+                saveGameInteractor.Save();
+                saveGameInteractor.Dump();
+                exitInteractor.Exit();
             }
         }
     }

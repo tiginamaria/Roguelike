@@ -152,7 +152,7 @@ namespace Roguelike.View
             Console.Write(objectChar);
         }
 
-        private char GetObjectChar(Board board, Position position)
+        public static char GetObjectChar(Board board, Position position)
         {
             if (board.IsWall(position))
             {
@@ -183,7 +183,7 @@ namespace Roguelike.View
             throw new Exception($"Invalid object found: {gameObject}");
         }
 
-        private char GetBehaviourChar(Mob mob)
+        private static char GetBehaviourChar(Mob mob)
         {
             var behaviour = mob.Behaviour;
             if (behaviour is AggressiveMobBehaviour)

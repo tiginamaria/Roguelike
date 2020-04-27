@@ -23,5 +23,10 @@ namespace Roguelike.Model
             Mobs = Board.FindMobs();
             Graph = new BoardGraph(Board);
         }
+
+        public LevelSnapshot Save()
+        {
+            return new LevelSnapshot(new Board(Board.Width, Board.Height, Board.CloneGameObjects()));
+        }
     }
 }
