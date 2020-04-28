@@ -79,7 +79,17 @@ namespace Roguelike.Model.PlayerModel
                 inventoryItems.Remove(inventoryToActivate);
             }
         }
-        
+
+        public override List<InventoryItem> GetInventory()
+        {
+            return inventoryItems;
+        }
+
+        public override List<InventoryItem> GetAppliedInventory()
+        {
+            return appliedInventoryItems;
+        }
+
         public override string GetType()
         {
             return PlayerType.Player;

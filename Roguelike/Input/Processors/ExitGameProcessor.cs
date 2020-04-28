@@ -18,9 +18,9 @@ namespace Roguelike.Input.Processors
             this.saveGameInteractor = saveGameInteractor;
         }
 
-        public void ProcessInput(ConsoleKey key)
+        public void ProcessInput(ConsoleKeyInfo keyInfo)
         {
-            if (key == ConsoleKey.Escape)
+            if (keyInfo.Key == ConsoleKey.Escape)
             {
                 saveGameInteractor.Save();
                 saveGameInteractor.Dump();

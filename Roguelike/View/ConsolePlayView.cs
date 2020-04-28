@@ -1,9 +1,6 @@
 using System;
 using Roguelike.Model;
-using Roguelike.Model.Inventory;
-using Roguelike.Model.Mobs;
 using Roguelike.Model.Objects;
-using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.View
 {
@@ -35,6 +32,14 @@ namespace Roguelike.View
         {
             RedrawPlayerPosition(level, first);
             RedrawPlayerPosition(level, second);
+            UpdateInventory(level);
+        }
+
+        public void UpdateInventory(Level level)
+        {
+            DrawPlayerStatistics(level.Board);
+            DrawInventory(level.Board);
+            DrawAppliedInventory(level.Board);
         }
         
         private void RedrawPlayerPosition(Level level, Position position)
@@ -94,6 +99,10 @@ namespace Roguelike.View
                     DrawObject(board, currentPosition, BoardToConsolePosition(currentPosition));
                 }
             }
+
+            DrawPlayerStatistics(board);
+            DrawInventory(board);
+            DrawAppliedInventory(board);
         }
 
         private void DrawLine(Board board, Position position)
@@ -149,70 +158,43 @@ namespace Roguelike.View
             if (InsideConsole(consolePosition))
             {
                 Console.SetCursorPosition(consolePosition.X, consolePosition.Y);
+                Console.CursorVisible = false;
                 var objectChar = board.GetObject(boardPosition).GetType();
                 Console.Write(objectChar);
             }
         }
-
-        public static string GetObjectChar(Board board, Position position)
+                
+        private void DrawPlayerStatistics(Board board)
         {
-            switch (board.GetObject(position))
+            var row = board.Height + 1;
+            var statistics = board.FindPlayer().GetStatistics();
+            Console.SetCursorPosition(0, row);
+            Console.Write($"Health:{statistics.Health}   Force:{statistics.Force}    Exp:{statistics.Experience}");
+        }
+        private void DrawInventory(Board board)
+        {
+            var row = board.Height + 2;
+            var inventory = board.FindPlayer().GetInventory();
+            Console.SetCursorPosition(0, row);
+            Console.Write("Inventory: ");
+            for (int col = 0; col < inventory.Count; col++)
             {
-                case EmptyCell _:
-                    return BoardObject.Empty;
-
-                case Wall _:
-                    return BoardObject.Wall;
-
-                case Player _:
-                    return PlayerType.Player;
-
-                case ConfusedPlayer _:
-                    return PlayerType.ConfusedPlayer;
-
-                case Mob mob:
-                    return GetMobType(mob);
-                
-                case InventoryItem inventory:
-                    return GetInventoryType(inventory);
-                
-                default:
-                    throw new Exception($"Invalid object found on position: {position}");
+                Console.Write(inventory[col].GetType() + " ");
             }
+            Console.Write("   ");
         }
 
-        private static string GetMobType(Mob mob)
+        private void DrawAppliedInventory(Board board)
         {
-            switch (mob.Behaviour)
+            var row = board.Height + 3;
+            var inventory = board.FindPlayer().GetAppliedInventory();
+            Console.SetCursorPosition(0, row);
+            Console.Write("Applied Inventory: ");
+            for (int col = 0; col < inventory.Count; col++)
             {
-                case AggressiveMobBehaviour _:
-                    return MobType.AggressiveMob;
-                case CowardMobBehaviour _:
-                    return MobType.CowardMob;
-                case PassiveMobBehaviour _:
-                    return MobType.PassiveMob;
-                case ConfusedMobBehaviour _:
-                    return MobType.ConfusedMob;
-                default:
-                    throw new Exception($"Invalid mob type: {mob.GetType()}");
+                Console.Write(inventory[col].GetType() + " ");
             }
-        }
-        
-        private static string GetInventoryType(InventoryItem inventory)
-        {
-            switch (inventory)
-            {
-                case IncreaseHealthItem _:
-                    return InventoryType.IncreaseHealthItem;
-                case IncreaseForceItem _:
-                    return InventoryType.IncreaseForceItem;
-                case IncreaseExperienceItem _:
-                    return InventoryType.IncreaseExperienceItem;
-                case IncreaseAllItem _:
-                    return InventoryType.IncreaseAllItem;
-                default:
-                    throw new Exception($"Invalid inventory type: {inventory.GetType()}");
-            }
+            Console.Write("   ");
         }
     }
 }

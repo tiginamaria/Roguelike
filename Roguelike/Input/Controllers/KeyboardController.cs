@@ -26,8 +26,7 @@ namespace Roguelike.Input.Controllers
             {
                 return;
             }
-            
-            var key = Console.ReadKey().Key;
+            var key = Console.ReadKey(true);
             foreach (var subscriber in subscribers)
             {
                 subscriber.ProcessInput(key);

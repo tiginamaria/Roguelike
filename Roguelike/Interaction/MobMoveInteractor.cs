@@ -28,6 +28,7 @@ namespace Roguelike.Interaction
             var oldPosition = mob.Position;
             mob.Move(deltaY, deltaX, level.Board);
             playView.UpdateMob(level, oldPosition, mob.Position);
+            playView.UpdatePlayer(level, level.Player.Position, level.Player.Position);
         }
     }
 }

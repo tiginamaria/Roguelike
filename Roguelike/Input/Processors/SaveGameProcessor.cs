@@ -13,9 +13,9 @@ namespace Roguelike.Input.Processors
             this.interactor = interactor;
         }
 
-        public void ProcessInput(ConsoleKey key)
+        public void ProcessInput(ConsoleKeyInfo keyInfo)
         {
-            if (key == ConsoleKey.S)
+            if (keyInfo.Key == ConsoleKey.S)
             {
                 interactor.Save();
             }

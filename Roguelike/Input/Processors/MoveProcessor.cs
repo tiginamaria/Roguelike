@@ -15,24 +15,24 @@ namespace Roguelike.Input.Processors
             this.moveInteractor = moveInteractor;
         }
         
-        public void ProcessInput(ConsoleKey key)
+        public void ProcessInput(ConsoleKeyInfo keyInfo)
         {
             var deltaX = 0;
             var deltaY = 0;
             
-            if (key == ConsoleKey.RightArrow)
+            if (keyInfo.Key == ConsoleKey.RightArrow)
             {
                 deltaX = 1;
             }
-            else if (key == ConsoleKey.LeftArrow)
+            else if (keyInfo.Key == ConsoleKey.LeftArrow)
             {
                 deltaX = -1;
             } 
-            else if (key == ConsoleKey.DownArrow)
+            else if (keyInfo.Key == ConsoleKey.DownArrow)
             {
                 deltaY = 1;
             }
-            else if (key == ConsoleKey.UpArrow)
+            else if (keyInfo.Key == ConsoleKey.UpArrow)
             {
                 deltaY = -1;
             }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Roguelike.Model.Inventory;
@@ -80,6 +81,16 @@ namespace Roguelike.Model.PlayerModel
         public override void PutOn(string inventoryType)
         {
             player.PutOn(inventoryType);
+        }
+
+        public override List<InventoryItem> GetInventory()
+        {
+            return player.GetInventory();
+        }
+
+        public override List<InventoryItem> GetAppliedInventory()
+        {
+            return player.GetAppliedInventory();
         }
 
         public override string GetType()

@@ -31,6 +31,8 @@ namespace Roguelike.Model
             if (board.IsInventory(newPosition))
             {
                 Collect(board.GetObject(newPosition) as InventoryItem);
+                board.MoveObject(Position, newPosition);
+                Position = newPosition;
             }
             if (board.IsEmpty(newPosition))
             {

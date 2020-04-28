@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Policy;
 using Roguelike.Interaction;
 using Roguelike.Model.Inventory;
 
@@ -14,15 +13,44 @@ namespace Roguelike.Input.Processors
             this.inventoryInteractor = inventoryInteractor;
         }
         
-        public void ProcessInput(ConsoleKey key)
+        public void ProcessInput(ConsoleKeyInfo keyInfo)
         {
-            if (key == ConsoleKey.F)
+            if (keyInfo.Key == ConsoleKey.F && keyInfo.Modifiers == ConsoleModifiers.Alt)
+            {
+                inventoryInteractor.PutOff(InventoryType.IncreaseForceItem);
+                return;
+            }
+            if (keyInfo.Key == ConsoleKey.H && keyInfo.Modifiers == ConsoleModifiers.Alt)
+            {
+                inventoryInteractor.PutOff(InventoryType.IncreaseHealthItem);
+                return;
+            }
+            if (keyInfo.Key == ConsoleKey.E && keyInfo.Modifiers == ConsoleModifiers.Alt)
+            {
+                inventoryInteractor.PutOff(InventoryType.IncreaseExperienceItem);
+                return;
+            }
+            if (keyInfo.Key == ConsoleKey.A && keyInfo.Modifiers == ConsoleModifiers.Alt)
+            {
+                inventoryInteractor.PutOff(InventoryType.IncreaseAllItem);
+                return;
+            }
+            
+            if (keyInfo.Key == ConsoleKey.F)
             {
                 inventoryInteractor.PutOn(InventoryType.IncreaseForceItem);
             }
-            if (key == ConsoleKey.R)
+            if (keyInfo.Key == ConsoleKey.H)
             {
-                inventoryInteractor.PutOn(InventoryType.IncreaseForceItem);
+                inventoryInteractor.PutOn(InventoryType.IncreaseHealthItem);
+            }
+            if (keyInfo.Key == ConsoleKey.E)
+            {
+                inventoryInteractor.PutOn(InventoryType.IncreaseExperienceItem);
+            }
+            if (keyInfo.Key == ConsoleKey.A)
+            {
+                inventoryInteractor.PutOn(InventoryType.IncreaseAllItem);
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using Roguelike.Model;
-using Roguelike.Model.Inventory;
 using Roguelike.View;
 
 namespace Roguelike.Interaction
@@ -18,11 +17,13 @@ namespace Roguelike.Interaction
         public void PutOn(string inventoryType)
         {
             level.Player.PutOn(inventoryType);
+            playView.UpdateInventory(level);
         }
 
         public void PutOff(string inventoryType)
         {
             level.Player.PutOff(inventoryType);
+            playView.UpdateInventory(level);
         }
     }
 }
