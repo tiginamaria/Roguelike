@@ -10,9 +10,9 @@ namespace Roguelike.Initialization
     /// </summary>
     public abstract class ILevelFactory
     {
-        protected static InventoryFactory inventoryFactory = new InventoryFactory();
-        protected static MobFactory mobFactory = new MobFactory();
-        protected static AbstractPlayerFactory playerFactory = new AbstractPlayerFactory();
+        protected static readonly InventoryFactory InventoryFactory = new InventoryFactory();
+        protected static readonly MobFactory MobFactory = new MobFactory();
+        protected static readonly AbstractPlayerFactory PlayerFactory = new AbstractPlayerFactory();
         /// <summary>
         /// Returns a new level.
         /// </summary>

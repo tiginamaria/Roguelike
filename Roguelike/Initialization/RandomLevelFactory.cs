@@ -96,7 +96,7 @@ namespace Roguelike.Initialization
         {
             if (random.NextDouble() < InventoryProbability)
             {
-                boardTable[row, col] = inventoryFactory.Create(GetInventoryMobType(), new Position(row, col));
+                boardTable[row, col] = InventoryFactory.Create(GetInventoryMobType(), new Position(row, col));
             }
         }
 
@@ -139,7 +139,7 @@ namespace Roguelike.Initialization
         {
             if (random.NextDouble() < MobProbability)
             {
-                boardTable[row, col] = mobFactory.Create(GetRandomMobType(), level, new Position(row, col));
+                boardTable[row, col] = MobFactory.Create(GetRandomMobType(), level, new Position(row, col));
             }
         }
 

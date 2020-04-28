@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Roguelike.Model.Inventory;
 using Roguelike.Model.Mobs;
 using Roguelike.Model.PlayerModel;
 
@@ -31,6 +32,7 @@ namespace Roguelike.Model.Objects
         public bool IsEmpty(Position position) => gameObjects[position.Y, position.X] is EmptyCell;
 
         public bool IsCharacter(Position position) => gameObjects[position.Y, position.X] is Character;
+        public bool IsInventory(Position position) => gameObjects[position.Y, position.X] is InventoryItem;
 
         /// <summary>
         /// Moves an object from one position to another,

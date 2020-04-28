@@ -18,20 +18,18 @@ namespace Roguelike.Model.Inventory
 
     public class InventoryFactory
     {
-        private Random Random = new Random();
-
         public InventoryItem Create(string type, Position position)
         {
             switch (type)
             {
                 case InventoryType.IncreaseHealthItem:
-                    return new IncreaseHealthItem(position, 0, Random.Next(1, 6), 0);
+                    return new IncreaseHealthItem(position, 0, 3, 0);
                 case InventoryType.IncreaseForceItem:
-                    return new IncreaseForceItem(position, Random.Next(1, 6), 0, 0);
+                    return new IncreaseForceItem(position, 3, 0, 0);
                 case InventoryType.IncreaseExperienceItem:
-                    return new IncreaseExperienceItem(position, 0, 0, Random.Next(1, 6));
+                    return new IncreaseExperienceItem(position, 0, 0, 3);
                 case InventoryType.IncreaseAllItem:
-                    return new IncreaseAllItem(position, Random.Next(1, 6), Random.Next(1, 6), Random.Next(1, 6));
+                    return new IncreaseAllItem(position, 3, 3, 3);
                 default:
                     throw new NotSupportedException();
             }

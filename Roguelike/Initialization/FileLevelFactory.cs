@@ -104,17 +104,17 @@ namespace Roguelike.Initialization
             var type = info[0];
             if (InventoryType.Contains(type))
             {
-                return inventoryFactory.Create(type, GetPosition(1, info));
+                return InventoryFactory.Create(type, GetPosition(1, info));
             }
             if (MobType.Contains(type))
             {
-                return mobFactory.Create(type, level, 
+                return MobFactory.Create(type, level, 
                     GetPosition(1, info), 
                     GetStatistics(2, info));
             }
             if (PlayerType.Contains(type))
             {
-                return playerFactory.Create(type, level, 
+                return PlayerFactory.Create(type, level, 
                     GetPosition(1, info), 
                     GetStatistics(2, info),
                     GetAllInventory(6, info));
@@ -135,7 +135,7 @@ namespace Roguelike.Initialization
             var type = info[index];
             if (InventoryType.Contains(type))
             {
-                return inventoryFactory.Create(type, GetPosition(index + 1, info));
+                return InventoryFactory.Create(type, GetPosition(index + 1, info));
             }
             throw new ArgumentException($"Unknown inventory type: {type}.");
         }

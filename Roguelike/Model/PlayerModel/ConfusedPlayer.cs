@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Roguelike.Model.Inventory;
 using Roguelike.Model.Objects;
 
 namespace Roguelike.Model.PlayerModel
@@ -52,6 +53,11 @@ namespace Roguelike.Model.PlayerModel
             player.Confuse(other);
         }
 
+        public override void Collect(InventoryItem inventory)
+        {
+            player.Collect(inventory);
+        }
+
         public override void AcceptConfuse(Character other)
         {
             cancellation.Cancel();
@@ -64,6 +70,21 @@ namespace Roguelike.Model.PlayerModel
             cancelled = true;
             level.Player = player;
             level.Board.SetObject(Position, level.Player);
+        }
+
+        public override void PutOff(string inventoryType)
+        {
+            player.PutOff(inventoryType);
+        }
+
+        public override void PutOn(string inventoryType)
+        {
+            player.PutOn(inventoryType);
+        }
+
+        public override string GetType()
+        {
+            return PlayerType.ConfusedPlayer;
         }
     }
 }

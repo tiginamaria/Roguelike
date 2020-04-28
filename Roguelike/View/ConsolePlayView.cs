@@ -66,7 +66,14 @@ namespace Roguelike.View
             var consolePosition = BoardToConsolePosition(position);
             if (InsideConsole(consolePosition))
             {
-                DrawObject(level.Board, position, consolePosition);
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    DrawLine(level.Board, position);
+                }
+                else
+                {
+                    DrawObject(level.Board, position, consolePosition);
+                }
             }
         }
 
@@ -142,7 +149,7 @@ namespace Roguelike.View
             if (InsideConsole(consolePosition))
             {
                 Console.SetCursorPosition(consolePosition.X, consolePosition.Y);
-                var objectChar = GetObjectChar(board, boardPosition);
+                var objectChar = board.GetObject(boardPosition).GetType();
                 Console.Write(objectChar);
             }
         }

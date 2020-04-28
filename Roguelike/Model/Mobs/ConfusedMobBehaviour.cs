@@ -20,5 +20,10 @@ namespace Roguelike.Model.Mobs
             }
             return newPosition;
         }
+
+        public string GetType()
+        {
+            return MobType.ConfusedMob;
+        }
     }
 }

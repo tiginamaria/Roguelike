@@ -11,5 +11,7 @@ namespace Roguelike.Model.Objects
         {
             Position = initPosition;
         }
+
+        public abstract string GetType();
     }
 }

@@ -8,5 +8,10 @@ namespace Roguelike.Model.Objects
         public EmptyCell(Position initPosition) : base(initPosition)
         {
         }
+
+        public override string GetType()
+        {
+            return BoardObject.Empty;
+        }
     }
 }

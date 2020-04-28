@@ -9,5 +9,9 @@ namespace Roguelike.Model.Objects
         public Wall(Position position) : base(position)
         {
         }
+        public override string GetType()
+        {
+            return BoardObject.Wall;
+        }
     }
 }

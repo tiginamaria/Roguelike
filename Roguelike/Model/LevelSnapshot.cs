@@ -31,7 +31,7 @@ namespace Roguelike.Model
 
                         if (gameObject is Character character)
                         {
-                            var objectChar = ConsolePlayView.GetObjectChar(board, position);
+                            var objectChar = board.GetObject(position).GetType();
                             var statistics = character.GetStatistics();
                             var positionString = $"{position.Y} {position.X}";
                             var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";

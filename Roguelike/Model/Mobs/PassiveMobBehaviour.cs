@@ -6,5 +6,10 @@ namespace Roguelike.Model.Mobs
         {
             return position;
         }
+
+        public string GetType()
+        {
+            return MobType.PassiveMob;
+        }
     }
 }

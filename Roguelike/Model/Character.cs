@@ -1,3 +1,4 @@
+using Roguelike.Model.Inventory;
 using Roguelike.Model.Objects;
 
 namespace Roguelike.Model
@@ -27,6 +28,10 @@ namespace Roguelike.Model
             {
                 Confuse(board.GetObject(newPosition) as Character);
             }
+            if (board.IsInventory(newPosition))
+            {
+                Collect(board.GetObject(newPosition) as InventoryItem);
+            }
             if (board.IsEmpty(newPosition))
             {
                 board.MoveObject(Position, newPosition);
@@ -39,6 +44,8 @@ namespace Roguelike.Model
         /// </summary>
         public abstract void Confuse(Character other);
         
+        public abstract void Collect(InventoryItem inventory);
+
         /// <summary>
         /// Updates itself when attacked by another character.
         /// </summary>

@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Roguelike.Model.Inventory;
 
 namespace Roguelike.Model.Mobs
 {
@@ -43,6 +44,11 @@ namespace Roguelike.Model.Mobs
             statistics.Force += other.GetStatistics().Force / 2;
         }
 
+        public override void Collect(InventoryItem inventory)
+        {
+            inventory.Apply(statistics);
+        }
+
         public override void AcceptConfuse(Character other)
         {
             statistics.Health--;
@@ -75,6 +81,11 @@ namespace Roguelike.Model.Mobs
         public Position GetMove()
         {
             return behaviour.MakeMove(level, Position);
+        }
+
+        public override string GetType()
+        {
+            return behaviour.GetType();
         }
     }
 }

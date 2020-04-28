@@ -4,29 +4,29 @@ namespace Roguelike.Model.Inventory
 {
     public abstract class InventoryItem: GameObject
     {
-        private int ForceEffect;
-        private int HealthEffect;
-        private int ExperienceEffect;
+        private readonly int forceEffect;
+        private readonly int healthEffect;
+        private readonly int experienceEffect;
 
         public InventoryItem(Position position, int forceEffect, int healthEffect, int experienceEffect) : base(position)
         {
-            ForceEffect = forceEffect;
-            HealthEffect = healthEffect;
-            ExperienceEffect = experienceEffect;
+            this.forceEffect = forceEffect;
+            this.healthEffect = healthEffect;
+            this.experienceEffect = experienceEffect;
         }
 
         public void Apply(CharacterStatistics statistics)
         {
-            statistics.Force += ForceEffect;
-            statistics.Health += HealthEffect;
-            statistics.Experience += ExperienceEffect;
+            statistics.Force += forceEffect;
+            statistics.Health += healthEffect;
+            statistics.Experience += experienceEffect;
         }
         
         public void Remove(CharacterStatistics statistics)
         {
-            statistics.Force -= ForceEffect;
-            statistics.Health -= HealthEffect;
-            statistics.Experience -= ExperienceEffect;
+            statistics.Force -= forceEffect;
+            statistics.Health -= healthEffect;
+            statistics.Experience -= experienceEffect;
         }
     }
 }

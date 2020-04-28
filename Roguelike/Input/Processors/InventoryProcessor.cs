@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Policy;
 using Roguelike.Interaction;
+using Roguelike.Model.Inventory;
 
 namespace Roguelike.Input.Processors
 {
@@ -17,11 +18,11 @@ namespace Roguelike.Input.Processors
         {
             if (key == ConsoleKey.F)
             {
-                inventoryInteractor.PutOn();
+                inventoryInteractor.PutOn(InventoryType.IncreaseForceItem);
             }
-            if (key == ConsoleKey.F)
+            if (key == ConsoleKey.R)
             {
-                inventoryInteractor.PutOff();
+                inventoryInteractor.PutOn(InventoryType.IncreaseForceItem);
             }
         }
     }
