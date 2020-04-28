@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using Roguelike.Initialization;
 using Roguelike.Model.Objects;
-using Roguelike.Model.PlayerModel;
 using Roguelike.View;
 
 namespace Roguelike.Model
@@ -29,16 +28,23 @@ namespace Roguelike.Model
                     {
                         var position = new Position(row, col);
                         var gameObject = board.GetObject(position);
+
                         if (gameObject is Character character)
                         {
+                            var objectChar = ConsolePlayView.GetObjectChar(board, position);
                             var statistics = character.GetStatistics();
-                            configurations.Add($"{statistics.Experience} {statistics.Force} {statistics.Health}");
+                            var positionString = $"{position.Y} {position.X}";
+                            var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
+                            configurations.Add($"{objectChar} {positionString} {statisticsString}");
                         }
-                        var c = board.IsEmpty(position) ? '.' : ConsolePlayView.GetObjectChar(board, position);
+
+                        var c = board.IsWall(position) ? FileLevelFactory.Wall : FileLevelFactory.Empty;
                         txtWriter.Write($"{c} ");
                     }
+
                     txtWriter.WriteLine();
                 }
+
                 configurations.ForEach(s =>
                 {
                     txtWriter.Write(s);
@@ -46,6 +52,5 @@ namespace Roguelike.Model
                 });
             }
         }
-        
     }
 }
