@@ -19,14 +19,6 @@ namespace Roguelike.Model.Mobs
 
         public IMobBehaviour Behaviour => behaviour;
 
-        public Mob(Level level, IMobBehaviour behaviour, Position startPosition) : base(startPosition)
-        {
-            this.level = level;
-            this.behaviour = behaviour;
-            originalBehaviour = behaviour;
-            statistics = new CharacterStatistics(2, 3, 1);
-        }
-        
         public Mob(Level level, IMobBehaviour behaviour, Position startPosition, CharacterStatistics statistics, bool confused = false) : base(startPosition)
         {
             this.level = level;

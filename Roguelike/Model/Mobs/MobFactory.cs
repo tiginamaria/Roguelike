@@ -18,6 +18,11 @@ namespace Roguelike.Model.Mobs
     
     public class MobFactory
     {
+        public Mob Create(string type, Level level, Position position)
+        {
+            return Create(type, level, position, new CharacterStatistics(2, 3, 1));
+        }
+
         public Mob Create(string type, Level level, Position position, CharacterStatistics statistics) {
             switch (type) {
                 case MobType.AggressiveMob:

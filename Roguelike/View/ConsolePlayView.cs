@@ -1,5 +1,6 @@
 using System;
 using Roguelike.Model;
+using Roguelike.Model.Inventory;
 using Roguelike.Model.Mobs;
 using Roguelike.Model.Objects;
 using Roguelike.Model.PlayerModel;
@@ -11,15 +12,6 @@ namespace Roguelike.View
     /// </summary>
     public class ConsolePlayView : IPlayView
     {
-        private const char WallChar = '#';
-        private const char EmptyChar = ' ';
-        private const char PlayerChar = '$';
-        private const char AggressiveMobChar = '*';
-        private const char PassiveMobChar = '@';
-        private const char CowardMobChar = '%';
-        private const char ConfusedPlayerChar = '?';
-        private const char ConfusedMobChar = 'o';
-
         private FixedBoundRectangle focusRectangle;
 
         public ConsolePlayView()
@@ -155,53 +147,65 @@ namespace Roguelike.View
             }
         }
 
-        public static char GetObjectChar(Board board, Position position)
+        public static string GetObjectChar(Board board, Position position)
         {
             switch (board.GetObject(position))
             {
                 case EmptyCell _:
-                    return EmptyChar;
+                    return BoardObject.Empty;
 
                 case Wall _:
-                    return WallChar;
+                    return BoardObject.Wall;
 
                 case Player _:
-                    return PlayerChar;
+                    return PlayerType.Player;
 
                 case ConfusedPlayer _:
-                    return ConfusedPlayerChar;
+                    return PlayerType.ConfusedPlayer;
 
                 case Mob mob:
-                    return GetBehaviourChar(mob);
+                    return GetMobType(mob);
+                
+                case InventoryItem inventory:
+                    return GetInventoryType(inventory);
                 
                 default:
                     throw new Exception($"Invalid object found on position: {position}");
             }
         }
 
-        private static char GetBehaviourChar(Mob mob)
+        private static string GetMobType(Mob mob)
         {
-            var behaviour = mob.Behaviour;
-            if (behaviour is AggressiveMobBehaviour)
+            switch (mob.Behaviour)
             {
-                return AggressiveMobChar;
+                case AggressiveMobBehaviour _:
+                    return MobType.AggressiveMob;
+                case CowardMobBehaviour _:
+                    return MobType.CowardMob;
+                case PassiveMobBehaviour _:
+                    return MobType.PassiveMob;
+                case ConfusedMobBehaviour _:
+                    return MobType.ConfusedMob;
+                default:
+                    throw new Exception($"Invalid mob type: {mob.GetType()}");
             }
-            if (behaviour is PassiveMobBehaviour)
+        }
+        
+        private static string GetInventoryType(InventoryItem inventory)
+        {
+            switch (inventory)
             {
-                return PassiveMobChar;
+                case IncreaseHealthItem _:
+                    return InventoryType.IncreaseHealthItem;
+                case IncreaseForceItem _:
+                    return InventoryType.IncreaseForceItem;
+                case IncreaseExperienceItem _:
+                    return InventoryType.IncreaseExperienceItem;
+                case IncreaseAllItem _:
+                    return InventoryType.IncreaseAllItem;
+                default:
+                    throw new Exception($"Invalid inventory type: {inventory.GetType()}");
             }
-
-            if (behaviour is CowardMobBehaviour)
-            {
-                return CowardMobChar;
-            }
-
-            if (behaviour is ConfusedMobBehaviour)
-            {
-                return ConfusedMobChar;
-            }
-
-            throw new Exception($"Invalid behaviour found: {behaviour}");
         }
     }
 }

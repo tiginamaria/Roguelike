@@ -1,5 +1,6 @@
 using System;
 using Roguelike.Model;
+using Roguelike.Model.Inventory;
 using Roguelike.Model.Mobs;
 using Roguelike.Model.Objects;
 using Roguelike.Model.PlayerModel;
@@ -18,7 +19,9 @@ namespace Roguelike.Initialization
         private readonly Random random = new Random();
         private const float WallProbability = 0.5f;
         private const float MobProbability = 0.05f;
-        private const float MobBehaviourProbability = 0.33f;
+        private const float InventoryProbability = 0.03f;
+        private const float MobTypeProbability = 0.33f;
+        private const float InventoryTypeProbability = 0.2f;
 
         private static readonly int Height = RoundToOdd(DefaultHeight);
         private static readonly int Width = RoundToOdd(DefaultWidth);
@@ -70,10 +73,54 @@ namespace Roguelike.Initialization
             {
                 AddPlayerCell(level, 1, 1, boardTable);
                 AddMobs(level, boardTable, Height, Width);
+                AddInventory(level, boardTable, Height, Width);
                 return new Board(Width, Height, boardTable);
             });
         }
 
+        private void AddInventory(Level level, GameObject[,] boardTable, int height, int width)
+        {
+            for (var row = 0; row < height; row++)
+            {
+                for (var col = 0; col < width; col++)
+                {
+                    if (boardTable[row, col] is EmptyCell)
+                    {
+                        AddInventoryWithProbability(row, col, boardTable, level);
+                    }
+                }
+            }
+        }
+
+        private void AddInventoryWithProbability(int row, int col, GameObject[,] boardTable, Level level)
+        {
+            if (random.NextDouble() < InventoryProbability)
+            {
+                boardTable[row, col] = inventoryFactory.Create(GetInventoryMobType(), new Position(row, col));
+            }
+        }
+
+        private string GetInventoryMobType()
+        {
+            var probability = random.NextDouble();
+            if (probability < InventoryTypeProbability)
+            {
+                return InventoryType.IncreaseExperienceItem;
+            }
+
+            if (probability < 2 * InventoryTypeProbability)
+            {
+                return InventoryType.IncreaseHealthItem;
+            }
+            
+            if (probability < 4 * InventoryTypeProbability)
+            {
+                return InventoryType.IncreaseForceItem;
+            }
+
+            return InventoryType.IncreaseAllItem;
+        }
+        
         private void AddMobs(Level level, GameObject[,] boardTable, int height, int width)
         {
             for (var row = 0; row < height; row++)
@@ -92,24 +139,24 @@ namespace Roguelike.Initialization
         {
             if (random.NextDouble() < MobProbability)
             {
-                boardTable[row, col] = new Mob(level, GetRandomBehaviour(), new Position(row, col));
+                boardTable[row, col] = mobFactory.Create(GetRandomMobType(), level, new Position(row, col));
             }
         }
 
-        private IMobBehaviour GetRandomBehaviour()
+        private string GetRandomMobType()
         {
             var probability = random.NextDouble();
-            if (probability < MobBehaviourProbability)
+            if (probability < MobTypeProbability)
             {
-                return new AggressiveMobBehaviour();
+                return MobType.AggressiveMob;
             }
 
-            if (probability < 2 * MobBehaviourProbability)
+            if (probability < 2 * MobTypeProbability)
             {
-                return new CowardMobBehaviour();
+                return MobType.CowardMob;
             }
 
-            return new PassiveMobBehaviour();
+            return MobType.PassiveMob;
         }
 
         private void ConnectCells(int cellY1, int cellX1, int cellY2, int cellX2, GameObject[,] boardTable)
