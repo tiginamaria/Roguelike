@@ -52,10 +52,12 @@ namespace Roguelike.Initialization
             var mobMoveInteractor = new MobMoveInteractor(level, playView);
             var exitGameInteractor = new ExitGameInteractor(inputLoop);
             var saveGameInteractor = new SaveGameInteractor(level);
+            var inventoryInteractor = new InventoryInteractor(level, playView);
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);
             var exitGameProcessor = new ExitGameProcessor(exitGameInteractor, saveGameInteractor);
             var saveGameProcessor = new SaveGameProcessor(saveGameInteractor);
+            var inventoryProcessor = new InventoryProcessor(inventoryInteractor);
 
             var keyboardController = new KeyboardController();
             var tickController = new TickController();
@@ -63,6 +65,7 @@ namespace Roguelike.Initialization
             keyboardController.AddInputProcessor(moveProcessor);
             keyboardController.AddInputProcessor(exitGameProcessor);
             keyboardController.AddInputProcessor(saveGameProcessor);
+            keyboardController.AddInputProcessor(inventoryProcessor);
             
             inputLoop.AddUpdatable(keyboardController);
             inputLoop.AddFixedUpdatable(tickController);

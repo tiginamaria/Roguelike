@@ -45,7 +45,7 @@ namespace Roguelike.Initialization
             pathToFile = path;
         }
 
-        public Level CreateLevel()
+        public override Level CreateLevel()
         {
             var lines = File.ReadAllLines(pathToFile);
             var dimensions = lines[0]

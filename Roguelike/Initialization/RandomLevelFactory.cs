@@ -36,7 +36,7 @@ namespace Roguelike.Initialization
             return x;
         }
 
-        public Level CreateLevel()
+        public override Level CreateLevel()
         {
             var boardTable = new GameObject[Height, Width];
             CreateBorders(Height, Width, boardTable);
