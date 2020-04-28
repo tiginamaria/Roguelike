@@ -147,40 +147,36 @@ namespace Roguelike.View
 
         private void DrawObject(Board board, Position boardPosition, Position consolePosition)
         {
-            Console.SetCursorPosition(consolePosition.X, consolePosition.Y);
-            var objectChar = GetObjectChar(board, boardPosition);
-            Console.Write(objectChar);
+            if (InsideConsole(consolePosition))
+            {
+                Console.SetCursorPosition(consolePosition.X, consolePosition.Y);
+                var objectChar = GetObjectChar(board, boardPosition);
+                Console.Write(objectChar);
+            }
         }
 
         public static char GetObjectChar(Board board, Position position)
         {
-            if (board.IsWall(position))
+            switch (board.GetObject(position))
             {
-                return WallChar;
-            }
+                case EmptyCell _:
+                    return EmptyChar;
 
-            if (board.IsEmpty(position))
-            {
-                return EmptyChar;
-            }
+                case Wall _:
+                    return WallChar;
 
-            var gameObject = board.GetObject(position);
-            if (gameObject is Player)
-            {
-                return PlayerChar;
-            }
+                case Player _:
+                    return PlayerChar;
 
-            if (gameObject is ConfusedPlayer)
-            {
-                return ConfusedPlayerChar;
-            }
-            
-            if (gameObject is Mob)
-            {
-                return GetBehaviourChar(gameObject as Mob);
-            }
+                case ConfusedPlayer _:
+                    return ConfusedPlayerChar;
 
-            throw new Exception($"Invalid object found: {gameObject}");
+                case Mob mob:
+                    return GetBehaviourChar(mob);
+                
+                default:
+                    throw new Exception($"Invalid object found on position: {position}");
+            }
         }
 
         private static char GetBehaviourChar(Mob mob)
