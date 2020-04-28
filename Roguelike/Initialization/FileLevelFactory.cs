@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Roguelike.Model;
+using Roguelike.Model.Inventory;
 using Roguelike.Model.Mobs;
 using Roguelike.Model.Objects;
 using Roguelike.Model.PlayerModel;
@@ -15,28 +17,31 @@ namespace Roguelike.Initialization
     ///     The next height lines contains width objects separated with spaces:
     ///     # -- wall
     ///     . -- empty
-    ///     Next lines contain information about characters:
-    ///         1. Character symbol:
+    ///     Next lines contain information about game objects:
+    ///         1. Game object symbol:
     ///             $ -- player start position
-    ///             * --- aggressive mob
-    ///             @ --- passive mob
-    ///             % --- coward mob
-    ///             ? --- confused player
-    ///             o --- confused mob
+    ///             * -- aggressive mob
+    ///             @ -- passive mob
+    ///             % -- coward mob
+    ///             ? -- confused player
+    ///             o -- confused mob
+    ///             H -- health increase inventory 
+    ///             F -- force increase inventory
+    ///             E -- experience increase inventory
+    ///             A -- all statistics increase inventory
     ///         2. Position (Y, X)
-    ///         3. Statistics (Experience, Force, Health)
+    ///         3*. Statistics (Experience, Force, Health) - only for player and mob
+    ///         4*. List of inventory -- only for player
+    ///             4.1 Inventory symbol
+    ///                 H -- health increase inventory 
+    ///                 F -- force increase inventory
+    ///                 E -- experience increase inventory
+    ///                 A -- all statistics increase inventory
+    ///             4.2 Inventory position (Y, X)
     /// </summary>
     public class FileLevelFactory : ILevelFactory
     {
-        public const string Wall = "#";
-        public const string Empty = ".";
-        private const string Player = "$";
-        private const string AggressiveMob = "*";
-        private const string PassiveMob = "@";
-        private const string CowardMob = "%";
-        private const string ConfusedPlayer = "?";
-        private const string ConfusedMob = "o";
-
+        
         private readonly string pathToFile;
 
         /// <summary>
@@ -72,49 +77,77 @@ namespace Roguelike.Initialization
                 }
                 foreach (var s in lines.Skip(height))
                 {
-                    var inputRow = s.Split();
-                    var input = inputRow[0];
-                    var positions = inputRow.Skip(1).Take(2).Select(int.Parse).ToArray();
-                    var statistics = inputRow.Skip(3).Take(3).Select(int.Parse).ToArray();
-                    var position = new Position(positions[0], positions[1]);
-                    var statistic = new CharacterStatistics(statistics[0], statistics[1], statistics[2]);
-                    boardTable[position.Y, position.X] = GetCharacter(input, level, position, statistic);
+                    var info = s.Split();
+                    var gameObject = GetGameObject(level, info);
+                    boardTable[gameObject.Position.Y, gameObject.Position.X] = gameObject;
                 }
 
                 return new Board(width, height, boardTable);
             });
         }
 
-        private static GameObject GetBoardObject(string input, Position position)
+        private static GameObject GetBoardObject(string type, Position position)
         {
-            switch (input)
+            switch (type)
             {
-                case Wall:
+                case BoardObject.Wall:
                     return new Wall(position);
-                default:
+                case BoardObject.Empty:
                     return new EmptyCell(position);
+                default:
+                    throw new ArgumentException($"Unknown character: {type}.");
             }
         }
 
-        private static Character GetCharacter(string input, Level level, Position position, CharacterStatistics statistics)
+        private static GameObject GetGameObject(Level level, string[] info)
         {
-            switch (input)
+            var type = info[0];
+            if (InventoryType.Contains(type))
             {
-                case Player:
-                    return new Player(level, position, statistics);
-                case ConfusedPlayer:
-                    return new ConfusedPlayer(level, new Player(level, position, statistics));
-                case AggressiveMob:
-                    return new Mob(level, new AggressiveMobBehaviour(), position, statistics);
-                case CowardMob:
-                    return new Mob(level, new CowardMobBehaviour(), position, statistics);
-                case PassiveMob:
-                    return new Mob(level, new PassiveMobBehaviour(), position, statistics);
-                case ConfusedMob:
-                    return new Mob(level, new PassiveMobBehaviour(), position, statistics, true);
-                default:
-                    throw new ArgumentException($"Unknown character: {input}.");
+                return inventoryFactory.Create(type, GetPosition(1, info));
             }
+            if (MobType.Contains(type))
+            {
+                return mobFactory.Create(type, level, 
+                    GetPosition(1, info), 
+                    GetStatistics(2, info));
+            }
+            if (PlayerType.Contains(type))
+            {
+                return playerFactory.Create(type, level, 
+                    GetPosition(1, info), 
+                    GetStatistics(2, info),
+                    GetAllInventory(6, info));
+            }
+            throw new ArgumentException($"Unknown character: {type}.");
+        }
+        
+        private static Position GetPosition(int index, string[] info)
+        {
+            return new Position(int.Parse(info[index]), int.Parse(info[index + 1]));
+        }
+        private static CharacterStatistics GetStatistics(int index, IReadOnlyList<string> info)
+        {
+            return new CharacterStatistics(int.Parse(info[index]), int.Parse(info[index + 1]), int.Parse(info[index + 2]));
+        }
+        private static InventoryItem GetInventory(int index, string[] info)
+        {
+            var type = info[index];
+            if (InventoryType.Contains(type))
+            {
+                return inventoryFactory.Create(type, GetPosition(index + 1, info));
+            }
+            throw new ArgumentException($"Unknown inventory type: {type}.");
+        }
+        private static List<InventoryItem> GetAllInventory(int index, string[] info)
+        {
+            var inventory = new List<InventoryItem>();
+            for (int i = index; i < info.Length; i += 3)
+            {
+                inventory.Add(GetInventory(i, info));
+            }
+
+            return inventory;
         }
     }
 }

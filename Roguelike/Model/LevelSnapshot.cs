@@ -38,7 +38,7 @@ namespace Roguelike.Model
                             configurations.Add($"{objectChar} {positionString} {statisticsString}");
                         }
 
-                        var c = board.IsWall(position) ? FileLevelFactory.Wall : FileLevelFactory.Empty;
+                        var c = board.IsWall(position) ? BoardObject.Wall : BoardObject.Empty;
                         txtWriter.Write($"{c} ");
                     }
 
