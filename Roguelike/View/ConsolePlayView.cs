@@ -159,7 +159,7 @@ namespace Roguelike.View
             {
                 Console.SetCursorPosition(consolePosition.X, consolePosition.Y);
                 Console.CursorVisible = false;
-                var objectChar = board.GetObject(boardPosition).GetType();
+                var objectChar = board.GetObject(boardPosition).GetStringType();
                 Console.Write(objectChar);
             }
         }
@@ -179,7 +179,7 @@ namespace Roguelike.View
             Console.Write("Inventory: ");
             for (int col = 0; col < inventory.Count; col++)
             {
-                Console.Write(inventory[col].GetType() + " ");
+                Console.Write(inventory[col].GetStringType() + " ");
             }
             Console.Write("   ");
         }
@@ -192,7 +192,7 @@ namespace Roguelike.View
             Console.Write("Applied Inventory: ");
             for (int col = 0; col < inventory.Count; col++)
             {
-                Console.Write(inventory[col].GetType() + " ");
+                Console.Write(inventory[col].GetStringType() + " ");
             }
             Console.Write("   ");
         }

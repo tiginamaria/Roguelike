@@ -6,7 +6,7 @@
         {
         }
 
-        public override string GetType()
+        public override string GetStringType()
         {
             return InventoryType.IncreaseHealthItem;
         }

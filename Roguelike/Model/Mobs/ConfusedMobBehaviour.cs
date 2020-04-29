@@ -21,7 +21,7 @@ namespace Roguelike.Model.Mobs
             return newPosition;
         }
 
-        public string GetType()
+        public string GetStringType()
         {
             return MobType.ConfusedMob;
         }

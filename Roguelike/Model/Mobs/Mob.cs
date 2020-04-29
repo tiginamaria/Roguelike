@@ -51,8 +51,8 @@ namespace Roguelike.Model.Mobs
 
         public override void AcceptConfuse(Character other)
         {
-            statistics.Health--;
-            if (statistics.Health <= 0)
+            statistics.Health = Math.Max(0, statistics.Health - 1);
+            if (statistics.Health == 0)
             {
                 level.Board.DeleteObject(Position);
                 OnDie?.Invoke(this, EventArgs.Empty);
@@ -83,9 +83,9 @@ namespace Roguelike.Model.Mobs
             return behaviour.MakeMove(level, Position);
         }
 
-        public override string GetType()
+        public override string GetStringType()
         {
-            return behaviour.GetType();
+            return behaviour.GetStringType();
         }
     }
 }

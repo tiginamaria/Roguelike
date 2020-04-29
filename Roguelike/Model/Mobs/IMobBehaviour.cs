@@ -4,6 +4,6 @@ namespace Roguelike.Model.Mobs
     {
         Position MakeMove(Level level, Position position);
 
-        string GetType();
+        string GetStringType();
     }
 }

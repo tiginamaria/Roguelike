@@ -1,26 +1,27 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.IO;
+using NUnit.Framework;
 using Roguelike.Initialization;
 using Roguelike.Model;
 using Roguelike.Model.Mobs;
 
 namespace TestRoguelike
 {
-
     [TestFixture]
     public class MobInteractionTests
     {
-        private string path;
+        
+        private int height;
+        private int width;
+        private Level level;
         
         [SetUp]
         public void SetUp()
         {
-            var boardConfiguration = new[]
-            {
-                new[] {'#', '.', '#', '#', '#', '%'},
-                new[] {'.', '@', '.', '#', '%', '#'},
-                new[] {'.', '.', '#', '$', '#', '#'}
-            };
-            path = TestUtils.WriteToFile(boardConfiguration, "mob_interaction_test_map.txt");
+            height = 5;
+            width = 6;
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../test_maps/mob_interaction_test_map.txt");
+            level = new FileLevelFactory(path).CreateLevel();
         }
 
         private void moveMobOnEmptyField(Level level, Mob mob, int dx, int dy)
@@ -44,7 +45,6 @@ namespace TestRoguelike
         [Test]
         public void MObMoveToEmptyPositionTest()
         {
-            var level = new FileLevelFactory(path).CreateLevel();
             var mob = level.Board.GetObject( new Position(1, 1)) as Mob;
             Assert.NotNull(mob);
             
@@ -57,7 +57,6 @@ namespace TestRoguelike
         [Test]
         public void MobMoveToWallPositionTest()
         {
-            var level = new FileLevelFactory(path).CreateLevel();
             var mob = level.Board.GetObject( new Position(1, 4)) as Mob;
             Assert.NotNull(mob);
 
@@ -70,7 +69,6 @@ namespace TestRoguelike
         [Test]
         public void MobMoveOutOfBoardTest()
         {
-            var level = new FileLevelFactory(path).CreateLevel();
             var mob = level.Board.GetObject( new Position(0, 5)) as Mob;
             Assert.NotNull(mob);
             var oldMobPosition = mob.Position;

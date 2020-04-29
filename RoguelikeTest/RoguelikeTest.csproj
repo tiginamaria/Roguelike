@@ -47,6 +47,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="InventoryTest.cs" />
         <Compile Include="PlayerInteractionTests.cs" />
         <Compile Include="TestUtils.cs" />
         <Compile Include="LevelConfigurationTests.cs" />
@@ -61,6 +62,7 @@
         </ProjectReference>
     </ItemGroup>
     <ItemGroup>
+      <Content Include="test_maps\level_snapshot.txt" />
       <Content Include="test_maps\player_interaction_test_map.txt" />
       <Content Include="test_maps\large_map.txt" />
       <Content Include="test_maps\level_test_map.txt" />

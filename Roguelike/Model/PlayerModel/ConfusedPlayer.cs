@@ -93,7 +93,7 @@ namespace Roguelike.Model.PlayerModel
             return player.GetAppliedInventory();
         }
 
-        public override string GetType()
+        public override string GetStringType()
         {
             return PlayerType.ConfusedPlayer;
         }

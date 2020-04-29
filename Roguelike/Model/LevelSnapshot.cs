@@ -62,14 +62,14 @@ namespace Roguelike.Model
         }
         private string DumpInventory(InventoryItem inventory)
         {
-            var typeString = inventory.GetType();
+            var typeString = inventory.GetStringType();
             var positionString = $"{inventory.Position.Y} {inventory.Position.X}";
             return $"{typeString} {positionString}";
         }
 
         private string DumpMob(Mob mob)
         {
-            var typeString = mob.GetType();
+            var typeString = mob.GetStringType();
             var statistics = mob.GetStatistics();
             var positionString = $"{mob.Position.Y} {mob.Position.X}";
             var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
@@ -79,17 +79,19 @@ namespace Roguelike.Model
         private string DumpPlayer(Player player)
         {
             StringBuilder sb = new StringBuilder();
-            var typeString = player.GetType();
+            var typeString = player.GetStringType();
             var statistics = player.GetStatistics();
             var positionString = $"{player.Position.Y} {player.Position.X}";
             var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
-            var inventoryCount = $"{player.GetInventory().Count}";
-            var appliedInventoryCount = $"{player.GetAppliedInventory().Count}";
-            sb.Append($"{typeString} {positionString} {statisticsString} {inventoryCount} {appliedInventoryCount}");
+            sb.Append($"{typeString} {positionString} {statisticsString}");
+            
+            sb.Append($"{player.GetInventory().Count}");
             foreach (var inventoryItem in player.GetInventory())
             {
                 sb.Append($" {DumpInventory(inventoryItem)}");
             }
+            
+            sb.Append($"{player.GetAppliedInventory().Count}");
             foreach (var appliedInventoryItem in player.GetAppliedInventory())
             {
                 sb.Append($" {DumpInventory(appliedInventoryItem)}");

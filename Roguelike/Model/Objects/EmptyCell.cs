@@ -9,7 +9,7 @@ namespace Roguelike.Model.Objects
         {
         }
 
-        public override string GetType()
+        public override string GetStringType()
         {
             return BoardObject.Empty;
         }

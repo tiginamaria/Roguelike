@@ -48,21 +48,21 @@ namespace Roguelike.Model.PlayerModel
 
         public override void AcceptConfuse(Character other)
         {
-            statistics.Health -= other?.GetStatistics().Force / 2 ?? 0;
+            statistics.Health = Math.Max(0, statistics.Health - other.GetStatistics().Force / 2);
 
-            if (statistics.Health <= 0)
+            if (statistics.Health == 0)
             {
                 OnDie?.Invoke(this, EventArgs.Empty);
                 return;
             }
-            statistics.Experience--;
+            statistics.Experience = Math.Max(0, statistics.Experience - 1);
             level.Player = new ConfusedPlayer(level, this);
             level.Board.SetObject(Position, level.Player);
         }
 
         public override void PutOff(string inventoryType)
         {
-            var inventoryToRemove = appliedInventoryItems.FirstOrDefault(inv => inv.GetType() == inventoryType);
+            var inventoryToRemove = appliedInventoryItems.FirstOrDefault(inv => inv.GetStringType() == inventoryType);
             if (inventoryToRemove != null)
             {
                 inventoryToRemove.Remove(statistics);
@@ -72,7 +72,7 @@ namespace Roguelike.Model.PlayerModel
 
         public override void PutOn(string inventoryType)
         {
-            var inventoryToActivate = inventoryItems.FirstOrDefault(inv => inv.GetType() == inventoryType);
+            var inventoryToActivate = inventoryItems.FirstOrDefault(inv => inv.GetStringType() == inventoryType);
             if (inventoryToActivate != null)
             {
                 appliedInventoryItems.Add(inventoryToActivate);
@@ -91,7 +91,7 @@ namespace Roguelike.Model.PlayerModel
             return appliedInventoryItems;
         }
 
-        public override string GetType()
+        public override string GetStringType()
         {
             return PlayerType.Player;
         }

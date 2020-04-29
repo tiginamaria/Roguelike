@@ -69,7 +69,7 @@ namespace Roguelike.Initialization
             {
                 for (var row = 0; row < height; row++)
                 {
-                    var inputRow = lines[row].Split().ToArray();
+                    var inputRow = lines[row].Trim().Split().ToArray();
                     for (var col = 0; col < width; col++)
                     {
                         var gameObject = GetBoardObject(inputRow[col], new Position(row, col));
@@ -78,7 +78,7 @@ namespace Roguelike.Initialization
                 }
                 foreach (var s in lines.Skip(height))
                 {
-                    var info = s.Split();
+                    var info = s.Trim().Split();
                     var gameObject = GetGameObject(level, info);
                     boardTable[gameObject.Position.Y, gameObject.Position.X] = gameObject;
                 }
@@ -102,53 +102,54 @@ namespace Roguelike.Initialization
 
         private static GameObject GetGameObject(Level level, string[] info)
         {
-            var type = info[0];
+            var index = 0;
+            var type = info[index++];
             if (InventoryType.Contains(type))
             {
-                return InventoryFactory.Create(type, GetPosition(1, info));
+                return InventoryFactory.Create(type, GetPosition(ref index, info));
             }
             if (MobType.Contains(type))
             {
                 return MobFactory.Create(type, level, 
-                    GetPosition(1, info), 
-                    GetStatistics(3, info));
+                    GetPosition(ref index, info), 
+                    GetStatistics(ref index, info));
             }
             if (PlayerType.Contains(type))
             {
                 return PlayerFactory.Create(type, level, 
-                    GetPosition(1, info), 
-                    GetStatistics(3, info),
-                    GetAllInventory(8, int.Parse(info[6]), info),
-                    GetAllInventory(8 + int.Parse(info[7]) * 3, int.Parse(info[7]), info));
+                    GetPosition(ref index, info), 
+                    GetStatistics(ref index, info),
+                    GetAllInventory(ref index, info),
+                    GetAllInventory(ref index, info));
             }
             throw new ArgumentException($"Unknown character: {type}.");
         }
         
-        private static Position GetPosition(int index, string[] info)
+        private static Position GetPosition(ref int index, string[] info)
         {
-            return new Position(int.Parse(info[index]), int.Parse(info[index + 1]));
+            return new Position(int.Parse(info[index++]), int.Parse(info[index++]));
         }
-        private static CharacterStatistics GetStatistics(int index, IReadOnlyList<string> info)
+        private static CharacterStatistics GetStatistics(ref int index, IReadOnlyList<string> info)
         {
-            return new CharacterStatistics(int.Parse(info[index]), int.Parse(info[index + 1]), int.Parse(info[index + 2]));
+            return new CharacterStatistics(int.Parse(info[index++]), int.Parse(info[index++]), int.Parse(info[index++]));
         }
-        private static InventoryItem GetInventory(int index, string[] info)
+        private static InventoryItem GetInventory(ref int index, string[] info)
         {
-            var type = info[index];
+            var type = info[index++];
             if (InventoryType.Contains(type))
             {
-                return InventoryFactory.Create(type, GetPosition(index + 1, info));
+                return InventoryFactory.Create(type, GetPosition(ref index, info));
             }
             throw new ArgumentException($"Unknown inventory type: {type}.");
         }
-        private static List<InventoryItem> GetAllInventory(int index, int count, string[] info)
+        private static List<InventoryItem> GetAllInventory(ref int index, string[] info)
         {
             var inventory = new List<InventoryItem>();
-            for (int i = index; i < index + count; i += 3)
+            var count = int.Parse(info[index++]);
+            while (inventory.Count < count)
             {
-                inventory.Add(GetInventory(i, info));
+                inventory.Add(GetInventory(ref index, info));
             }
-
             return inventory;
         }
     }
