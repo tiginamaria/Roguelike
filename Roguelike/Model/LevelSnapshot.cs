@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Roguelike.Initialization;
+using Roguelike.Model.Inventory;
+using Roguelike.Model.Mobs;
 using Roguelike.Model.Objects;
+using Roguelike.Model.PlayerModel;
 using Roguelike.View;
 
 namespace Roguelike.Model
@@ -29,13 +33,17 @@ namespace Roguelike.Model
                         var position = new Position(row, col);
                         var gameObject = board.GetObject(position);
 
-                        if (gameObject is Character character)
+                        switch (gameObject)
                         {
-                            var objectChar = board.GetObject(position).GetType();
-                            var statistics = character.GetStatistics();
-                            var positionString = $"{position.Y} {position.X}";
-                            var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
-                            configurations.Add($"{objectChar} {positionString} {statisticsString}");
+                            case Mob mob:
+                                configurations.Add(DumpMob(mob));
+                                break;
+                            case Player player:
+                                configurations.Add(DumpPlayer(player));
+                                break;
+                            case InventoryItem inventory:
+                                configurations.Add(DumpInventory(inventory));
+                                break;
                         }
 
                         var c = board.IsWall(position) ? BoardObject.Wall : BoardObject.Empty;
@@ -51,6 +59,43 @@ namespace Roguelike.Model
                     txtWriter.WriteLine();
                 });
             }
+        }
+        private string DumpInventory(InventoryItem inventory)
+        {
+            var typeString = inventory.GetType();
+            var positionString = $"{inventory.Position.Y} {inventory.Position.X}";
+            return $"{typeString} {positionString}";
+        }
+
+        private string DumpMob(Mob mob)
+        {
+            var typeString = mob.GetType();
+            var statistics = mob.GetStatistics();
+            var positionString = $"{mob.Position.Y} {mob.Position.X}";
+            var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
+            return $"{typeString} {positionString} {statisticsString}";
+        }
+        
+        private string DumpPlayer(Player player)
+        {
+            StringBuilder sb = new StringBuilder();
+            var typeString = player.GetType();
+            var statistics = player.GetStatistics();
+            var positionString = $"{player.Position.Y} {player.Position.X}";
+            var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
+            var inventoryCount = $"{player.GetInventory().Count}";
+            var appliedInventoryCount = $"{player.GetAppliedInventory().Count}";
+            sb.Append($"{typeString} {positionString} {statisticsString} {inventoryCount} {appliedInventoryCount}");
+            foreach (var inventoryItem in player.GetInventory())
+            {
+                sb.Append($" {DumpInventory(inventoryItem)}");
+            }
+            foreach (var appliedInventoryItem in player.GetAppliedInventory())
+            {
+                sb.Append($" {DumpInventory(appliedInventoryItem)}");
+            }
+
+            return sb.ToString();
         }
     }
 }

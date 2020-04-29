@@ -13,19 +13,20 @@ namespace Roguelike.Model.PlayerModel
         private readonly CharacterStatistics statistics;
         private readonly Level level;
         private readonly List<InventoryItem> inventoryItems;
-        private readonly List<InventoryItem> appliedInventoryItems = new List<InventoryItem>();
-        public Player(Level level, Position startPosition) : base(startPosition)
+        private readonly List<InventoryItem> appliedInventoryItems;
+        public Player(Level level, Position startPosition) 
+            : this(level, startPosition, new CharacterStatistics(1, 15, 1),  
+                new List<InventoryItem>(), new List<InventoryItem>())
         {
-            this.level = level;
-            statistics = new CharacterStatistics(1, 15, 1);
-            inventoryItems = new List<InventoryItem>();
         }
 
-        public Player(Level level, Position startPosition, CharacterStatistics statistics, List<InventoryItem> inventoryItems) : base(startPosition)
+        public Player(Level level, Position startPosition, CharacterStatistics statistics,
+            List<InventoryItem> inventoryItems, List<InventoryItem> appliedInventoryItems) : base(startPosition)
         {
             this.level = level;
             this.statistics = statistics;
             this.inventoryItems = inventoryItems;
+            this.appliedInventoryItems = appliedInventoryItems;
         }
 
         public override CharacterStatistics GetStatistics()

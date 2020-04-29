@@ -18,12 +18,13 @@ namespace Roguelike.Model.PlayerModel
     
     public class AbstractPlayerFactory
     {
-        public AbstractPlayer Create(string type, Level level, Position position, CharacterStatistics statistics, List<InventoryItem> inventory) {
+        public AbstractPlayer Create(string type, Level level, Position position, CharacterStatistics statistics, 
+            List<InventoryItem> inventory,  List<InventoryItem> appliedInventory) {
             switch (type) {
                 case PlayerType.Player:
-                    return new Player(level, position, statistics, inventory);
+                    return new Player(level, position, statistics, inventory, appliedInventory);
                 case PlayerType.ConfusedPlayer:
-                    return new ConfusedPlayer(level, new Player(level, position, statistics, inventory));
+                    return new ConfusedPlayer(level, new Player(level, position, statistics, inventory, appliedInventory));
                 default:
                     throw new NotSupportedException();
             }

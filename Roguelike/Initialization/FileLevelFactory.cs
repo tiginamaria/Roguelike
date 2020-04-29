@@ -110,14 +110,15 @@ namespace Roguelike.Initialization
             {
                 return MobFactory.Create(type, level, 
                     GetPosition(1, info), 
-                    GetStatistics(2, info));
+                    GetStatistics(3, info));
             }
             if (PlayerType.Contains(type))
             {
                 return PlayerFactory.Create(type, level, 
                     GetPosition(1, info), 
-                    GetStatistics(2, info),
-                    GetAllInventory(6, info));
+                    GetStatistics(3, info),
+                    GetAllInventory(8, int.Parse(info[6]), info),
+                    GetAllInventory(8 + int.Parse(info[7]) * 3, int.Parse(info[7]), info));
             }
             throw new ArgumentException($"Unknown character: {type}.");
         }
@@ -139,10 +140,10 @@ namespace Roguelike.Initialization
             }
             throw new ArgumentException($"Unknown inventory type: {type}.");
         }
-        private static List<InventoryItem> GetAllInventory(int index, string[] info)
+        private static List<InventoryItem> GetAllInventory(int index, int count, string[] info)
         {
             var inventory = new List<InventoryItem>();
-            for (int i = index; i < info.Length; i += 3)
+            for (int i = index; i < index + count; i += 3)
             {
                 inventory.Add(GetInventory(i, info));
             }
