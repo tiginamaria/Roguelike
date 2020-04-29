@@ -30,8 +30,9 @@ namespace Roguelike.Initialization
     ///             E -- experience increase inventory
     ///             A -- all statistics increase inventory
     ///         2. Position (Y, X)
-    ///         3*. Statistics (Experience, Force, Health) - only for player and mob
-    ///         4*. List of inventory -- only for player
+    ///         3*. Statistics (Experience, Force, Health) -- only for player and mob
+    ///         4*. (K, N) - count of (Inventory, Applied Inventory) -- only for player
+    ///         5*. List of K Inventory and N Applied Inventory then in format down -- only for player
     ///             4.1 Inventory symbol
     ///                 H -- health increase inventory 
     ///                 F -- force increase inventory
