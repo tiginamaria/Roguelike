@@ -16,11 +16,15 @@ namespace Roguelike.View
             Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
             Console.CursorVisible = false;
         }
-        
+
         /// <summary>
         /// Displays the given level by drawing its board in the console.
         /// </summary>
-        public void Draw(Level level) => DrawBoard(level.Board, level.Player);
+        public void Draw(Level level)
+        {
+            DrawBoard(level.Board, level.Player);
+            UpdateInventory(level);
+        }
 
         public void UpdateMob(Level level, Position first, Position second)
         {
@@ -37,9 +41,13 @@ namespace Roguelike.View
 
         public void UpdateInventory(Level level)
         {
-            DrawPlayerStatistics(level.Board);
-            DrawInventory(level.Board);
-            DrawAppliedInventory(level.Board);
+            var board = level.Board;
+            var statisticsRow =  Math.Min(board.Height + 2, Console.WindowHeight - 3);
+            var inventoryRow =  Math.Min(board.Height + 3, Console.WindowHeight - 2);
+            var appliedInventoryRow =  Math.Min(board.Height + 4, Console.WindowHeight - 1);
+            DrawPlayerStatistics(level.Board, statisticsRow);
+            DrawInventory(level.Board, inventoryRow);
+            DrawAppliedInventory(level.Board, appliedInventoryRow);
         }
         
         private void RedrawPlayerPosition(Level level, Position position)
@@ -63,6 +71,7 @@ namespace Roguelike.View
             else
             {
                 DrawBoard(level.Board, level.Player);
+                UpdateInventory(level);
             }
         }
 
@@ -85,7 +94,7 @@ namespace Roguelike.View
         private bool InsideConsole(Position position)
         {
             return position.X >= 0 && position.X < Console.WindowWidth &&
-                   position.Y >= 0 && position.Y < Console.WindowHeight;
+                   position.Y >= 0 && position.Y < Console.WindowHeight - 4;
         }
 
         private void DrawBoard(Board board, GameObject focus)
@@ -99,10 +108,6 @@ namespace Roguelike.View
                     DrawObject(board, currentPosition, BoardToConsolePosition(currentPosition));
                 }
             }
-
-            DrawPlayerStatistics(board);
-            DrawInventory(board);
-            DrawAppliedInventory(board);
         }
 
         private void DrawLine(Board board, Position position)
@@ -164,35 +169,45 @@ namespace Roguelike.View
             }
         }
                 
-        private void DrawPlayerStatistics(Board board)
+        private void DrawPlayerStatistics(Board board, int row)
         {
-            var row = board.Height + 1;
+            ClearRow(row);
             var statistics = board.FindPlayer().GetStatistics();
             Console.SetCursorPosition(0, row);
             Console.Write($"Health:{statistics.Health}   Force:{statistics.Force}    Exp:{statistics.Experience}");
         }
-        private void DrawInventory(Board board)
+
+        private void ClearRow(int row)
         {
-            var row = board.Height + 2;
+            Console.SetCursorPosition(0, row);
+            for (var i = 0; i < Console.WindowWidth; i++)
+            {
+                Console.Write(" ");
+            }
+        }
+
+        private void DrawInventory(Board board, int row)
+        {
+            ClearRow(row);
             var inventory = board.FindPlayer().GetInventory();
             Console.SetCursorPosition(0, row);
             Console.Write("Inventory: ");
-            for (int col = 0; col < inventory.Count; col++)
+            foreach (var item in inventory)
             {
-                Console.Write(inventory[col].GetStringType() + " ");
+                Console.Write(item.GetStringType() + " ");
             }
             Console.Write("   ");
         }
 
-        private void DrawAppliedInventory(Board board)
+        private void DrawAppliedInventory(Board board, int row)
         {
-            var row = board.Height + 3;
+            ClearRow(row);
             var inventory = board.FindPlayer().GetAppliedInventory();
             Console.SetCursorPosition(0, row);
             Console.Write("Applied Inventory: ");
-            for (int col = 0; col < inventory.Count; col++)
+            foreach (var item in inventory)
             {
-                Console.Write(inventory[col].GetStringType() + " ");
+                Console.Write(item.GetStringType() + " ");
             }
             Console.Write("   ");
         }
