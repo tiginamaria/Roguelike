@@ -10,11 +10,13 @@ namespace Roguelike.Input.Processors
     {
         private readonly Mob mob;
         private readonly MobMoveInteractor interactor;
-        
-        public MobMoveProcessor(Mob mob, MobMoveInteractor interactor)
+        private readonly IMobMoveListener listener;
+
+        public MobMoveProcessor(Mob mob, MobMoveInteractor interactor, IMobMoveListener listener = null)
         {
             this.mob = mob;
             this.interactor = interactor;
+            this.listener = listener;
         }
         
         /// <summary>
@@ -26,6 +28,8 @@ namespace Roguelike.Input.Processors
             var newPosition = mob.GetMove();
             var delta = newPosition - oldPosition;
             interactor.IntentMove(mob, delta.Y, delta.X);
+
+            listener?.Move(mob, newPosition);
         }
     }
 }

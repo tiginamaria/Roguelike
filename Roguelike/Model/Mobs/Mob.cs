@@ -7,20 +7,26 @@ namespace Roguelike.Model.Mobs
 {
     public class Mob : Character
     {
+        private static int lastId;
+        
         private readonly Level level;
         private IMobBehaviour behaviour;
         private readonly IMobBehaviour originalBehaviour;
         private readonly CharacterStatistics statistics;
-        
         private const int ConfusionTimeMs = 5000;
         private readonly CancellationTokenSource cancellation = new CancellationTokenSource();
         private bool cancelled = true;
+
+        public int Id;
 
         public event EventHandler OnDie;
 
         public Mob(Level level, IMobBehaviour behaviour, Position startPosition, 
             CharacterStatistics statistics, bool confused = false) : base(startPosition)
         {
+            Id = lastId + 1;
+            lastId++;
+            
             this.level = level;
             this.behaviour = behaviour;
             originalBehaviour = behaviour;

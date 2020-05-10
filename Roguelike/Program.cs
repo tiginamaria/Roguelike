@@ -1,3 +1,4 @@
+using System;
 using Roguelike.Initialization;
 
 namespace Roguelike
@@ -19,11 +20,27 @@ namespace Roguelike
         
         private static IGameState GetStartState(string[] args)
         {
-            if (args.Length > 0)
+            if (args.Length ==  0)
+            {
+                return new PlayGameState();
+            }
+
+            if (args[0] == "--load")
             {
                 return new PlayGameState(args[0]);
             }
-            return new PlayGameState();
+
+            if (args[0] == "--server")
+            {
+                return new ServerGameState();
+            }
+
+            if (args[0] == "--client")
+            {
+                return new LobbyGameState();
+            }
+            
+            throw new ArgumentException("Invalid command-line argument", args[0]);
         }
     }
 }
