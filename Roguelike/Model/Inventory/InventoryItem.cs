@@ -8,7 +8,8 @@ namespace Roguelike.Model.Inventory
         private readonly int healthEffect;
         private readonly int experienceEffect;
 
-        public InventoryItem(Position position, int forceEffect, int healthEffect, int experienceEffect) : base(position)
+        public InventoryItem(Position position, int forceEffect, int healthEffect, int experienceEffect) : 
+            base(position)
         {
             this.forceEffect = forceEffect;
             this.healthEffect = healthEffect;

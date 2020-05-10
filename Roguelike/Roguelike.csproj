@@ -1,108 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D696D709-7040-45B0-9A0C-2B8354F6C8A9}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Roguelike</RootNamespace>
-    <AssemblyName>Roguelike</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Initialization\FileLevelFactory.cs" />
-    <Compile Include="Initialization\IGameState.cs" />
-    <Compile Include="Initialization\ILevelFactory.cs" />
-    <Compile Include="Initialization\Labyrinth.cs" />
-    <Compile Include="Initialization\PlayGameState.cs" />
-    <Compile Include="Initialization\RandomLevelFactory.cs" />
-    <Compile Include="Input\Controllers\IUpdatable.cs" />
-    <Compile Include="Input\Controllers\KeyboardController.cs" />
-    <Compile Include="Input\Controllers\TickController.cs" />
-    <Compile Include="Input\InputLoop.cs" />
-    <Compile Include="Input\IStoppable.cs" />
-    <Compile Include="Input\Processors\ExitGameProcessor.cs" />
-    <Compile Include="Input\Processors\IInputProcessor.cs" />
-    <Compile Include="Input\Processors\InventoryProcessor.cs" />
-    <Compile Include="Input\Processors\ITickProcessor.cs" />
-    <Compile Include="Input\Processors\MobMoveProcessor.cs" />
-    <Compile Include="Input\Processors\MoveProcessor.cs" />
-    <Compile Include="Input\Processors\SaveGameProcessor.cs" />
-    <Compile Include="Interaction\ExitGameInteractor.cs" />
-    <Compile Include="Interaction\InventoryInteractor.cs" />
-    <Compile Include="Interaction\MobMoveInteractor.cs" />
-    <Compile Include="Interaction\PlayerMoveInteractor.cs" />
-    <Compile Include="Interaction\SaveGameInteractor.cs" />
-    <Compile Include="Model\BoardGraph.cs" />
-    <Compile Include="Model\Character.cs" />
-    <Compile Include="Model\CharacterStatistics.cs" />
-    <Compile Include="Model\Inventory\IncreaseAllItem.cs" />
-    <Compile Include="Model\Inventory\IncreaseExperienceItem.cs" />
-    <Compile Include="Model\Inventory\IncreaseForceItem.cs" />
-    <Compile Include="Model\Inventory\IncreaseHealthItem.cs" />
-    <Compile Include="Model\Inventory\InventoryFactory.cs" />
-    <Compile Include="Model\Inventory\InventoryItem.cs" />
-    <Compile Include="Model\Level.cs" />
-    <Compile Include="Model\LevelSnapshot.cs" />
-    <Compile Include="Model\Mobs\AggressiveMobBehaviour.cs" />
-    <Compile Include="Model\Mobs\ConfusedMobBehaviour.cs" />
-    <Compile Include="Model\Mobs\CowardMobBehaviour.cs" />
-    <Compile Include="Model\Mobs\IMobBehaviour.cs" />
-    <Compile Include="Model\Mobs\Mob.cs" />
-    <Compile Include="Model\Mobs\MobFactory.cs" />
-    <Compile Include="Model\Mobs\PassiveMobBehaviour.cs" />
-    <Compile Include="Model\Objects\Board.cs" />
-    <Compile Include="Model\Objects\BoardObject.cs" />
-    <Compile Include="Model\Objects\EmptyCell.cs" />
-    <Compile Include="Model\Objects\GameObject.cs" />
-    <Compile Include="Model\Objects\Wall.cs" />
-    <Compile Include="Model\PlayerModel\AbstractPlayer.cs" />
-    <Compile Include="Model\PlayerModel\AbstractPlayerFactory.cs" />
-    <Compile Include="Model\PlayerModel\ConfusedPlayer.cs" />
-    <Compile Include="Model\PlayerModel\Player.cs" />
-    <Compile Include="Model\Position.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StateManager.cs" />
-    <Compile Include="View\ConsolePlayView.cs" />
-    <Compile Include="View\FixedBoundRectangle.cs" />
-    <Compile Include="View\IPlayView.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Network\Protos" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Google.Protobuf" Version="3.12.0-rc1" />
+    </ItemGroup>
+
 </Project>

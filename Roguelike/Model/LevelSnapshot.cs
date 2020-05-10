@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Roguelike.Initialization;
 using Roguelike.Model.Inventory;
 using Roguelike.Model.Mobs;
 using Roguelike.Model.Objects;
 using Roguelike.Model.PlayerModel;
-using Roguelike.View;
 
 namespace Roguelike.Model
 {
@@ -21,43 +19,41 @@ namespace Roguelike.Model
 
         public void Dump(string path)
         {
-            using (var txtWriter = new StreamWriter(File.Open(path, FileMode.Create)))
+            using var txtWriter = new StreamWriter(File.Open(path, FileMode.Create));
+            var configurations = new List<string>();
+            txtWriter.Write($"{board.Height} {board.Width}");
+            txtWriter.WriteLine();
+            for (var row = 0; row < board.Height; row++)
             {
-                var configurations = new List<string>();
-                txtWriter.Write($"{board.Height} {board.Width}");
-                txtWriter.WriteLine();
-                for (var row = 0; row < board.Height; row++)
+                for (var col = 0; col < board.Width; col++)
                 {
-                    for (var col = 0; col < board.Width; col++)
+                    var position = new Position(row, col);
+                    var gameObject = board.GetObject(position);
+
+                    switch (gameObject)
                     {
-                        var position = new Position(row, col);
-                        var gameObject = board.GetObject(position);
-
-                        switch (gameObject)
-                        {
-                            case Mob mob:
-                                configurations.Add(DumpMob(mob));
-                                break;
-                            case Player player:
-                                configurations.Add(DumpPlayer(player));
-                                break;
-                            case InventoryItem inventory:
-                                configurations.Add(DumpInventory(inventory));
-                                break;
-                        }
-
-                        var c = board.IsWall(position) ? BoardObject.Wall : BoardObject.Empty;
-                        txtWriter.Write($"{c} ");
+                        case Mob mob:
+                            configurations.Add(DumpMob(mob));
+                            break;
+                        case Player player:
+                            configurations.Add(DumpPlayer(player));
+                            break;
+                        case InventoryItem inventory:
+                            configurations.Add(DumpInventory(inventory));
+                            break;
                     }
 
-                    txtWriter.WriteLine();
+                    var c = board.IsWall(position) ? BoardObject.Wall : BoardObject.Empty;
+                    txtWriter.Write($"{c} ");
                 }
 
-                configurations.ForEach(s =>
-                {
-                    txtWriter.Write(s);
-                    txtWriter.WriteLine();
-                });
+                txtWriter.WriteLine();
+            }
+
+            foreach (var element in configurations)
+            {
+                txtWriter.Write(element);
+                txtWriter.WriteLine();
             }
         }
         private string DumpInventory(InventoryItem inventory)
@@ -78,7 +74,7 @@ namespace Roguelike.Model
         
         private string DumpPlayer(Player player)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             var typeString = player.GetStringType();
             var statistics = player.GetStatistics();
             var positionString = $"{player.Position.Y} {player.Position.X}";

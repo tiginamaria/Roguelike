@@ -12,7 +12,13 @@ namespace Roguelike.Model.Inventory
 
         public static bool Contains(string symbol)
         {
-            return new[] {IncreaseHealthItem, IncreaseForceItem, IncreaseExperienceItem, IncreaseAllItem}.Contains(symbol);
+            return new[]
+            {
+                IncreaseHealthItem,
+                IncreaseForceItem,
+                IncreaseExperienceItem,
+                IncreaseAllItem
+            }.Contains(symbol);
         }
     }
 
@@ -20,19 +26,14 @@ namespace Roguelike.Model.Inventory
     {
         public InventoryItem Create(string type, Position position)
         {
-            switch (type)
+            return type switch
             {
-                case InventoryType.IncreaseHealthItem:
-                    return new IncreaseHealthItem(position, 0, 3, 0);
-                case InventoryType.IncreaseForceItem:
-                    return new IncreaseForceItem(position, 3, 0, 0);
-                case InventoryType.IncreaseExperienceItem:
-                    return new IncreaseExperienceItem(position, 0, 0, 3);
-                case InventoryType.IncreaseAllItem:
-                    return new IncreaseAllItem(position, 3, 3, 3);
-                default:
-                    throw new NotSupportedException();
-            }
+                InventoryType.IncreaseHealthItem => new IncreaseHealthItem(position, 0, 3, 0),
+                InventoryType.IncreaseForceItem => new IncreaseForceItem(position, 3, 0, 0),
+                InventoryType.IncreaseExperienceItem => new IncreaseExperienceItem(position, 0, 0, 3),
+                InventoryType.IncreaseAllItem => new IncreaseAllItem(position, 3, 3, 3),
+                _ => throw new NotSupportedException()
+            };
         }
     }
 }

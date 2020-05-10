@@ -23,19 +23,16 @@ namespace Roguelike.Model.Mobs
             return Create(type, level, position, new CharacterStatistics(2, 3, 1));
         }
 
-        public Mob Create(string type, Level level, Position position, CharacterStatistics statistics) {
-            switch (type) {
-                case MobType.AggressiveMob:
-                    return new Mob(level, new AggressiveMobBehaviour(), position, statistics);
-                case MobType.CowardMob:
-                    return new Mob(level, new CowardMobBehaviour(), position, statistics);
-                case MobType.PassiveMob:
-                    return new Mob(level, new PassiveMobBehaviour(), position, statistics);
-                case MobType.ConfusedMob:
-                    return new Mob(level, new PassiveMobBehaviour(), position, statistics, true);
-                default:
-                    throw new NotSupportedException();
-            }
+        public Mob Create(string type, Level level, Position position, CharacterStatistics statistics)
+        {
+            return type switch
+            {
+                MobType.AggressiveMob => new Mob(level, new AggressiveMobBehaviour(), position, statistics),
+                MobType.CowardMob => new Mob(level, new CowardMobBehaviour(), position, statistics),
+                MobType.PassiveMob => new Mob(level, new PassiveMobBehaviour(), position, statistics),
+                MobType.ConfusedMob => new Mob(level, new PassiveMobBehaviour(), position, statistics, true),
+                _ => throw new NotSupportedException()
+            };
         }
     }
 }

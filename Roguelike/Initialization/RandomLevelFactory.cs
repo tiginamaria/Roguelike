@@ -86,13 +86,13 @@ namespace Roguelike.Initialization
                 {
                     if (boardTable[row, col] is EmptyCell)
                     {
-                        AddInventoryWithProbability(row, col, boardTable, level);
+                        AddInventoryWithProbability(row, col, boardTable);
                     }
                 }
             }
         }
 
-        private void AddInventoryWithProbability(int row, int col, GameObject[,] boardTable, Level level)
+        private void AddInventoryWithProbability(int row, int col, GameObject[,] boardTable)
         {
             if (random.NextDouble() < InventoryProbability)
             {

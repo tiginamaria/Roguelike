@@ -74,8 +74,7 @@ namespace Roguelike.Model.Objects
                 {
                     var position = new Position(row, col);
                     var gameObject = GetObject(position);
-                    var player = gameObject as AbstractPlayer;
-                    if (player != null)
+                    if (gameObject is AbstractPlayer player)
                     {
                         return player;
                     }
@@ -94,9 +93,9 @@ namespace Roguelike.Model.Objects
                 {
                     var position = new Position(row, col);
                     var gameObject = GetObject(position);
-                    if (gameObject is Mob)
+                    if (gameObject is Mob mob)
                     {
-                        mobs.Add(gameObject as Mob);
+                        mobs.Add(mob);
                     }
                 }
             }

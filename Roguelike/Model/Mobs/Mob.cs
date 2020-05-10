@@ -18,9 +18,8 @@ namespace Roguelike.Model.Mobs
 
         public event EventHandler OnDie;
 
-        public IMobBehaviour Behaviour => behaviour;
-
-        public Mob(Level level, IMobBehaviour behaviour, Position startPosition, CharacterStatistics statistics, bool confused = false) : base(startPosition)
+        public Mob(Level level, IMobBehaviour behaviour, Position startPosition, 
+            CharacterStatistics statistics, bool confused = false) : base(startPosition)
         {
             this.level = level;
             this.behaviour = behaviour;

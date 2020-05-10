@@ -1,4 +1,4 @@
-﻿using Roguelike.Initialization;
+using Roguelike.Initialization;
 
 namespace Roguelike
 {

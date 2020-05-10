@@ -10,10 +10,10 @@ namespace Roguelike.View
     public class ConsolePlayView : IPlayView
     {
         private FixedBoundRectangle focusRectangle;
-
+        
         public ConsolePlayView()
         {
-            Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
+            //Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
             Console.CursorVisible = false;
         }
 
@@ -42,9 +42,9 @@ namespace Roguelike.View
         public void UpdateInventory(Level level)
         {
             var board = level.Board;
-            var statisticsRow =  Math.Min(board.Height + 2, Console.WindowHeight - 3);
-            var inventoryRow =  Math.Min(board.Height + 3, Console.WindowHeight - 2);
-            var appliedInventoryRow =  Math.Min(board.Height + 4, Console.WindowHeight - 1);
+            var statisticsRow =  Math.Min(board.Height + 2, GetConsoleBoardHeight);
+            var inventoryRow =  Math.Min(board.Height + 3, GetConsoleBoardHeight + 1);
+            var appliedInventoryRow =  Math.Min(board.Height + 4, GetConsoleBoardHeight + 2);
             DrawPlayerStatistics(level.Board, statisticsRow);
             DrawInventory(level.Board, inventoryRow);
             DrawAppliedInventory(level.Board, appliedInventoryRow);
@@ -93,8 +93,8 @@ namespace Roguelike.View
 
         private bool InsideConsole(Position position)
         {
-            return position.X >= 0 && position.X < Console.WindowWidth &&
-                   position.Y >= 0 && position.Y < Console.WindowHeight - 4;
+            return position.X >= 0 && position.X < GetConsoleBoardWidth &&
+                   position.Y >= 0 && position.Y < GetConsoleBoardHeight;
         }
 
         private void DrawBoard(Board board, GameObject focus)
@@ -131,8 +131,8 @@ namespace Roguelike.View
             var newRectangle = new FixedBoundRectangle(
                             0,
                             0,
-                            Math.Min(board.Width, Console.WindowWidth),
-                            Math.Min(board.Height, Console.WindowHeight));
+                            Math.Min(board.Width, GetConsoleBoardWidth),
+                            Math.Min(board.Height, GetConsoleBoardHeight));
 
             var playerPosition = focus.Position;
 
@@ -176,7 +176,7 @@ namespace Roguelike.View
             Console.SetCursorPosition(0, row);
             Console.Write($"Health:{statistics.Health}   Force:{statistics.Force}    Exp:{statistics.Experience}");
         }
-
+        
         private void ClearRow(int row)
         {
             Console.SetCursorPosition(0, row);
@@ -185,7 +185,7 @@ namespace Roguelike.View
                 Console.Write(" ");
             }
         }
-
+        
         private void DrawInventory(Board board, int row)
         {
             ClearRow(row);
@@ -198,7 +198,7 @@ namespace Roguelike.View
             }
             Console.Write("   ");
         }
-
+        
         private void DrawAppliedInventory(Board board, int row)
         {
             ClearRow(row);
@@ -211,5 +211,8 @@ namespace Roguelike.View
             }
             Console.Write("   ");
         }
+
+        private int GetConsoleBoardHeight => Console.WindowHeight - 4;
+        private int GetConsoleBoardWidth => Console.WindowWidth;
     }
 }
