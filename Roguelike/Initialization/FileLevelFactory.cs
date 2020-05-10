@@ -89,15 +89,12 @@ namespace Roguelike.Initialization
 
         private static GameObject GetBoardObject(string type, Position position)
         {
-            switch (type)
+            return type switch
             {
-                case BoardObject.Wall:
-                    return new Wall(position);
-                case BoardObject.Empty:
-                    return new EmptyCell(position);
-                default:
-                    throw new ArgumentException($"Unknown character: {type}.");
-            }
+                BoardObject.Wall => new Wall(position),
+                BoardObject.Empty => new EmptyCell(position),
+                _ => throw new ArgumentException($"Unknown character: {type}.")
+            };
         }
 
         private static GameObject GetGameObject(Level level, string[] info)

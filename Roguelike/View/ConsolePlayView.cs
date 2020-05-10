@@ -13,7 +13,6 @@ namespace Roguelike.View
         
         public ConsolePlayView()
         {
-            //Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
             Console.CursorVisible = false;
         }
 

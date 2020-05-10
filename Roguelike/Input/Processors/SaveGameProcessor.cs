@@ -5,7 +5,6 @@ namespace Roguelike.Input.Processors
 {
     public class SaveGameProcessor: IInputProcessor
     {
-
         private readonly SaveGameInteractor interactor;
 
         public SaveGameProcessor(SaveGameInteractor interactor)

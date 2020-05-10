@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Roguelike.Model;
 
@@ -5,7 +6,6 @@ namespace Roguelike.Interaction
 {
     public class SaveGameInteractor
     {
-        public const string SaveFileName = "dump.txt";
         private readonly Level level;
         private LevelSnapshot snapshot;
 
@@ -13,6 +13,10 @@ namespace Roguelike.Interaction
         {
             this.level = level;
         }
+        
+        public static string SaveFileName => 
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+                "dump.txt");
         
         public void Save()
         {

@@ -17,12 +17,11 @@ namespace Roguelike.Model
             this.board = board;
         }
 
-        public void Dump(string path)
+        public override string ToString()
         {
-            using var txtWriter = new StreamWriter(File.Open(path, FileMode.Create));
+            var sb = new StringBuilder();
             var configurations = new List<string>();
-            txtWriter.Write($"{board.Height} {board.Width}");
-            txtWriter.WriteLine();
+            sb.AppendLine($"{board.Height} {board.Width}");
             for (var row = 0; row < board.Height; row++)
             {
                 for (var col = 0; col < board.Width; col++)
@@ -44,18 +43,26 @@ namespace Roguelike.Model
                     }
 
                     var c = board.IsWall(position) ? BoardObject.Wall : BoardObject.Empty;
-                    txtWriter.Write($"{c} ");
+                    sb.Append($"{c} ");
                 }
 
-                txtWriter.WriteLine();
+                sb.AppendLine();
             }
 
             foreach (var element in configurations)
             {
-                txtWriter.Write(element);
-                txtWriter.WriteLine();
+                sb.AppendLine(element);
             }
+
+            return sb.ToString();
         }
+
+        public void Dump(string path)
+        {
+            using var txtWriter = new StreamWriter(File.Open(path, FileMode.Create));
+            txtWriter.Write(ToString());
+        }
+        
         private string DumpInventory(InventoryItem inventory)
         {
             var typeString = inventory.GetStringType();
@@ -79,9 +86,9 @@ namespace Roguelike.Model
             var statistics = player.GetStatistics();
             var positionString = $"{player.Position.Y} {player.Position.X}";
             var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
-            sb.Append($"{typeString} {positionString} {statisticsString}");
+            sb.Append($"{typeString} {positionString} {statisticsString} ");
             
-            sb.Append($"{player.GetInventory().Count}");
+            sb.Append($"{player.GetInventory().Count} ");
             foreach (var inventoryItem in player.GetInventory())
             {
                 sb.Append($" {DumpInventory(inventoryItem)}");
