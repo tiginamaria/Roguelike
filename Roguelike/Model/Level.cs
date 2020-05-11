@@ -61,7 +61,7 @@ namespace Roguelike.Model
             players[newPlayer.Login] = newPlayer;
         }
 
-        public AbstractPlayer AddPlayer(string login, Position position)
+        public AbstractPlayer RegisterPlayer(string login, Position position)
         {
             var newPlayer = new Player(login, this, position);
             players.Add(login, newPlayer);
@@ -77,7 +77,7 @@ namespace Roguelike.Model
                     var position = new Position(i, j);
                     if (Board.IsEmpty(position))
                     {
-                        var newPlayer = AddPlayer(login, position);
+                        var newPlayer = RegisterPlayer(login, position);
                         Board.SetObject(position, newPlayer);
                         return newPlayer;
                     }

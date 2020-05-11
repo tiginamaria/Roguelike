@@ -19,7 +19,9 @@ namespace Roguelike.Initialization
 
         public void InvokeState()
         {
-            var client = new ClientInputController();
+            var playView = new ConsolePlayView();
+            
+            var client = new ClientInputController(playView);
             var level = client.Login(login);
 
             if (level == null)
@@ -28,7 +30,6 @@ namespace Roguelike.Initialization
             }
             
             var inputLoop = new InputLoop();
-            var playView = new ConsolePlayView();
             
             var playerMoveInteractor = new PlayerMoveInteractor(level, playView);
             var mobMoveInteractor = new MobMoveInteractor(level, playView);

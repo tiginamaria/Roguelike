@@ -7,6 +7,7 @@ using Roguelike.Input.Processors;
 using Roguelike.Interaction;
 using Roguelike.Model;
 using Roguelike.Network;
+using Roguelike.View;
 
 namespace Roguelike.Input.Controllers
 {
@@ -19,9 +20,11 @@ namespace Roguelike.Input.Controllers
         private Task<bool> checkIncomingTask;
         private Level level;
         private MobMoveInteractor mobMoveInteractor;
+        private IPlayView playView;
 
-        public ClientInputController(string host = "localhost", int port = 8080)
+        public ClientInputController(IPlayView view, string host = "localhost", int port = 8080)
         {
+            playView = view;
             var channel = new Channel($"{host}:{port}", ChannelCredentials.Insecure);
             client = new ServerInputControllerService.ServerInputControllerServiceClient(channel);
         }
@@ -105,8 +108,10 @@ namespace Roguelike.Input.Controllers
             }
             else if (serverResponse.Type == ResponseType.PlayerJoin)
             {
-                level.AddPlayer(serverResponse.Login, 
-                    new Position(serverResponse.Pair.Y, serverResponse.Pair.X));
+                var position = new Position(serverResponse.Pair.Y, serverResponse.Pair.X);
+                var player = level.RegisterPlayer(serverResponse.Login, position);
+                level.Board.SetObject(position, player);
+                playView.UpdatePosition(level, position);
             }
         }
 
