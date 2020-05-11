@@ -5,8 +5,8 @@ namespace Roguelike.Interaction
 {
     public class InventoryInteractor
     {
-        private IPlayView playView;
-        private Level level;
+        private readonly IPlayView playView;
+        private readonly Level level;
 
         public InventoryInteractor(Level level, IPlayView playView)
         {

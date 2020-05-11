@@ -42,20 +42,30 @@ namespace Roguelike.Initialization
     /// </summary>
     public class FileLevelFactory : ILevelFactory
     {
-        
-        private readonly string pathToFile;
+        private string[] lines;
 
         /// <summary>
-        ///     Creates the factory by the path to a file with a level description.
+        /// Creates the factory by the path to a file with a level description.
         /// </summary>
         public FileLevelFactory(string path)
         {
-            pathToFile = path;
+            lines = File.ReadAllLines(path);
+        }
+
+        private FileLevelFactory(string[] lines)
+        {
+            this.lines = lines;
+        }
+        
+        public static FileLevelFactory FromString(string snapshot)
+        {
+            return new FileLevelFactory(snapshot.Split('\n')
+                .Where(s => s.Length > 0)
+                .ToArray());
         }
 
         public override Level CreateLevel()
         {
-            var lines = File.ReadAllLines(pathToFile);
             var dimensions = lines[0]
                 .Split()
                 .Select(int.Parse)

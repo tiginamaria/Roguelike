@@ -6,22 +6,20 @@ namespace Roguelike.Network
     public class NetworkServer
     {
         private readonly ServerInputController inputController;
-        private const int Port = 8080;
         
         public NetworkServer(ServerInputController inputController)
         {
             this.inputController = inputController;
         }
 
-        public void Start()
+        public void Start(string host = "localhost", int port = 8080)
         {
             var server = new Server
             {
                 Services = {ServerInputControllerService.BindService(inputController)},
-                Ports = {new ServerPort("localhost", Port, ServerCredentials.Insecure)}
+                Ports = {new ServerPort(host, port, ServerCredentials.Insecure)}
             };
             server.Start();
-            server.ShutdownAsync().Wait();
         }
     }
 }

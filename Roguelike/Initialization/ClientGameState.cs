@@ -1,32 +1,32 @@
+using System;
 using Roguelike.Input;
 using Roguelike.Input.Controllers;
 using Roguelike.Input.Processors;
 using Roguelike.Interaction;
+using Roguelike.Network;
 using Roguelike.View;
 
 namespace Roguelike.Initialization
 {
-    /// <summary>
-    /// Represents a single play mode.
-    /// </summary>
     public class ClientGameState : IGameState
     {
-        private readonly ILevelFactory levelFactory;
+        private readonly string login;
 
-        public ClientGameState()
+        public ClientGameState(string login)
         {
-            levelFactory = new RandomLevelFactory();
+            this.login = login;
         }
 
-        ///<summary>
-        /// Creates Input, View and Interaction components:
-        /// Creates different move processors
-        /// for each character on board, registers them in controllers.
-        /// Creates interactors and passes created level and view to them.
-        /// </summary>
         public void InvokeState()
         {
-            var level = levelFactory.CreateLevel();
+            var client = new NetworkClient();
+            var level = client.Login(login);
+
+            if (level == null)
+            {
+                throw new ArgumentException("Login already exists.");
+            }
+            
             var inputLoop = new InputLoop();
             var playView = new ConsolePlayView();
             
@@ -49,8 +49,13 @@ namespace Roguelike.Initialization
             keyboardController.AddInputProcessor(saveGameProcessor);
             keyboardController.AddInputProcessor(inventoryProcessor);
             
+            client.AddInputProcessor(moveProcessor);
+            client.AddInputProcessor(exitGameProcessor);
+            client.AddInputProcessor(inventoryProcessor);
+            
             inputLoop.AddUpdatable(keyboardController);
             inputLoop.AddFixedUpdatable(tickController);
+            inputLoop.AddUpdatable(client);
 
             var mobs = level.Mobs;
             foreach (var mob in mobs)
