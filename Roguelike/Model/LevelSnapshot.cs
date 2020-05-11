@@ -86,7 +86,7 @@ namespace Roguelike.Model
             var login = player.Login;
             var statistics = player.GetStatistics();
             var positionString = $"{player.Position.Y} {player.Position.X}";
-            var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
+            var statisticsString = $"{statistics.Force} {statistics.Health} {statistics.Experience}";
             sb.Append($"{typeString} {login} {positionString} {statisticsString} ");
             
             sb.Append($"{player.GetInventory().Count} ");

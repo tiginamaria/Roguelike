@@ -13,14 +13,14 @@ namespace Roguelike.Input.Controllers
 {
     public class ClientInputController : IUpdatable, IInputProcessor
     {
-        private readonly ServerInputControllerService.ServerInputControllerServiceClient client;
         private IAsyncStreamReader<ServerResponse> call;
         private string login;
-        private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
         private Task<bool> checkIncomingTask;
         private Level level;
         private MobMoveInteractor mobMoveInteractor;
-        private IPlayView playView;
+        private readonly IPlayView playView;
+        private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
+        private readonly ServerInputControllerService.ServerInputControllerServiceClient client;
 
         public ClientInputController(IPlayView view, string host = "localhost", int port = 8080)
         {
