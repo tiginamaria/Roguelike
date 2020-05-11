@@ -29,6 +29,7 @@ enum ResponseType {
     MOVE = 1;
     LOGIN_EXISTS = 2;
     MOB_MOVE = 3;
+    PLAYER_JOIN = 4;
 }
 
 message Pair {

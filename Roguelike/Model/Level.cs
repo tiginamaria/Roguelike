@@ -35,15 +35,6 @@ namespace Roguelike.Model
             return new LevelSnapshot(new Board(Board.Width, Board.Height, Board.CloneGameObjects()));
         }
 
-        public Player AddPlayer(string login)
-        {
-            //TODO
-            var newPlayer = new Player(login, this, new Position(1, 1));
-            players.Add(login, newPlayer);
-            Board.SetObject(new Position(1, 1), newPlayer);
-            return newPlayer;
-        }
-
         public Character GetCharacter(string login)
         {
             return players[login];
@@ -68,6 +59,32 @@ namespace Roguelike.Model
         public void UpdatePlayer(AbstractPlayer newPlayer)
         {
             players[newPlayer.Login] = newPlayer;
+        }
+
+        public AbstractPlayer AddPlayer(string login, Position position)
+        {
+            var newPlayer = new Player(login, this, position);
+            players.Add(login, newPlayer);
+            return newPlayer;
+        }
+        
+        public AbstractPlayer AddPlayerAtEmpty(string login)
+        {
+            for (var i = 0; i < Board.Height; i++)
+            {
+                for (var j = 0; j < Board.Width; j++)
+                {
+                    var position = new Position(i, j);
+                    if (Board.IsEmpty(position))
+                    {
+                        var newPlayer = AddPlayer(login, position);
+                        Board.SetObject(position, newPlayer);
+                        return newPlayer;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

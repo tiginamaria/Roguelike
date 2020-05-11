@@ -103,6 +103,11 @@ namespace Roguelike.Input.Controllers
                 var deltaMove = serverResponse.Pair;
                 mobMoveInteractor.IntentMove(level.GetMob(incomingLogin), deltaMove.Y, deltaMove.X);
             }
+            else if (serverResponse.Type == ResponseType.PlayerJoin)
+            {
+                level.AddPlayer(serverResponse.Login, 
+                    new Position(serverResponse.Pair.Y, serverResponse.Pair.X));
+            }
         }
 
         public void ProcessInput(ConsoleKeyInfo key, Character character)

@@ -4,6 +4,8 @@ using Roguelike.Input;
 using Roguelike.Input.Controllers;
 using Roguelike.Input.Processors;
 using Roguelike.Interaction;
+using Roguelike.Model;
+using Roguelike.Model.PlayerModel;
 using Roguelike.View;
 
 namespace Roguelike.Initialization
@@ -79,8 +81,12 @@ namespace Roguelike.Initialization
                 mob.OnDie += (sender, args) => { tickController.RemoveTickProcessor(mobMoveProcessor); };
             }
 
-            var player = level.AddPlayer(Login);
-            level.CurrentPlayer = player;
+            if (levelFactory is RandomLevelFactory)
+            {
+                level.AddPlayerAtEmpty(Login);
+            }
+
+            level.CurrentPlayer = level.GetCharacter(Login) as AbstractPlayer;
             level.CurrentPlayer.OnDie += (sender, args) =>
             {
                 inputLoop.Stop();

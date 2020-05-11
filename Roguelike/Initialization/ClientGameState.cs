@@ -4,7 +4,6 @@ using Roguelike.Input.Controllers;
 using Roguelike.Input.Processors;
 using Roguelike.Interaction;
 using Roguelike.Model.PlayerModel;
-using Roguelike.Network;
 using Roguelike.View;
 
 namespace Roguelike.Initialization

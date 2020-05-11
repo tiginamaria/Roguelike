@@ -17,5 +17,10 @@ namespace Roguelike.Initialization
         /// Returns a new level.
         /// </summary>
         public abstract Level CreateLevel();
+
+        public virtual AbstractPlayer AddPlayer(string login)
+        {
+            return null;
+        }
     }
 }

@@ -220,10 +220,5 @@ namespace Roguelike.Initialization
         {
             boardTable[row, col] = new EmptyCell(new Position(row, col));
         }
-
-        // private static void AddPlayerCell(Level level, int row, int col, GameObject[,] boardTable)
-        // {
-        //     boardTable[row, col] = new Player(level, new Position(row, col));
-        // }
     }
 }

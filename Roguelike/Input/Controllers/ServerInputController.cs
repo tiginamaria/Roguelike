@@ -32,10 +32,27 @@ namespace Roguelike.Input.Controllers
         {
             if (!clientStreams.ContainsKey(request.Login))
             {
-                level.AddPlayer(request.Login);
+                var newPlayer = level.AddPlayerAtEmpty(request.Login);
                 var levelSnapshot = level.Save().ToString();
                 var initResponse = new ServerResponse {Type = ResponseType.Init, Level = levelSnapshot};
                 await responseStream.WriteAsync(initResponse);
+                
+                foreach (var targetLogin in clientStreams.Keys)
+                {
+                    if (targetLogin == request.Login)
+                    {
+                        continue;
+                    }
+                    
+                    var response = new ServerResponse
+                    {
+                        Type = ResponseType.PlayerJoin,
+                        Login = request.Login,
+                        Pair = new Pair {Y = newPlayer.Position.Y, X = newPlayer.Position.X}
+                    };
+                    Console.WriteLine($"Sending {response.Type.ToString()} {request.Login} to {targetLogin}");
+                    await clientStreams[targetLogin].WriteAsync(response);
+                }
                 clientStreams.Add(request.Login, responseStream);
             }
             else
@@ -44,6 +61,7 @@ namespace Roguelike.Input.Controllers
                 await responseStream.WriteAsync(rejectResponse);
             }
 
+            // To keep the connection opened
             while (true)
             {
             }
