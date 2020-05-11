@@ -1,6 +1,7 @@
 using System;
 using Roguelike.Model;
 using Roguelike.Model.Objects;
+using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.View
 {
@@ -49,9 +50,9 @@ namespace Roguelike.View
             var statisticsRow =  Math.Min(board.Height + 2, GetConsoleBoardHeight);
             var inventoryRow =  Math.Min(board.Height + 3, GetConsoleBoardHeight + 1);
             var appliedInventoryRow =  Math.Min(board.Height + 4, GetConsoleBoardHeight + 2);
-            DrawPlayerStatistics(level.Board, statisticsRow);
-            DrawInventory(level.Board, inventoryRow);
-            DrawAppliedInventory(level.Board, appliedInventoryRow);
+            DrawPlayerStatistics(level.CurrentPlayer, statisticsRow);
+            DrawInventory(level.CurrentPlayer, inventoryRow);
+            DrawAppliedInventory(level.CurrentPlayer, appliedInventoryRow);
         }
         
         private void RedrawPlayerPosition(Level level, Position position)
@@ -169,14 +170,18 @@ namespace Roguelike.View
                 Console.SetCursorPosition(consolePosition.X, consolePosition.Y);
                 Console.CursorVisible = false;
                 var objectChar = board.GetObject(boardPosition).GetStringType();
+                if (objectChar == ".")
+                {
+                    objectChar = " ";
+                }
                 Console.Write(objectChar);
             }
         }
                 
-        private void DrawPlayerStatistics(Board board, int row)
+        private void DrawPlayerStatistics(Character player, int row)
         {
             ClearRow(row);
-            var statistics = board.FindPlayer().GetStatistics();
+            var statistics = player.GetStatistics();
             Console.SetCursorPosition(0, row);
             Console.Write($"Health:{statistics.Health}   Force:{statistics.Force}    Exp:{statistics.Experience}");
         }
@@ -190,10 +195,10 @@ namespace Roguelike.View
             }
         }
         
-        private void DrawInventory(Board board, int row)
+        private void DrawInventory(AbstractPlayer player, int row)
         {
             ClearRow(row);
-            var inventory = board.FindPlayer().GetInventory();
+            var inventory = player.GetInventory();
             Console.SetCursorPosition(0, row);
             Console.Write("Inventory: ");
             foreach (var item in inventory)
@@ -203,10 +208,10 @@ namespace Roguelike.View
             Console.Write("   ");
         }
         
-        private void DrawAppliedInventory(Board board, int row)
+        private void DrawAppliedInventory(AbstractPlayer player, int row)
         {
             ClearRow(row);
-            var inventory = board.FindPlayer().GetAppliedInventory();
+            var inventory = player.GetAppliedInventory();
             Console.SetCursorPosition(0, row);
             Console.Write("Applied Inventory: ");
             foreach (var item in inventory)

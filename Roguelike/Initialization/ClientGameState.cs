@@ -3,6 +3,7 @@ using Roguelike.Input;
 using Roguelike.Input.Controllers;
 using Roguelike.Input.Processors;
 using Roguelike.Interaction;
+using Roguelike.Model.PlayerModel;
 using Roguelike.Network;
 using Roguelike.View;
 
@@ -60,11 +61,14 @@ namespace Roguelike.Initialization
             //inputLoop.AddFixedUpdatable(tickController);
             inputLoop.AddUpdatable(client);
 
-            level.CurrentPlayer.OnDie += (sender, args) =>
-            {
-                inputLoop.Stop();
-                saveGameInteractor.Delete();
-            };
+            level.CurrentPlayer = level.GetCharacter(login) as AbstractPlayer;
+            
+            //TODO
+            // level.CurrentPlayer.OnDie += (sender, args) =>
+            // {
+            //     inputLoop.Stop();
+            //     saveGameInteractor.Delete();
+            // };
 
             playView.Draw(level);
             inputLoop.Start();

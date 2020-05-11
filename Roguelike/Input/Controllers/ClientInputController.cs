@@ -13,7 +13,7 @@ namespace Roguelike.Input.Controllers
     public class ClientInputController : IUpdatable, IInputProcessor
     {
         private readonly ServerInputControllerService.ServerInputControllerServiceClient client;
-        private AsyncServerStreamingCall<ServerResponse> call;
+        private IAsyncStreamReader<ServerResponse> call;
         private string login;
         private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
         private Task<bool> checkIncomingTask;
@@ -29,7 +29,7 @@ namespace Roguelike.Input.Controllers
         public Level Login(string login)
         {
             this.login = login;
-            call = client.Login(new LoginRequest {Login = login});
+            call = client.Login(new LoginRequest {Login = login}).ResponseStream;
             level = ProcessInitResponse();
 
             return level;
@@ -49,10 +49,10 @@ namespace Roguelike.Input.Controllers
         {
             while (true)
             {
-                var initTask = call.ResponseStream.MoveNext();
+                var initTask = call.MoveNext();
                 initTask.Wait();
-                var initResponse = call.ResponseStream.Current;
-                
+                var initResponse = call.Current;
+
                 if (initResponse.Type == ResponseType.LoginExists)
                 {
                     return null;
@@ -69,8 +69,11 @@ namespace Roguelike.Input.Controllers
 
         public void Update()
         {
-            checkIncomingTask ??= call.ResponseStream.MoveNext();
-            
+            if (checkIncomingTask == null)
+            {
+                checkIncomingTask = call.MoveNext();
+            }
+
             if (!checkIncomingTask.IsCompleted)
             {
                 return;
@@ -78,11 +81,13 @@ namespace Roguelike.Input.Controllers
 
             if (!checkIncomingTask.Result)
             {
+                checkIncomingTask = null;
                 return;
-            }
-
+            }    
+            
             checkIncomingTask = null;
-            var serverResponse = call.ResponseStream.Current;
+            
+            var serverResponse = call.Current;
             if (serverResponse.Type == ResponseType.Move)
             {
                 var key = KeyParser.ToConsoleKey(serverResponse.KeyInput);

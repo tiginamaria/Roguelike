@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
@@ -31,15 +32,20 @@ namespace Roguelike.Input.Controllers
         {
             if (!clientStreams.ContainsKey(request.Login))
             {
-                clientStreams.Add(request.Login, responseStream);
+                level.AddPlayer(request.Login);
                 var levelSnapshot = level.Save().ToString();
                 var initResponse = new ServerResponse {Type = ResponseType.Init, Level = levelSnapshot};
                 await responseStream.WriteAsync(initResponse);
+                clientStreams.Add(request.Login, responseStream);
             }
             else
             {
                 var rejectResponse = new ServerResponse {Type = ResponseType.LoginExists};
                 await responseStream.WriteAsync(rejectResponse);
+            }
+
+            while (true)
+            {
             }
         }
 
@@ -49,12 +55,14 @@ namespace Roguelike.Input.Controllers
             var login = request.Login;
             var character = level.GetCharacter(login);
 
+            Console.WriteLine($"Receive {key.Key} {login}");
+            
             foreach (var subscriber in subscribers)
             {
                 subscriber.ProcessInput(key, character);
             }
 
-            foreach (var clientStream in clientStreams.Values)
+            foreach (var targetLogin in clientStreams.Keys)
             {
                 var response = new ServerResponse
                 {
@@ -62,7 +70,8 @@ namespace Roguelike.Input.Controllers
                     Login = request.Login,
                     KeyInput = request.KeyInput
                 };
-                await clientStream.WriteAsync(response);
+                Console.WriteLine($"Sending {response.Type.ToString()} {response.KeyInput} to {targetLogin}");
+                await clientStreams[targetLogin].WriteAsync(response);
             }
 
             return new Empty();

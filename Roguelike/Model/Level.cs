@@ -23,6 +23,11 @@ namespace Roguelike.Model
             Board = boardCreator(this);
             Mobs = Board.FindMobs();
             Graph = new BoardGraph(Board);
+            var playersList = Board.FindPlayers();
+            foreach (var player in playersList)
+            {
+                players.Add(player.Login, player);
+            }
         }
 
         public LevelSnapshot Save()

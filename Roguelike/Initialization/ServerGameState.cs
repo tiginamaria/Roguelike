@@ -2,6 +2,8 @@ using Roguelike.Input;
 using Roguelike.Input.Controllers;
 using Roguelike.Input.Processors;
 using Roguelike.Interaction;
+using Roguelike.Model;
+using Roguelike.Model.PlayerModel;
 using Roguelike.Network;
 using Roguelike.View;
 
@@ -10,6 +12,7 @@ namespace Roguelike.Initialization
     public class ServerGameState : IGameState
     {
         private readonly LevelFactory levelFactory;
+        private const string DummyLogin = "Dummy";
 
         public ServerGameState()
         {
@@ -43,6 +46,7 @@ namespace Roguelike.Initialization
             
             inputLoop.AddFixedUpdatable(tickController);
 
+            level.CurrentPlayer = new Player(DummyLogin, level, new Position(-1, -1));
             var mobs = level.Mobs;
             foreach (var mob in mobs)
             {

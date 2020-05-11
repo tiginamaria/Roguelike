@@ -66,8 +66,9 @@ namespace Roguelike.Model.Objects
             }
         }
 
-        public AbstractPlayer FindPlayer()
+        public List<AbstractPlayer> FindPlayers()
         {
+            var result = new List<AbstractPlayer>();
             for (var row = 0; row < Height; row++)
             {
                 for (var col = 0; col < Width; col++)
@@ -76,12 +77,12 @@ namespace Roguelike.Model.Objects
                     var gameObject = GetObject(position);
                     if (gameObject is AbstractPlayer player)
                     {
-                        return player;
+                        result.Add(player);
                     }
                 }
             }
 
-            throw new Exception("Player not found.");
+            return result;
         }
 
         public List<Mob> FindMobs()
