@@ -20,7 +20,7 @@ namespace Roguelike.Input.Controllers
         {
             this.level = level;
         }
-
+        
         public void AddInputProcessor(IInputProcessor inputProcessor)
         {
             subscribers.Add(inputProcessor);
@@ -45,11 +45,13 @@ namespace Roguelike.Input.Controllers
 
         public override async Task<Empty> Move(InputRequest request, ServerCallContext context)
         {
-            //TODO: accept different users
             var key = KeyParser.ToConsoleKey(request.KeyInput);
+            var login = request.Login;
+            var character = level.GetCharacter(login);
+
             foreach (var subscriber in subscribers)
             {
-                subscriber.ProcessInput(key);
+                subscriber.ProcessInput(key, character);
             }
 
             foreach (var clientStream in clientStreams.Values)

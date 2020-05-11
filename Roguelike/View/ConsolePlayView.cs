@@ -21,8 +21,13 @@ namespace Roguelike.View
         /// </summary>
         public void Draw(Level level)
         {
-            DrawBoard(level.Board, level.Player);
+            DrawBoard(level.Board, level.CurrentPlayer);
             UpdateInventory(level);
+        }
+
+        public void UpdatePosition(Level level, Position position)
+        {
+            RedrawPosition(level, position);
         }
 
         public void UpdateMob(Level level, Position first, Position second)
@@ -69,7 +74,7 @@ namespace Roguelike.View
             }
             else
             {
-                DrawBoard(level.Board, level.Player);
+                DrawBoard(level.Board, level.CurrentPlayer);
                 UpdateInventory(level);
             }
         }

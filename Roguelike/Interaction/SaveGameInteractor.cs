@@ -18,9 +18,12 @@ namespace Roguelike.Interaction
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
                 "dump.txt");
         
-        public void Save()
+        public void Save(Character character)
         {
-            snapshot = level.Save();
+            if (level.IsCurrentPlayer(character))
+            {
+                snapshot = level.Save();
+            }
         }
 
         public void Dump()

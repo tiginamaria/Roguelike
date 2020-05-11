@@ -13,7 +13,8 @@ namespace Roguelike.Initialization
     /// </summary>
     public class PlayGameState : IGameState
     {
-        private readonly ILevelFactory levelFactory;
+        private readonly LevelFactory levelFactory;
+        private const string Login = "OfflineUser";
 
         public PlayGameState(string arg)
         {
@@ -59,7 +60,7 @@ namespace Roguelike.Initialization
             var saveGameProcessor = new SaveGameProcessor(saveGameInteractor);
             var inventoryProcessor = new InventoryProcessor(inventoryInteractor);
 
-            var keyboardController = new KeyboardController();
+            var keyboardController = new KeyboardController(level, Login);
             var tickController = new TickController();
             
             keyboardController.AddInputProcessor(moveProcessor);
@@ -78,7 +79,9 @@ namespace Roguelike.Initialization
                 mob.OnDie += (sender, args) => { tickController.RemoveTickProcessor(mobMoveProcessor); };
             }
 
-            level.Player.OnDie += (sender, args) =>
+            var player = level.AddPlayer(Login);
+            level.CurrentPlayer = player;
+            level.CurrentPlayer.OnDie += (sender, args) =>
             {
                 inputLoop.Stop();
                 saveGameInteractor.Delete();

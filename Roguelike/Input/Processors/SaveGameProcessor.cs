@@ -1,5 +1,6 @@
 using System;
 using Roguelike.Interaction;
+using Roguelike.Model;
 
 namespace Roguelike.Input.Processors
 {
@@ -12,11 +13,11 @@ namespace Roguelike.Input.Processors
             this.interactor = interactor;
         }
 
-        public void ProcessInput(ConsoleKeyInfo keyInfo)
+        public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {
             if (keyInfo.Key == ConsoleKey.S)
             {
-                interactor.Save();
+                interactor.Save(character);
             }
         }
     }

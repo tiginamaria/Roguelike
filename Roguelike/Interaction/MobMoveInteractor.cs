@@ -1,5 +1,6 @@
 using Roguelike.Model;
 using Roguelike.Model.Mobs;
+using Roguelike.Model.PlayerModel;
 using Roguelike.View;
 
 namespace Roguelike.Interaction
@@ -10,8 +11,8 @@ namespace Roguelike.Interaction
     /// </summary>
     public class MobMoveInteractor
     {
-        private IPlayView playView;
-        private Level level;
+        private readonly IPlayView playView;
+        private readonly Level level;
 
         public MobMoveInteractor(Level level, IPlayView playView)
         {
@@ -28,9 +29,10 @@ namespace Roguelike.Interaction
             var oldPosition = mob.Position;
             mob.Move(deltaY, deltaX, level.Board);
             playView.UpdateMob(level, oldPosition, mob.Position);
+            playView.UpdatePosition(level, oldPosition + new Position(deltaY, deltaX));
 
             var intentPosition = oldPosition + new Position(deltaY, deltaX);
-            if (intentPosition == level.Player.Position)
+            if (level.Board.GetObject(intentPosition) is AbstractPlayer)
             {
                 playView.UpdateInventory(level);
             }

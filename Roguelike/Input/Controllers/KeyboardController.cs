@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Roguelike.Input.Processors;
+using Roguelike.Model;
 
 namespace Roguelike.Input.Controllers
 {
@@ -10,6 +11,14 @@ namespace Roguelike.Input.Controllers
     public class KeyboardController : IUpdatable
     {
         private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
+        private readonly Level level;
+        private readonly string login;
+
+        public KeyboardController(Level level, string login)
+        {
+            this.level = level;
+            this.login = login;
+        }
 
         public void AddInputProcessor(IInputProcessor inputProcessor)
         {
@@ -29,7 +38,7 @@ namespace Roguelike.Input.Controllers
             var key = Console.ReadKey(true);
             foreach (var subscriber in subscribers)
             {
-                subscriber.ProcessInput(key);
+                subscriber.ProcessInput(key, level.GetCharacter(login));
             }
         }
     }

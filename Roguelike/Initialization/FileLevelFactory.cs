@@ -40,7 +40,7 @@ namespace Roguelike.Initialization
     ///                 A -- all statistics increase inventory
     ///             4.2 Inventory position (Y, X)
     /// </summary>
-    public class FileLevelFactory : ILevelFactory
+    public class FileLevelFactory : LevelFactory
     {
         private string[] lines;
 
@@ -56,7 +56,7 @@ namespace Roguelike.Initialization
         {
             this.lines = lines;
         }
-        
+
         public static FileLevelFactory FromString(string snapshot)
         {
             return new FileLevelFactory(snapshot.Split('\n')
@@ -79,13 +79,14 @@ namespace Roguelike.Initialization
             {
                 for (var row = 0; row < height; row++)
                 {
-                    var inputRow = lines[row].Trim().Split().ToArray();
+                    var inputRow = lines[row].Trim().Split();
                     for (var col = 0; col < width; col++)
                     {
                         var gameObject = GetBoardObject(inputRow[col], new Position(row, col));
                         boardTable[row, col] = gameObject;
                     }
                 }
+
                 foreach (var s in lines.Skip(height))
                 {
                     var info = s.Trim().Split();
@@ -123,7 +124,7 @@ namespace Roguelike.Initialization
             }
             if (PlayerType.Contains(type))
             {
-                return PlayerFactory.Create(type, level, 
+                return PlayerFactory.Create(GetLogin(ref index, info), type, level, 
                     GetPosition(ref index, info), 
                     GetStatistics(ref index, info),
                     GetAllInventory(ref index, info),
@@ -131,7 +132,12 @@ namespace Roguelike.Initialization
             }
             throw new ArgumentException($"Unknown character: {type}.");
         }
-        
+
+        private static string GetLogin(ref int index, string[] info)
+        {
+            return info[index++];
+        }
+
         private static Position GetPosition(ref int index, string[] info)
         {
             return new Position(int.Parse(info[index++]), int.Parse(info[index++]));

@@ -20,7 +20,7 @@ namespace Roguelike.Model.PlayerModel
         private static readonly Random Random = new Random();
         private bool cancelled;
 
-        public ConfusedPlayer(Level level, AbstractPlayer player) : base(player.Position)
+        public ConfusedPlayer(Level level, AbstractPlayer player) : base(player.Position, player.Login)
         {
             this.level = level;
             this.player = player;
@@ -69,8 +69,8 @@ namespace Roguelike.Model.PlayerModel
         private void RemoveEffect()
         {
             cancelled = true;
-            level.Player = player;
-            level.Board.SetObject(Position, level.Player);
+            level.UpdatePlayer(player);
+            level.Board.SetObject(Position, player);
         }
 
         public override void PutOff(string inventoryType)

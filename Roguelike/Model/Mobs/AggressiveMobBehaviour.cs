@@ -7,10 +7,10 @@ namespace Roguelike.Model.Mobs
         public Position MakeMove(Level level, Position position)
         {
             var graph = level.Graph;
-            if (graph.GetDistance(position, level.Player.Position) <= SearchRadius)
-            {
-                return level.Graph.Nearest(position, level.Player.Position);
-            }
+            // if (graph.GetDistance(position, level.Player.Position) <= SearchRadius)
+            // {
+            //     return level.Graph.Nearest(position, level.Player.Position);
+            // }
 
             return position;
         }

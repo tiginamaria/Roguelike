@@ -8,7 +8,7 @@ namespace Roguelike.Initialization
     /// <summary>
     /// Interface for level factories. 
     /// </summary>
-    public abstract class ILevelFactory
+    public abstract class LevelFactory
     {
         protected static readonly InventoryFactory InventoryFactory = new InventoryFactory();
         protected static readonly MobFactory MobFactory = new MobFactory();

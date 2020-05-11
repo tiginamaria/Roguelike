@@ -1,6 +1,8 @@
 ﻿using System;
 using Roguelike.Interaction;
+using Roguelike.Model;
 using Roguelike.Model.Inventory;
+using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.Input.Processors
 {
@@ -13,44 +15,44 @@ namespace Roguelike.Input.Processors
             this.inventoryInteractor = inventoryInteractor;
         }
         
-        public void ProcessInput(ConsoleKeyInfo keyInfo)
+        public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {
             if (keyInfo.Key == ConsoleKey.F && keyInfo.Modifiers == ConsoleModifiers.Alt)
             {
-                inventoryInteractor.PutOff(InventoryType.IncreaseForceItem);
+                inventoryInteractor.PutOff(character, InventoryType.IncreaseForceItem);
                 return;
             }
             if (keyInfo.Key == ConsoleKey.H && keyInfo.Modifiers == ConsoleModifiers.Alt)
             {
-                inventoryInteractor.PutOff(InventoryType.IncreaseHealthItem);
+                inventoryInteractor.PutOff(character, InventoryType.IncreaseHealthItem);
                 return;
             }
             if (keyInfo.Key == ConsoleKey.E && keyInfo.Modifiers == ConsoleModifiers.Alt)
             {
-                inventoryInteractor.PutOff(InventoryType.IncreaseExperienceItem);
+                inventoryInteractor.PutOff(character, InventoryType.IncreaseExperienceItem);
                 return;
             }
             if (keyInfo.Key == ConsoleKey.A && keyInfo.Modifiers == ConsoleModifiers.Alt)
             {
-                inventoryInteractor.PutOff(InventoryType.IncreaseAllItem);
+                inventoryInteractor.PutOff(character, InventoryType.IncreaseAllItem);
                 return;
             }
             
             if (keyInfo.Key == ConsoleKey.F)
             {
-                inventoryInteractor.PutOn(InventoryType.IncreaseForceItem);
+                inventoryInteractor.PutOn(character, InventoryType.IncreaseForceItem);
             }
             if (keyInfo.Key == ConsoleKey.H)
             {
-                inventoryInteractor.PutOn(InventoryType.IncreaseHealthItem);
+                inventoryInteractor.PutOn(character, InventoryType.IncreaseHealthItem);
             }
             if (keyInfo.Key == ConsoleKey.E)
             {
-                inventoryInteractor.PutOn(InventoryType.IncreaseExperienceItem);
+                inventoryInteractor.PutOn(character, InventoryType.IncreaseExperienceItem);
             }
             if (keyInfo.Key == ConsoleKey.A)
             {
-                inventoryInteractor.PutOn(InventoryType.IncreaseAllItem);
+                inventoryInteractor.PutOn(character, InventoryType.IncreaseAllItem);
             }
         }
     }

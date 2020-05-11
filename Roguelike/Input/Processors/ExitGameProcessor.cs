@@ -1,5 +1,6 @@
 using System;
 using Roguelike.Interaction;
+using Roguelike.Model;
 
 namespace Roguelike.Input.Processors
 {
@@ -18,13 +19,13 @@ namespace Roguelike.Input.Processors
             this.saveGameInteractor = saveGameInteractor;
         }
 
-        public void ProcessInput(ConsoleKeyInfo keyInfo)
+        public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {
             if (keyInfo.Key == ConsoleKey.Escape)
             {
-                saveGameInteractor.Save();
+                saveGameInteractor.Save(character);
                 saveGameInteractor.Dump();
-                exitInteractor.Exit();
+                exitInteractor.Exit(character);
             }
         }
     }

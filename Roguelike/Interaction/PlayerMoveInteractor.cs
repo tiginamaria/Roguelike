@@ -9,8 +9,8 @@ namespace Roguelike.Interaction
     /// </summary>
     public class PlayerMoveInteractor
     {
-        private IPlayView playView;
-        private Level level;
+        private readonly IPlayView playView;
+        private readonly Level level;
 
         public PlayerMoveInteractor(Level level, IPlayView playView)
         {
@@ -22,12 +22,15 @@ namespace Roguelike.Interaction
         /// Notifies a player about the move intent.
         /// Notifies the view.
         /// </summary>
-        public void IntentMove(int deltaY, int deltaX)
+        public void IntentMove(Character character, int deltaY, int deltaX)
         {
-            var player = level.Player;
-            var oldPosition = player.Position;
-            player.Move(deltaY, deltaX, level.Board);
-            playView.UpdatePlayer(level, oldPosition, level.Player.Position);
+            var oldPosition = character.Position;
+            character.Move(deltaY, deltaX, level.Board);
+
+            if (level.IsCurrentPlayer(character))
+            {
+                playView.UpdatePlayer(level, oldPosition, character.Position);
+            }
         }
     }
 }

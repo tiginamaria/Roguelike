@@ -83,10 +83,11 @@ namespace Roguelike.Model
         {
             var sb = new StringBuilder();
             var typeString = player.GetStringType();
+            var login = player.Login;
             var statistics = player.GetStatistics();
             var positionString = $"{player.Position.Y} {player.Position.X}";
             var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
-            sb.Append($"{typeString} {positionString} {statisticsString} ");
+            sb.Append($"{typeString} {login} {positionString} {statisticsString} ");
             
             sb.Append($"{player.GetInventory().Count} ");
             foreach (var inventoryItem in player.GetInventory())

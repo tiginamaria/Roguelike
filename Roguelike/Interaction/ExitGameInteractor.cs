@@ -1,16 +1,21 @@
 using Roguelike.Input;
+using Roguelike.Model;
 
 namespace Roguelike.Interaction
 {
     public class ExitGameInteractor
     {
-        private IStoppable target;
-        
+        private readonly IStoppable target;
+
         public ExitGameInteractor(IStoppable target)
         {
             this.target = target;
         }
 
-        public void Exit() => target.Stop();
+        public void Exit(Character character)
+        {
+            // TODO
+            target.Stop();
+        }
     }
 }

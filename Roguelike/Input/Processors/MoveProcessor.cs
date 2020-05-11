@@ -1,5 +1,6 @@
 using System;
 using Roguelike.Interaction;
+using Roguelike.Model;
 
 namespace Roguelike.Input.Processors
 {
@@ -14,8 +15,8 @@ namespace Roguelike.Input.Processors
         {
             this.moveInteractor = moveInteractor;
         }
-        
-        public void ProcessInput(ConsoleKeyInfo keyInfo)
+
+        public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {
             var deltaX = 0;
             var deltaY = 0;
@@ -39,7 +40,7 @@ namespace Roguelike.Input.Processors
 
             if (deltaY != 0 || deltaX != 0)
             {
-                moveInteractor.IntentMove(deltaY, deltaX);
+                moveInteractor.IntentMove(character, deltaY, deltaX);
             }    
         }
     }

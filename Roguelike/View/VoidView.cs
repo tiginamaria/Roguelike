@@ -8,6 +8,10 @@ namespace Roguelike.View
         {
         }
 
+        public void UpdatePosition(Level level, Position position)
+        {
+        }
+
         public void UpdateMob(Level level, Position first, Position second)
         {
         }

@@ -29,7 +29,7 @@ namespace Roguelike.Input.Processors
             var delta = newPosition - oldPosition;
             interactor.IntentMove(mob, delta.Y, delta.X);
 
-            listener?.Move(mob, newPosition);
+            listener?.Move(mob, delta);
         }
     }
 }

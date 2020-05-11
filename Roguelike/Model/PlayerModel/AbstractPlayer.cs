@@ -6,10 +6,12 @@ namespace Roguelike.Model.PlayerModel
 {
     public abstract class AbstractPlayer : Character
     {
+        public string Login { get; }
         public EventHandler OnDie;
         
-        protected AbstractPlayer(Position startPosition) : base(startPosition)
+        protected AbstractPlayer(Position startPosition, string login) : base(startPosition)
         {
+            Login = login;
         }
 
         public abstract void PutOff(string inventoryType);

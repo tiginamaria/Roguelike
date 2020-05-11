@@ -19,7 +19,7 @@ namespace Roguelike.Initialization
 
         public void InvokeState()
         {
-            var client = new NetworkClient();
+            var client = new ClientInputController();
             var level = client.Login(login);
 
             if (level == null)
@@ -41,31 +41,26 @@ namespace Roguelike.Initialization
             var saveGameProcessor = new SaveGameProcessor(saveGameInteractor);
             var inventoryProcessor = new InventoryProcessor(inventoryInteractor);
 
-            var keyboardController = new KeyboardController();
-            var tickController = new TickController();
+            var keyboardController = new KeyboardController(level, login);
+            keyboardController.AddInputProcessor(client);
+            //var tickController = new TickController();
             
-            keyboardController.AddInputProcessor(moveProcessor);
-            keyboardController.AddInputProcessor(exitGameProcessor);
+            // keyboardController.AddInputProcessor(moveProcessor);
+            // keyboardController.AddInputProcessor(exitGameProcessor);
             keyboardController.AddInputProcessor(saveGameProcessor);
-            keyboardController.AddInputProcessor(inventoryProcessor);
+            // keyboardController.AddInputProcessor(inventoryProcessor);
             
             client.AddInputProcessor(moveProcessor);
             client.AddInputProcessor(exitGameProcessor);
             client.AddInputProcessor(inventoryProcessor);
             
+            client.SetMobInteractor(mobMoveInteractor);
+            
             inputLoop.AddUpdatable(keyboardController);
-            inputLoop.AddFixedUpdatable(tickController);
+            //inputLoop.AddFixedUpdatable(tickController);
             inputLoop.AddUpdatable(client);
 
-            var mobs = level.Mobs;
-            foreach (var mob in mobs)
-            {
-                var mobMoveProcessor = new MobMoveProcessor(mob, mobMoveInteractor);
-                tickController.AddTickProcessor(mobMoveProcessor);
-                mob.OnDie += (sender, args) => { tickController.RemoveTickProcessor(mobMoveProcessor); };
-            }
-
-            level.Player.OnDie += (sender, args) =>
+            level.CurrentPlayer.OnDie += (sender, args) =>
             {
                 inputLoop.Stop();
                 saveGameInteractor.Delete();

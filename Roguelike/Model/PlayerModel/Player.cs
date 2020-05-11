@@ -14,14 +14,14 @@ namespace Roguelike.Model.PlayerModel
         private readonly Level level;
         private readonly List<InventoryItem> inventoryItems;
         private readonly List<InventoryItem> appliedInventoryItems;
-        public Player(Level level, Position startPosition) 
-            : this(level, startPosition, new CharacterStatistics(1, 15, 1),  
+        public Player(string login, Level level, Position startPosition) 
+            : this(login, level, startPosition, new CharacterStatistics(1, 15, 1),  
                 new List<InventoryItem>(), new List<InventoryItem>())
         {
         }
 
-        public Player(Level level, Position startPosition, CharacterStatistics statistics,
-            List<InventoryItem> inventoryItems, List<InventoryItem> appliedInventoryItems) : base(startPosition)
+        public Player(string login, Level level, Position startPosition, CharacterStatistics statistics,
+            List<InventoryItem> inventoryItems, List<InventoryItem> appliedInventoryItems) : base(startPosition, login)
         {
             this.level = level;
             this.statistics = statistics;
@@ -56,8 +56,9 @@ namespace Roguelike.Model.PlayerModel
                 return;
             }
             statistics.Experience = Math.Max(0, statistics.Experience - 1);
-            level.Player = new ConfusedPlayer(level, this);
-            level.Board.SetObject(Position, level.Player);
+            var confusedPlayer = new ConfusedPlayer(level, this);
+            level.UpdatePlayer(confusedPlayer);
+            level.Board.SetObject(Position, confusedPlayer);
         }
 
         public override void PutOff(string inventoryType)

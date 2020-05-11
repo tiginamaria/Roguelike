@@ -17,7 +17,7 @@ namespace Roguelike.Model.Mobs
         private readonly CancellationTokenSource cancellation = new CancellationTokenSource();
         private bool cancelled = true;
 
-        public int Id;
+        public readonly int Id;
 
         public event EventHandler OnDie;
 
@@ -74,7 +74,10 @@ namespace Roguelike.Model.Mobs
         {
             Task.Delay(ConfusionTimeMs, cancellation.Token).ContinueWith(t =>
             {
-                if (cancelled) return;
+                if (cancelled)
+                {
+                    return;
+                }
                 behaviour = originalBehaviour;
                 cancelled = true;
             });

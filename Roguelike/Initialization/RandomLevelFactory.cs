@@ -12,7 +12,7 @@ namespace Roguelike.Initialization
     /// A factory to generate random levels.
     /// Default dimensions are 20 * 20.
     /// </summary>
-    public class RandomLevelFactory : ILevelFactory
+    public class RandomLevelFactory : LevelFactory
     {
         private const int DefaultHeight = 20;
         private const int DefaultWidth = 20;
@@ -71,14 +71,14 @@ namespace Roguelike.Initialization
 
             return new Level(level =>
             {
-                AddPlayerCell(level, 1, 1, boardTable);
+                //AddPlayerCell(level, 1, 1, boardTable);
                 AddMobs(level, boardTable, Height, Width);
-                AddInventory(level, boardTable, Height, Width);
+                AddInventory(boardTable, Height, Width);
                 return new Board(Width, Height, boardTable);
             });
         }
 
-        private void AddInventory(Level level, GameObject[,] boardTable, int height, int width)
+        private void AddInventory(GameObject[,] boardTable, int height, int width)
         {
             for (var row = 0; row < height; row++)
             {
@@ -221,9 +221,9 @@ namespace Roguelike.Initialization
             boardTable[row, col] = new EmptyCell(new Position(row, col));
         }
 
-        private static void AddPlayerCell(Level level, int row, int col, GameObject[,] boardTable)
-        {
-            boardTable[row, col] = new Player(level, new Position(row, col));
-        }
+        // private static void AddPlayerCell(Level level, int row, int col, GameObject[,] boardTable)
+        // {
+        //     boardTable[row, col] = new Player(level, new Position(row, col));
+        // }
     }
 }

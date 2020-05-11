@@ -9,7 +9,7 @@ namespace Roguelike.Initialization
 {
     public class ServerGameState : IGameState
     {
-        private readonly ILevelFactory levelFactory;
+        private readonly LevelFactory levelFactory;
 
         public ServerGameState()
         {
@@ -34,12 +34,12 @@ namespace Roguelike.Initialization
             //var exitGameProcessor = new ExitGameProcessor(exitGameInteractor, saveGameInteractor);
             var inventoryProcessor = new InventoryProcessor(inventoryInteractor);
 
-            var keyboardController = new ServerInputController(level);
+            var inputController = new ServerInputController(level);
             var tickController = new TickController();
             
-            keyboardController.AddInputProcessor(moveProcessor);
+            inputController.AddInputProcessor(moveProcessor);
             //keyboardController.AddInputProcessor(exitGameProcessor);
-            keyboardController.AddInputProcessor(inventoryProcessor);
+            inputController.AddInputProcessor(inventoryProcessor);
             
             inputLoop.AddFixedUpdatable(tickController);
 
@@ -56,7 +56,7 @@ namespace Roguelike.Initialization
             //     inputLoop.Stop();
             // };
 
-            var server = new NetworkServer(keyboardController);
+            var server = new NetworkServer(inputController);
             server.Start();
             
             inputLoop.Start();
