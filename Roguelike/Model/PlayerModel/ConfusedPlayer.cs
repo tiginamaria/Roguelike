@@ -33,14 +33,27 @@ namespace Roguelike.Model.PlayerModel
                 });
         }
 
-        private static int Confusion()
+        public int Confusion()
         {
             return Random.Next(2) == 1 ? 1 : -1;
         }
 
+        public Position ConfuseIntent(Position intent)
+        {
+            return new Position(Confusion() * intent.Y, Confusion() * intent.X);
+        }
+
         public override void Move(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
-            player.Move(Confusion() * intentVerticalMove, Confusion() * intentHorizontalMove, board);
+            var newVerticalIntent = Confusion() * intentVerticalMove;
+            var newHorizontalIntent = Confusion() * intentHorizontalMove;
+            player.Move(newVerticalIntent, newHorizontalIntent, board);
+            Position = player.Position;
+        }
+
+        public override void MoveStraightforward(int intentVerticalMove, int intentHorizontalMove, Board board)
+        {
+            player.MoveStraightforward(intentVerticalMove, intentHorizontalMove, board);
             Position = player.Position;
         }
 

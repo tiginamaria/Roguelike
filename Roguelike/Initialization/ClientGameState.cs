@@ -31,8 +31,8 @@ namespace Roguelike.Initialization
             
             var inputLoop = new InputLoop();
             
-            var playerMoveInteractor = new PlayerMoveInteractor(level, playView);
-            var mobMoveInteractor = new MobMoveInteractor(level, playView);
+            var playerMoveInteractor = new NetworkPlayerMoveInteractor(level, playView);
+            var mobMoveInteractor = new NetworkMobMoveInteractor(level, playView);
             var exitGameInteractor = new ExitGameInteractor(inputLoop);
             var saveGameInteractor = new SaveGameInteractor(level);
             var inventoryInteractor = new InventoryInteractor(level, playView);
@@ -44,21 +44,18 @@ namespace Roguelike.Initialization
 
             var keyboardController = new KeyboardController(level, login);
             keyboardController.AddInputProcessor(client);
-            //var tickController = new TickController();
             
-            // keyboardController.AddInputProcessor(moveProcessor);
             // keyboardController.AddInputProcessor(exitGameProcessor);
             keyboardController.AddInputProcessor(saveGameProcessor);
-            // keyboardController.AddInputProcessor(inventoryProcessor);
             
             client.AddInputProcessor(moveProcessor);
             client.AddInputProcessor(exitGameProcessor);
             client.AddInputProcessor(inventoryProcessor);
             
             client.SetMobInteractor(mobMoveInteractor);
+            client.SetPlayerMoveInteractor(playerMoveInteractor);
             
             inputLoop.AddUpdatable(keyboardController);
-            //inputLoop.AddFixedUpdatable(tickController);
             inputLoop.AddUpdatable(client);
 
             level.CurrentPlayer = level.GetCharacter(login) as AbstractPlayer;

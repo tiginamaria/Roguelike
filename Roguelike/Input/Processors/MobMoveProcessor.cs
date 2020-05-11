@@ -1,4 +1,5 @@
 using Roguelike.Interaction;
+using Roguelike.Model;
 using Roguelike.Model.Mobs;
 
 namespace Roguelike.Input.Processors
@@ -29,7 +30,10 @@ namespace Roguelike.Input.Processors
             var delta = newPosition - oldPosition;
             interactor.IntentMove(mob, delta.Y, delta.X);
 
-            listener?.Move(mob, delta);
+            if (delta != new Position(0, 0))
+            {
+                listener?.Move(mob, delta);
+            }
         }
     }
 }

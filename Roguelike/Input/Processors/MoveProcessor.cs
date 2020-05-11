@@ -41,7 +41,7 @@ namespace Roguelike.Input.Processors
             if (deltaY != 0 || deltaX != 0)
             {
                 moveInteractor.IntentMove(character, deltaY, deltaX);
-            }    
+            }
         }
     }
 }

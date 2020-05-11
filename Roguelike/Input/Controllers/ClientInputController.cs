@@ -18,6 +18,7 @@ namespace Roguelike.Input.Controllers
         private Task<bool> checkIncomingTask;
         private Level level;
         private MobMoveInteractor mobMoveInteractor;
+        private PlayerMoveInteractor playerMoveInteractor;
         private readonly IPlayView playView;
         private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
         private readonly ServerInputControllerService.ServerInputControllerServiceClient client;
@@ -46,6 +47,11 @@ namespace Roguelike.Input.Controllers
         public void SetMobInteractor(MobMoveInteractor mobMoveInteractor)
         {
             this.mobMoveInteractor = mobMoveInteractor;
+        }
+        
+        public void SetPlayerMoveInteractor(PlayerMoveInteractor playerMoveInteractor)
+        {
+            this.playerMoveInteractor = playerMoveInteractor;
         }
 
         private Level ProcessInitResponse()
@@ -91,7 +97,7 @@ namespace Roguelike.Input.Controllers
             checkIncomingTask = null;
             
             var serverResponse = call.Current;
-            if (serverResponse.Type == ResponseType.Move)
+            if (serverResponse.Type == ResponseType.Action)
             {
                 var key = KeyParser.ToConsoleKey(serverResponse.KeyInput);
                 var incomingLogin = serverResponse.Login;
@@ -105,6 +111,12 @@ namespace Roguelike.Input.Controllers
                 var incomingLogin = serverResponse.Login;
                 var deltaMove = serverResponse.Pair;
                 mobMoveInteractor.IntentMove(level.GetMob(incomingLogin), deltaMove.Y, deltaMove.X);
+            }
+            else if (serverResponse.Type == ResponseType.Move)
+            {
+                var incomingLogin = serverResponse.Login;
+                var deltaMove = serverResponse.Pair;
+                playerMoveInteractor.IntentMove(level.GetCharacter(incomingLogin), deltaMove.Y, deltaMove.X);
             }
             else if (serverResponse.Type == ResponseType.PlayerJoin)
             {

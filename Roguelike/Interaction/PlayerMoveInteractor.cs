@@ -1,4 +1,6 @@
+using Roguelike.Input.Controllers;
 using Roguelike.Model;
+using Roguelike.Model.PlayerModel;
 using Roguelike.View;
 
 namespace Roguelike.Interaction
@@ -9,12 +11,14 @@ namespace Roguelike.Interaction
     /// </summary>
     public class PlayerMoveInteractor
     {
-        private readonly IPlayView playView;
-        private readonly Level level;
+        protected readonly IPlayView playView;
+        private readonly IPlayerMoveListener listener;
+        protected readonly Level level;
 
-        public PlayerMoveInteractor(Level level, IPlayView playView)
+        public PlayerMoveInteractor(Level level, IPlayView playView, IPlayerMoveListener listener = null)
         {
             this.playView = playView;
+            this.listener = listener;
             this.level = level;
         }
 
@@ -22,20 +26,25 @@ namespace Roguelike.Interaction
         /// Notifies a player about the move intent.
         /// Notifies the view.
         /// </summary>
-        public void IntentMove(Character character, int deltaY, int deltaX)
+        public virtual void IntentMove(Character character, int deltaY, int deltaX)
         {
-            var oldPosition = character.Position;
-            character.Move(deltaY, deltaX, level.Board);
+            var player = character as AbstractPlayer;
 
-            if (level.IsCurrentPlayer(character))
+            var oldPosition = player.Position;
+
+            if (player is ConfusedPlayer confusedPlayer)
             {
-                playView.UpdatePlayer(level, oldPosition, character.Position);
+                var confusedPosition = confusedPlayer.ConfuseIntent(new Position(deltaY, deltaX));
+                deltaY = confusedPosition.Y;
+                deltaX = confusedPosition.X;
             }
-            else
-            {
-                playView.UpdateMob(level, oldPosition, character.Position);
-                playView.UpdatePosition(level, oldPosition + new Position(deltaY, deltaX));
-            }
+            
+            character.MoveStraightforward(deltaY, deltaX, level.Board);
+
+            playView.UpdatePlayer(level, oldPosition, player.Position);
+            playView.UpdatePosition(level, oldPosition + new Position(deltaY, deltaX));
+            
+            listener?.MovePlayer(player, new Position(deltaY, deltaX));
         }
     }
 }

@@ -25,7 +25,9 @@ namespace Roguelike.Initialization
             var inputLoop = new InputLoop();
             var playView = new VoidView();
             
-            var playerMoveInteractor = new PlayerMoveInteractor(level, playView);
+            var inputController = new ServerInputController(level);
+            
+            var playerMoveInteractor = new PlayerMoveInteractor(level, playView, inputController);
             var mobMoveInteractor = new MobMoveInteractor(level, playView);
            
             //TODO
@@ -35,9 +37,9 @@ namespace Roguelike.Initialization
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);
             //var exitGameProcessor = new ExitGameProcessor(exitGameInteractor, saveGameInteractor);
-            var inventoryProcessor = new InventoryProcessor(inventoryInteractor);
+            var inventoryProcessor = new InventoryProcessor(inventoryInteractor, inputController);
 
-            var inputController = new ServerInputController(level);
+            
             var tickController = new TickController();
             
             inputController.AddInputProcessor(moveProcessor);
@@ -50,7 +52,7 @@ namespace Roguelike.Initialization
             var mobs = level.Mobs;
             foreach (var mob in mobs)
             {
-                var mobMoveProcessor = new MobMoveProcessor(mob, mobMoveInteractor);
+                var mobMoveProcessor = new MobMoveProcessor(mob, mobMoveInteractor, inputController);
                 tickController.AddTickProcessor(mobMoveProcessor);
                 mob.OnDie += (sender, args) => { tickController.RemoveTickProcessor(mobMoveProcessor); };
             }

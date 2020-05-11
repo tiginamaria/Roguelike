@@ -17,7 +17,7 @@ message LoginRequest {
 }
 
 message ServerResponse {
-    ResponseType type= 1;
+    ResponseType type = 1;
     string login = 2;
     KeyInput keyInput = 3;
     Pair pair = 4;
@@ -30,6 +30,7 @@ enum ResponseType {
     LOGIN_EXISTS = 2;
     MOB_MOVE = 3;
     PLAYER_JOIN = 4;
+    ACTION = 5;
 }
 
 message Pair {
@@ -50,4 +51,6 @@ enum KeyInput {
     ALT_H = 9;
     NONE = 10;
     EXIT = 11;
+    E = 12;
+    ALT_E = 13;
 }

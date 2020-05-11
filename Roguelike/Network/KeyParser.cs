@@ -1,4 +1,5 @@
 using System;
+using Roguelike.Interaction;
 
 namespace Roguelike.Network
 {
@@ -11,9 +12,11 @@ namespace Roguelike.Network
                 KeyInput.A => new ConsoleKeyInfo('a', ConsoleKey.A, false, false, false),
                 KeyInput.F =>  new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false),
                 KeyInput.H =>  new ConsoleKeyInfo('h', ConsoleKey.H, false, false, false),
+                KeyInput.E => new ConsoleKeyInfo('e', ConsoleKey.E, false, false, false),
                 KeyInput.AltA =>  new ConsoleKeyInfo('a', ConsoleKey.A, false, true, false),
                 KeyInput.AltF =>  new ConsoleKeyInfo('f', ConsoleKey.F, false, true, false),
                 KeyInput.AltH =>  new ConsoleKeyInfo('h', ConsoleKey.H, false, true, false),
+                KeyInput.AltE =>  new ConsoleKeyInfo('e', ConsoleKey.E, false, true, false),
                 KeyInput.Up => new ConsoleKeyInfo('\0', ConsoleKey.UpArrow, false, false, false),
                 KeyInput.Down => new ConsoleKeyInfo('\0', ConsoleKey.DownArrow, false, false, false),
                 KeyInput.Left => new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false),
@@ -42,6 +45,8 @@ namespace Roguelike.Network
                     return KeyInput.F;
                 case ConsoleKey.H:
                     return KeyInput.H;
+                case ConsoleKey.E:
+                    return KeyInput.E;
                 case ConsoleKey.Escape:
                     return KeyInput.Exit;
             }
@@ -54,9 +59,28 @@ namespace Roguelike.Network
                     return KeyInput.AltF;
                 case ConsoleKey.H when key.Modifiers == ConsoleModifiers.Alt:
                     return KeyInput.AltH;
+                case ConsoleKey.E when key.Modifiers == ConsoleModifiers.Alt:
+                    return KeyInput.AltE;
             }
 
             return KeyInput.None;
+        }
+
+        public static KeyInput FromActionTypeToKeyInput(ActionType actionType)
+        {
+            return actionType switch
+            {
+                ActionType.Exit => KeyInput.Exit,
+                ActionType.ApplyAll => KeyInput.A,
+                ActionType.ApplyForce => KeyInput.F,
+                ActionType.ApplyHealth => KeyInput.H,
+                ActionType.ApplyExperience => KeyInput.E,
+                ActionType.TakeOffAll => KeyInput.AltA,
+                ActionType.TakeOffForce => KeyInput.AltF,
+                ActionType.TakeOffHealth => KeyInput.AltH,
+                ActionType.TakeOffExperience => KeyInput.E,
+                _ => KeyInput.None
+            };
         }
     }
 }

@@ -11,8 +11,8 @@ namespace Roguelike.Interaction
     /// </summary>
     public class MobMoveInteractor
     {
-        private readonly IPlayView playView;
-        private readonly Level level;
+        protected readonly IPlayView playView;
+        protected readonly Level level;
 
         public MobMoveInteractor(Level level, IPlayView playView)
         {
@@ -24,7 +24,7 @@ namespace Roguelike.Interaction
         /// Notifies a mob about the move intent.
         /// Notifies the view.
         /// </summary>
-        public void IntentMove(Mob mob, int deltaY, int deltaX)
+        public virtual void IntentMove(Mob mob, int deltaY, int deltaX)
         {
             var oldPosition = mob.Position;
             mob.Move(deltaY, deltaX, level.Board);

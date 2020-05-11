@@ -18,29 +18,36 @@ namespace Roguelike.Model
         
         public virtual void Move(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
+            MoveStraightforward(intentVerticalMove, intentHorizontalMove, board);
+        }
+
+        public virtual void MoveStraightforward(int intentVerticalMove, int intentHorizontalMove, Board board)
+        {
             var newPosition = Position + new Position(intentVerticalMove, intentHorizontalMove);
             if (!CanMoveTo(newPosition, board))
             {
                 return;
-            } 
-            
+            }
+
             if (board.IsCharacter(newPosition))
             {
                 Confuse(board.GetObject(newPosition) as Character);
             }
+
             if (board.IsInventory(newPosition))
             {
                 Collect(board.GetObject(newPosition) as InventoryItem);
                 board.MoveObject(Position, newPosition);
                 Position = newPosition;
             }
+
             if (board.IsEmpty(newPosition))
             {
                 board.MoveObject(Position, newPosition);
                 Position = newPosition;
             }
         }
-        
+
         /// <summary>
         /// Attacks another character. Calls AcceptConfuse on it.
         /// </summary>
