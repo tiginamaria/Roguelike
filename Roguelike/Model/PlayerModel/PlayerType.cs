@@ -11,7 +11,7 @@ namespace Roguelike.Model.PlayerModel
         
         public static bool Contains(string type)
         {
-            return new[] {Player, ConfusedPlayer}.Contains(type);
+            return new[] {Player, ConfusedPlayer, EnemyPlayer, EnemyConfusedPlayer}.Contains(type);
         }
     }
 }

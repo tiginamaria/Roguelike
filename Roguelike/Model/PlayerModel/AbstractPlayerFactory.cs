@@ -14,6 +14,9 @@ namespace Roguelike.Model.PlayerModel
                 PlayerType.Player => new Player(login, level, position, statistics, inventory, appliedInventory),
                 PlayerType.ConfusedPlayer => new ConfusedPlayer(level,
                     new Player(login, level, position, statistics, inventory, appliedInventory)),
+                PlayerType.EnemyPlayer => new Player(login, level, position, statistics, inventory, appliedInventory),
+                PlayerType.EnemyConfusedPlayer => new ConfusedPlayer(level, 
+                    new Player(login, level, position, statistics, inventory, appliedInventory)),
                 _ => throw new NotSupportedException()
             };
         }

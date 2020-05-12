@@ -4,10 +4,10 @@ namespace Roguelike.Model.PlayerModel
 {
     public class PlayerManager
     {
-        private readonly Dictionary<string, AbstractPlayer> players = new Dictionary<string, AbstractPlayer>();
         public AbstractPlayer CurrentPlayer { get; set; }
 
-        public Dictionary<string, AbstractPlayer> Players => players;
+        public Dictionary<string, AbstractPlayer> Players { get; } = 
+            new Dictionary<string, AbstractPlayer>();
 
         public bool IsCurrentPlayer(Character character)
         {
@@ -22,7 +22,7 @@ namespace Roguelike.Model.PlayerModel
 
         public void UpdatePlayer(AbstractPlayer newPlayer)
         {
-            players[newPlayer.Login] = newPlayer;
+            Players[newPlayer.Login] = newPlayer;
             if (IsCurrentPlayer(newPlayer))
             {
                 CurrentPlayer = newPlayer;
@@ -31,22 +31,22 @@ namespace Roguelike.Model.PlayerModel
 
         public void RegisterPlayer(AbstractPlayer player)
         {
-            players.Add(player.Login, player);
+            Players.Add(player.Login, player);
         }
 
         public void DeletePlayer(AbstractPlayer player)
         {
-            players.Remove(player.Login);
+            Players.Remove(player.Login);
         }
 
         public bool ContainsPlayer(string login)
         {
-            return players.ContainsKey(login);
+            return Players.ContainsKey(login);
         }
 
         public AbstractPlayer GetPlayer(string login)
         {
-            return players[login];
+            return Players[login];
         }
     }
 }
