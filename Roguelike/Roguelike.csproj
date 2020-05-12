@@ -12,6 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="Network/Protos/example.proto" Link="Network/Protos/example.proto" />
+        <Protobuf Include="Network\Protos\NetworkMode.proto">
+          <Link>Network/Protos/NetworkMode.proto</Link>
+        </Protobuf>
     </ItemGroup>
 </Project>

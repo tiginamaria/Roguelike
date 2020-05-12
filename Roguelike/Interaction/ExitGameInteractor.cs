@@ -1,21 +1,40 @@
-using Roguelike.Input;
+using System;
+using Roguelike.Input.Controllers;
 using Roguelike.Model;
+using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.Interaction
 {
     public class ExitGameInteractor
     {
-        private readonly IStoppable target;
+        private readonly Level level;
+        private readonly IActionListener listener;
+        private readonly SaveGameInteractor saveGameInteractor;
 
-        public ExitGameInteractor(IStoppable target)
+        public EventHandler<AbstractPlayer> OnExit;
+
+        public ExitGameInteractor(Level level, IActionListener listener = null,
+            SaveGameInteractor saveGameInteractor = null)
         {
-            this.target = target;
+            this.level = level;
+            this.listener = listener;
+            this.saveGameInteractor = saveGameInteractor;
         }
 
         public void Exit(Character character)
         {
-            // TODO
-            target.Stop();
+            var player = character as AbstractPlayer;
+            character.Delete(level.Board);
+            level.DeletePlayer(player);
+
+            if (level.IsCurrentPlayer(character))
+            {
+                saveGameInteractor?.Save(character);
+                saveGameInteractor?.Dump();
+                OnExit?.Invoke(this, player);
+            }
+            
+            listener?.MakeAction(character as AbstractPlayer, ActionType.Exit);
         }
     }
 }

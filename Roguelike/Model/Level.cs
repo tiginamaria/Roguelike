@@ -90,5 +90,15 @@ namespace Roguelike.Model
 
             return null;
         }
+
+        public void DeletePlayer(AbstractPlayer player)
+        {
+            players.Remove(player.Login);
+        }
+
+        public bool ContainsCharacter(string login)
+        {
+            return players.ContainsKey(login);
+        }
     }
 }

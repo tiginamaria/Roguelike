@@ -39,5 +39,13 @@ namespace Roguelike.Input.Controllers
                 subscribers.Remove(subscriber);
             }
         }
+
+        public void Stop()
+        {
+            foreach (var subscriber in subscribers)
+            {
+                removedSubscribers.Add(subscriber);
+            }
+        }
     }
 }

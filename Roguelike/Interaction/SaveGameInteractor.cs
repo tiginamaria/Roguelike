@@ -31,7 +31,7 @@ namespace Roguelike.Interaction
             snapshot.Dump(SaveFileName);
         }
 
-        public void Delete()
+        public void DeleteSaving()
         {
             if (File.Exists(SaveFileName))
             {

@@ -21,7 +21,7 @@ namespace Roguelike.Initialization
         {
             var playView = new ConsolePlayView();
             
-            var client = new ClientInputController(playView);
+            var client = new ClientInputProcessor(playView);
             var level = client.Login(login);
 
             if (level == null)
@@ -33,19 +33,20 @@ namespace Roguelike.Initialization
             
             var playerMoveInteractor = new NetworkPlayerMoveInteractor(level, playView);
             var mobMoveInteractor = new NetworkMobMoveInteractor(level, playView);
-            var exitGameInteractor = new ExitGameInteractor(inputLoop);
+            var exitGameInteractor = new ExitGameInteractor(level);
             var saveGameInteractor = new SaveGameInteractor(level);
             var inventoryInteractor = new InventoryInteractor(level, playView);
+            var spawnPlayerInteractor = new SpawnPlayerInteractor(level, playView);
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);
-            var exitGameProcessor = new ExitGameProcessor(exitGameInteractor, saveGameInteractor);
+            var exitGameProcessor = new ExitGameProcessor(exitGameInteractor);
             var saveGameProcessor = new SaveGameProcessor(saveGameInteractor);
             var inventoryProcessor = new InventoryProcessor(inventoryInteractor);
 
             var keyboardController = new KeyboardController(level, login);
             keyboardController.AddInputProcessor(client);
             
-            // keyboardController.AddInputProcessor(exitGameProcessor);
+            keyboardController.AddInputProcessor(exitGameProcessor);
             keyboardController.AddInputProcessor(saveGameProcessor);
             
             client.AddInputProcessor(moveProcessor);
@@ -54,18 +55,22 @@ namespace Roguelike.Initialization
             
             client.SetMobInteractor(mobMoveInteractor);
             client.SetPlayerMoveInteractor(playerMoveInteractor);
+            client.SetSpawnPlayerInteractor(spawnPlayerInteractor);
             
             inputLoop.AddUpdatable(keyboardController);
             inputLoop.AddUpdatable(client);
 
             level.CurrentPlayer = level.GetCharacter(login) as AbstractPlayer;
             
-            //TODO
-            // level.CurrentPlayer.OnDie += (sender, args) =>
-            // {
-            //     inputLoop.Stop();
-            //     saveGameInteractor.Delete();
-            // };
+            level.CurrentPlayer.OnDie += (sender, args) =>
+            {
+                inputLoop.Stop();
+            };
+
+            exitGameInteractor.OnExit += (sender, player) =>
+            {
+                inputLoop.Stop();
+            };
 
             playView.Draw(level);
             inputLoop.Start();

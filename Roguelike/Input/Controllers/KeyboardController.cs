@@ -13,6 +13,7 @@ namespace Roguelike.Input.Controllers
         private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
         private readonly Level level;
         private readonly string login;
+        private bool stopped;
 
         public KeyboardController(Level level, string login)
         {
@@ -23,6 +24,11 @@ namespace Roguelike.Input.Controllers
         public void AddInputProcessor(IInputProcessor inputProcessor)
         {
             subscribers.Add(inputProcessor);
+        }
+
+        public void Stop()
+        {
+            stopped = true;
         }
 
         /// <summary>
@@ -36,8 +42,13 @@ namespace Roguelike.Input.Controllers
                 return;
             }
             var key = Console.ReadKey(true);
+
             foreach (var subscriber in subscribers)
             {
+                if (stopped)
+                {
+                    break;
+                }
                 subscriber.ProcessInput(key, level.GetCharacter(login));
             }
         }

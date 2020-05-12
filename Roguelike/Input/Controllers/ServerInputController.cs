@@ -59,9 +59,15 @@ namespace Roguelike.Input.Controllers
                     {
                         continue;
                     }
-                    
+
                     if (responses[request.Login].TryDequeue(out var response))
                     {
+                        if (response.KeyInput == KeyInput.Exit && response.Login == request.Login)
+                        {
+                            loginResponses.Remove(request.Login, out _);
+                            responses.Remove(request.Login, out _);
+                            break;
+                        }
                         await responseStream.WriteAsync(response);
                     }
                 }
@@ -78,7 +84,8 @@ namespace Roguelike.Input.Controllers
         {
             if (loginResponse.Type == ResponseType.Init || loginResponse.Type == ResponseType.LoginExists)
             {
-                Console.WriteLine($"Send login response {targetLogin} {loginResponse.Type.ToString()} to {targetLogin}");
+                Console.WriteLine($"Send login response {targetLogin} " +
+                                  $"{loginResponse.Type.ToString()} to {targetLogin}");
                 await responseStream.WriteAsync(loginResponse);
                 if (loginResponse.Type == ResponseType.Init)
                 {
@@ -88,7 +95,8 @@ namespace Roguelike.Input.Controllers
             else if (loginResponse.Type == ResponseType.PlayerJoin)
             {
                 Console.WriteLine(
-                    $"Send login response {loginResponse.Type.ToString()} {loginResponse.Login} to {targetLogin}");
+                    $"Send login response {loginResponse.Type.ToString()} " +
+                    $"{loginResponse.Login} to {targetLogin}");
                 await responseStream.WriteAsync(loginResponse);
             }
         }
@@ -111,44 +119,65 @@ namespace Roguelike.Input.Controllers
             }
         }
 
+        public void Stop()
+        {
+            throw new NotImplementedException();
+        }
+
         private void ProcessLoginRequest(LoginRequest request)
         {
             if (!loginResponses.ContainsKey(request.Login))
             {
                 var newPlayer = level.AddPlayerAtEmpty(request.Login);
                 var levelSnapshot = level.Save().ToString();
-                var initResponse = new ServerResponse {Type = ResponseType.Init, Level = levelSnapshot, Login = request.Login};
+                
+                var initResponse = new ServerResponse {
+                    Type = ResponseType.Init, 
+                    Level = levelSnapshot, 
+                    Login = request.Login};
 
                 if (!loginResponses.TryAdd(request.Login, new ConcurrentQueue<ServerResponse>()))
                 {
-                    var rejectResponse = new ServerResponse {Type = ResponseType.LoginExists, Login = request.Login};
-                    loginResponses[request.Login].Enqueue(rejectResponse);
+                    ProcessRejectLoginResponse(request);
                     return;
                 }
                 
                 loginResponses[request.Login].Enqueue(initResponse);
-
-                foreach (var targetLogin in loginResponses.Keys)
-                {
-                    if (targetLogin == request.Login)
-                    {
-                        continue;
-                    }
-
-                    var response = new ServerResponse
-                    {
-                        Type = ResponseType.PlayerJoin,
-                        Login = request.Login,
-                        Pair = new Pair {Y = newPlayer.Position.Y, X = newPlayer.Position.X}
-                    };
-                    loginResponses[targetLogin].Enqueue(response);
-                }
+                ProcessJoinResponses(request, newPlayer);
             }
             else
             {
-                var rejectResponse = new ServerResponse {Type = ResponseType.LoginExists, Login = request.Login};
-                loginResponses[request.Login].Enqueue(rejectResponse);
+                ProcessRejectLoginResponse(request);
             }
+        }
+
+        private void ProcessJoinResponses(LoginRequest request, AbstractPlayer newPlayer)
+        {
+            foreach (var targetLogin in loginResponses.Keys)
+            {
+                if (targetLogin == request.Login)
+                {
+                    continue;
+                }
+
+                var response = new ServerResponse
+                {
+                    Type = ResponseType.PlayerJoin,
+                    Login = request.Login,
+                    Pair = new Pair {Y = newPlayer.Position.Y, X = newPlayer.Position.X}
+                };
+                loginResponses[targetLogin].Enqueue(response);
+            }
+        }
+
+        private void ProcessRejectLoginResponse(LoginRequest request)
+        {
+            var rejectResponse = new ServerResponse
+            {
+                Type = ResponseType.LoginExists,
+                Login = request.Login
+            };
+            loginResponses[request.Login].Enqueue(rejectResponse);
         }
 
         private void ProcessRequest(InputRequest request)
@@ -206,7 +235,8 @@ namespace Roguelike.Input.Controllers
                     Login = mob.Id.ToString(),
                     Pair = new Pair {X = intentPosition.X, Y = intentPosition.Y}
                 };
-                Console.WriteLine($"Sending {response.Type.ToString()} {response.Pair.Y} {response.Pair.X} to {targetLogin}");
+                Console.WriteLine($"Sending {response.Type.ToString()} {response.Pair.Y} " +
+                                  $"{response.Pair.X} to {targetLogin}");
                 responses[targetLogin].Enqueue(response);
             }
         }

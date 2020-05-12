@@ -48,6 +48,11 @@ namespace Roguelike.Model
             }
         }
 
+        public void Delete(Board board)
+        {
+            board.DeleteObject(Position);
+        }
+        
         /// <summary>
         /// Attacks another character. Calls AcceptConfuse on it.
         /// </summary>

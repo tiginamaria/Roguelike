@@ -23,7 +23,6 @@ namespace Roguelike.Input
         /// <summary>
         /// Registers an object that will be updated by timer.
         /// </summary>
-
         public void AddFixedUpdatable(IUpdatable updatable) => fixedSubscribers.Add(updatable);
 
         /// <summary>
@@ -54,7 +53,14 @@ namespace Roguelike.Input
         {
             foreach (var subscriber in targetSubscribers) 
             {
-                subscriber.Update();
+                if (!stopped)
+                {
+                    subscriber.Update();
+                }
+                else
+                {
+                    break;
+                }
             }
         }
 
@@ -65,6 +71,14 @@ namespace Roguelike.Input
         {
             timer.Stop();
             stopped = true;
+            foreach (var subscriber in subscribers)
+            {
+                subscriber.Stop();
+            }
+            foreach (var subscriber in fixedSubscribers)
+            {
+                subscriber.Stop();
+            }
         }
     }
 }

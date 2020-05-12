@@ -52,6 +52,8 @@ namespace Roguelike.Model.PlayerModel
 
             if (statistics.Health == 0)
             {
+                level.DeletePlayer(this);
+                Delete(level.Board);
                 OnDie?.Invoke(this, EventArgs.Empty);
                 return;
             }

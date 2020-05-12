@@ -12,7 +12,7 @@ using Roguelike.View;
 
 namespace Roguelike.Input.Controllers
 {
-    public class ClientInputController : IUpdatable, IInputProcessor
+    public class ClientInputProcessor : IUpdatable, IInputProcessor
     {
         private IAsyncStreamReader<ServerResponse> call;
         private string login;
@@ -20,13 +20,13 @@ namespace Roguelike.Input.Controllers
         private Level level;
         private MobMoveInteractor mobMoveInteractor;
         private PlayerMoveInteractor playerMoveInteractor;
-        private readonly IPlayView playView;
+        private SpawnPlayerInteractor spawnPlayerInteractor;
         private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
         private readonly ServerInputControllerService.ServerInputControllerServiceClient client;
+        private bool stopped;
 
-        public ClientInputController(IPlayView view, string host = "localhost", int port = 8080)
+        public ClientInputProcessor(IPlayView view, string host = "localhost", int port = 8080)
         {
-            playView = view;
             var channel = new Channel($"{host}:{port}", ChannelCredentials.Insecure);
             client = new ServerInputControllerService.ServerInputControllerServiceClient(channel);
         }
@@ -53,6 +53,11 @@ namespace Roguelike.Input.Controllers
         public void SetPlayerMoveInteractor(PlayerMoveInteractor playerMoveInteractor)
         {
             this.playerMoveInteractor = playerMoveInteractor;
+        }
+        
+        public void SetSpawnPlayerInteractor(SpawnPlayerInteractor spawnPlayerInteractor)
+        {
+            this.spawnPlayerInteractor = spawnPlayerInteractor;
         }
 
         private Level ProcessInitResponse()
@@ -96,13 +101,23 @@ namespace Roguelike.Input.Controllers
             checkIncomingTask = null;
             
             var serverResponse = call.Current;
+
             if (serverResponse.Type == ResponseType.Action)
             {
-                var key = KeyParser.ToConsoleKey(serverResponse.KeyInput);
                 var incomingLogin = serverResponse.Login;
+                if (serverResponse.KeyInput == KeyInput.Exit)
+                {
+                    spawnPlayerInteractor.DeletePlayer(incomingLogin);
+                    return;
+                }
+                
+                var key = KeyParser.ToConsoleKey(serverResponse.KeyInput);
                 foreach (var subscriber in subscribers)
                 {
-                    subscriber.ProcessInput(key, level.GetCharacter(incomingLogin));
+                    if (level.ContainsCharacter(incomingLogin))
+                    {
+                        subscriber.ProcessInput(key, level.GetCharacter(incomingLogin));
+                    }
                 }
             } 
             else if (serverResponse.Type == ResponseType.MobMove)
@@ -120,14 +135,22 @@ namespace Roguelike.Input.Controllers
             else if (serverResponse.Type == ResponseType.PlayerJoin)
             {
                 var position = new Position(serverResponse.Pair.Y, serverResponse.Pair.X);
-                var player = level.RegisterPlayer(serverResponse.Login, position);
-                level.Board.SetObject(position, player);
-                playView.UpdatePosition(level, position);
+                spawnPlayerInteractor.Spawn(position, serverResponse.Login);
             }
+        }
+
+        public void Stop()
+        {
+            stopped = true;
         }
 
         public void ProcessInput(ConsoleKeyInfo key, Character character)
         {
+            if (stopped)
+            {
+                return;
+            }
+            
             var moveRequest = new InputRequest {Login = login, KeyInput = KeyParser.FromConsoleKey(key)};
             if (moveRequest.KeyInput != KeyInput.None)
             {

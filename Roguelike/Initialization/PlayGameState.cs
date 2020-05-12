@@ -4,7 +4,6 @@ using Roguelike.Input;
 using Roguelike.Input.Controllers;
 using Roguelike.Input.Processors;
 using Roguelike.Interaction;
-using Roguelike.Model;
 using Roguelike.Model.PlayerModel;
 using Roguelike.View;
 
@@ -53,12 +52,12 @@ namespace Roguelike.Initialization
             
             var playerMoveInteractor = new PlayerMoveInteractor(level, playView);
             var mobMoveInteractor = new MobMoveInteractor(level, playView);
-            var exitGameInteractor = new ExitGameInteractor(inputLoop);
             var saveGameInteractor = new SaveGameInteractor(level);
+            var exitGameInteractor = new ExitGameInteractor(level, null, saveGameInteractor);
             var inventoryInteractor = new InventoryInteractor(level, playView);
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);
-            var exitGameProcessor = new ExitGameProcessor(exitGameInteractor, saveGameInteractor);
+            var exitGameProcessor = new ExitGameProcessor(exitGameInteractor);
             var saveGameProcessor = new SaveGameProcessor(saveGameInteractor);
             var inventoryProcessor = new InventoryProcessor(inventoryInteractor);
 
@@ -90,7 +89,12 @@ namespace Roguelike.Initialization
             level.CurrentPlayer.OnDie += (sender, args) =>
             {
                 inputLoop.Stop();
-                saveGameInteractor.Delete();
+                saveGameInteractor.DeleteSaving();
+            };
+
+            exitGameInteractor.OnExit += (sender, player) =>
+            {
+                inputLoop.Stop();
             };
 
             playView.Draw(level);

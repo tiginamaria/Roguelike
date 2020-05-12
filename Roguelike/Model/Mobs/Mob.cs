@@ -19,7 +19,6 @@ namespace Roguelike.Model.Mobs
         public readonly int Id;
         protected IMobBehaviour Behaviour { get; set; }
 
-
         public event EventHandler OnDie;
 
         public Mob(Level level, IMobBehaviour behaviour, Position startPosition, 
@@ -61,7 +60,7 @@ namespace Roguelike.Model.Mobs
             statistics.Health = Math.Max(0, statistics.Health - 1);
             if (statistics.Health == 0)
             {
-                level.Board.DeleteObject(Position);
+                Delete(level.Board);
                 OnDie?.Invoke(this, EventArgs.Empty);
                 return;
             }
