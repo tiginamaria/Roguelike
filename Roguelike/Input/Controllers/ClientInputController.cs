@@ -80,10 +80,7 @@ namespace Roguelike.Input.Controllers
 
         public void Update()
         {
-            if (checkIncomingTask == null)
-            {
-                checkIncomingTask = call.MoveNext();
-            }
+            checkIncomingTask ??= call.MoveNext();
 
             if (!checkIncomingTask.IsCompleted)
             {

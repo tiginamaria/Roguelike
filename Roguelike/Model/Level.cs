@@ -59,6 +59,10 @@ namespace Roguelike.Model
         public void UpdatePlayer(AbstractPlayer newPlayer)
         {
             players[newPlayer.Login] = newPlayer;
+            if (IsCurrentPlayer(newPlayer))
+            {
+                CurrentPlayer = newPlayer;
+            }
         }
 
         public AbstractPlayer RegisterPlayer(string login, Position position)

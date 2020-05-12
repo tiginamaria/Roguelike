@@ -75,7 +75,7 @@ namespace Roguelike.Model
             var typeString = mob.GetStringType();
             var statistics = mob.GetStatistics();
             var positionString = $"{mob.Position.Y} {mob.Position.X}";
-            var statisticsString = $"{statistics.Experience} {statistics.Force} {statistics.Health}";
+            var statisticsString = $"{statistics.Force} {statistics.Health} {statistics.Experience}";
             return $"{typeString} {positionString} {statisticsString}";
         }
         
