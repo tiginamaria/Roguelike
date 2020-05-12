@@ -29,21 +29,16 @@ namespace Roguelike.Initialization
             
             var playerMoveInteractor = new PlayerMoveInteractor(level, playView, inputController);
             var mobMoveInteractor = new MobMoveInteractor(level, playView, inputController);
-           
-            //TODO
             var exitGameInteractor = new ExitGameInteractor(level, inputController);
-            
             var inventoryInteractor = new InventoryInteractor(level, playView);
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);
             var exitGameProcessor = new ExitGameProcessor(exitGameInteractor);
             var inventoryProcessor = new InventoryProcessor(inventoryInteractor, inputController);
-
             
             var tickController = new TickController();
             
             inputController.AddInputProcessor(moveProcessor);
-            //keyboardController.AddInputProcessor(exitGameProcessor);
             inputController.AddInputProcessor(inventoryProcessor);
             inputController.AddInputProcessor(exitGameProcessor);
             

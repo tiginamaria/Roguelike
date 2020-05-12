@@ -15,7 +15,7 @@ namespace Roguelike.Model.PlayerModel
         private readonly List<InventoryItem> inventoryItems;
         private readonly List<InventoryItem> appliedInventoryItems;
         public Player(string login, Level level, Position startPosition) 
-            : this(login, level, startPosition, new CharacterStatistics(1, 15, 1),  
+            : this(login, level, startPosition, new CharacterStatistics(2, 15, 1),  
                 new List<InventoryItem>(), new List<InventoryItem>())
         {
         }

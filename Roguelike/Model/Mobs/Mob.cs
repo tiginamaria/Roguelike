@@ -57,7 +57,7 @@ namespace Roguelike.Model.Mobs
 
         public override void AcceptConfuse(Character other)
         {
-            statistics.Health = Math.Max(0, statistics.Health - 1);
+            statistics.Health = Math.Max(0, statistics.Health - other.GetStatistics().Force / 2);
             if (statistics.Health == 0)
             {
                 Delete(level.Board);
