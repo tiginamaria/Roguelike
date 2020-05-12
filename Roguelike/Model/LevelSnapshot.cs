@@ -92,13 +92,13 @@ namespace Roguelike.Model
             sb.Append($"{player.GetInventory().Count} ");
             foreach (var inventoryItem in player.GetInventory())
             {
-                sb.Append($" {DumpInventory(inventoryItem)}");
+                sb.Append($"{DumpInventory(inventoryItem)} ");
             }
             
-            sb.Append($"{player.GetAppliedInventory().Count}");
+            sb.Append($"{player.GetAppliedInventory().Count} ");
             foreach (var appliedInventoryItem in player.GetAppliedInventory())
             {
-                sb.Append($" {DumpInventory(appliedInventoryItem)}");
+                sb.Append($"{DumpInventory(appliedInventoryItem)} ");
             }
 
             return sb.ToString();
