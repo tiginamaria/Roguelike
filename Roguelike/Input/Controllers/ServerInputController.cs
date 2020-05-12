@@ -55,6 +55,11 @@ namespace Roguelike.Input.Controllers
                         await SendLoginResponses(request.Login, responseStream, loginResponse);
                     }
 
+                    if (!responses.ContainsKey(request.Login))
+                    {
+                        continue;
+                    }
+                    
                     if (responses[request.Login].TryDequeue(out var response))
                     {
                         await responseStream.WriteAsync(response);

@@ -15,7 +15,7 @@ namespace Roguelike.Initialization
         {
             while (true)
             {
-                Console.WriteLine("Input login: ");
+                Console.Write("Input login: ");
                 var login = Console.ReadLine();
 
                 try
@@ -25,8 +25,7 @@ namespace Roguelike.Initialization
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine(e.StackTrace);
+                    Console.WriteLine(e);
                 }
             }
         }
