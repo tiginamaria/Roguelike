@@ -12,7 +12,7 @@ namespace Roguelike.Initialization
     {
         protected readonly InventoryFactory InventoryFactory = new InventoryFactory();
         protected MobFactory MobFactory = new MobFactory();
-        protected readonly AbstractPlayerFactory PlayerFactory = new AbstractPlayerFactory();
+        protected PlayerFactory PlayerFactory = new PlayerFactory();
         
         /// <summary>
         /// Returns a new level.
@@ -22,6 +22,11 @@ namespace Roguelike.Initialization
         public void SetMobFactory(MobFactory mobFactory)
         {
             MobFactory = mobFactory;
+        }
+
+        public void SetPlayerFactory(PlayerFactory playerFactory)
+        {
+            PlayerFactory = playerFactory;
         }
     }
 }

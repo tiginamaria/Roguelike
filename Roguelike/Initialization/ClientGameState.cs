@@ -3,7 +3,6 @@ using Roguelike.Input;
 using Roguelike.Input.Controllers;
 using Roguelike.Input.Processors;
 using Roguelike.Interaction;
-using Roguelike.Model.PlayerModel;
 using Roguelike.View;
 
 namespace Roguelike.Initialization
@@ -63,7 +62,7 @@ namespace Roguelike.Initialization
             inputLoop.AddUpdatable(keyboardController);
             inputLoop.AddUpdatable(client);
 
-            level.CurrentPlayer = level.GetPlayer(login) as AbstractPlayer;
+            level.CurrentPlayer = level.GetPlayer(login);
             
             level.CurrentPlayer.OnDie += (sender, args) =>
             {

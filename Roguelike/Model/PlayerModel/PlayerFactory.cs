@@ -4,9 +4,9 @@ using Roguelike.Model.Inventory;
 
 namespace Roguelike.Model.PlayerModel
 {
-    public class AbstractPlayerFactory
+    public class PlayerFactory
     {
-        public AbstractPlayer Create(string login, string type, Level level, Position position, 
+        public virtual AbstractPlayer Create(string login, string type, Level level, Position position, 
             CharacterStatistics statistics, List<InventoryItem> inventory,  List<InventoryItem> appliedInventory)
         {
             return type switch

@@ -4,7 +4,6 @@ using Roguelike.Input.Processors;
 using Roguelike.Interaction;
 using Roguelike.Model;
 using Roguelike.Model.PlayerModel;
-using Roguelike.Network;
 using Roguelike.Network.Services;
 using Roguelike.View;
 
@@ -26,6 +25,9 @@ namespace Roguelike.Initialization
 
         public void InvokeState()
         {
+            var exitGameInteractor = new ExitGameInteractor();
+            levelFactory.SetPlayerFactory(new NetworkPlayerFactory(exitGameInteractor));
+            
             var level = levelFactory.CreateLevel();
             var inputLoop = new InputLoop();
             var playView = new VoidView();
@@ -34,7 +36,8 @@ namespace Roguelike.Initialization
             
             var playerMoveInteractor = new PlayerMoveInteractor(level, playView, inputController);
             var mobMoveInteractor = new MobMoveInteractor(level, playView, inputController);
-            var exitGameInteractor = new ExitGameInteractor(level, inputController);
+            exitGameInteractor.SetLevel(level);
+            exitGameInteractor.SetListener(inputController);
             var inventoryInteractor = new InventoryInteractor(level, playView);
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);

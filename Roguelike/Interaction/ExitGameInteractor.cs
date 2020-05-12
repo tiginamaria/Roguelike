@@ -7,17 +7,36 @@ namespace Roguelike.Interaction
 {
     public class ExitGameInteractor
     {
-        private readonly Level level;
-        private readonly IActionListener listener;
-        private readonly SaveGameInteractor saveGameInteractor;
+        private Level level;
+        private IActionListener listener;
+        private SaveGameInteractor saveGameInteractor;
 
         public EventHandler<AbstractPlayer> OnExit;
+
+        public ExitGameInteractor()
+        {
+        }
 
         public ExitGameInteractor(Level level, IActionListener listener = null,
             SaveGameInteractor saveGameInteractor = null)
         {
             this.level = level;
             this.listener = listener;
+            this.saveGameInteractor = saveGameInteractor;
+        }
+
+        public void SetLevel(Level level)
+        {
+            this.level = level;
+        }
+        
+        public void SetListener(IActionListener listener)
+        {
+            this.listener = listener;
+        }
+        
+        public void SetSaveGameInteractor(SaveGameInteractor saveGameInteractor)
+        {
             this.saveGameInteractor = saveGameInteractor;
         }
 
