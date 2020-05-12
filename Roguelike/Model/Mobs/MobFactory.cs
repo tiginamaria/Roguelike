@@ -23,7 +23,7 @@ namespace Roguelike.Model.Mobs
             return Create(type, level, position, new CharacterStatistics(2, 3, 1));
         }
 
-        public Mob Create(string type, Level level, Position position, CharacterStatistics statistics)
+        public virtual Mob Create(string type, Level level, Position position, CharacterStatistics statistics)
         {
             return type switch
             {
@@ -31,6 +31,21 @@ namespace Roguelike.Model.Mobs
                 MobType.CowardMob => new Mob(level, new CowardMobBehaviour(), position, statistics),
                 MobType.PassiveMob => new Mob(level, new PassiveMobBehaviour(), position, statistics),
                 MobType.ConfusedMob => new Mob(level, new PassiveMobBehaviour(), position, statistics, true),
+                _ => throw new NotSupportedException()
+            };
+        }
+    }
+
+    public class NetworkMobFactory : MobFactory
+    {
+        public override Mob Create(string type, Level level, Position position, CharacterStatistics statistics)
+        {
+            return type switch
+            {
+                MobType.AggressiveMob => new NetworkMob(level, new AggressiveMobBehaviour(), position, statistics),
+                MobType.CowardMob => new NetworkMob(level, new CowardMobBehaviour(), position, statistics),
+                MobType.PassiveMob => new NetworkMob(level, new PassiveMobBehaviour(), position, statistics),
+                MobType.ConfusedMob => new NetworkMob(level, new PassiveMobBehaviour(), position, statistics, true),
                 _ => throw new NotSupportedException()
             };
         }

@@ -10,7 +10,6 @@ namespace Roguelike.Model.Mobs
         private static int lastId;
         
         private readonly Level level;
-        private IMobBehaviour behaviour;
         private readonly IMobBehaviour originalBehaviour;
         private readonly CharacterStatistics statistics;
         private const int ConfusionTimeMs = 5000;
@@ -18,6 +17,8 @@ namespace Roguelike.Model.Mobs
         private bool cancelled = true;
 
         public readonly int Id;
+        protected IMobBehaviour Behaviour { get; set; }
+
 
         public event EventHandler OnDie;
 
@@ -28,9 +29,10 @@ namespace Roguelike.Model.Mobs
             lastId++;
             
             this.level = level;
-            this.behaviour = behaviour;
+            Behaviour = behaviour;
             originalBehaviour = behaviour;
             this.statistics = statistics;
+
             if (confused)
             {
                 BecomeConfused();
@@ -70,7 +72,7 @@ namespace Roguelike.Model.Mobs
             }
         }
 
-        private void BecomeConfused()
+        protected virtual void BecomeConfused()
         {
             Task.Delay(ConfusionTimeMs, cancellation.Token).ContinueWith(t =>
             {
@@ -78,22 +80,22 @@ namespace Roguelike.Model.Mobs
                 {
                     return;
                 }
-                behaviour = originalBehaviour;
+                Behaviour = originalBehaviour;
                 cancelled = true;
             });
 
-            behaviour = new ConfusedMobBehaviour();
+            Behaviour = new ConfusedMobBehaviour();
             cancelled = false;
         }
 
         public Position GetMove()
         {
-            return behaviour.MakeMove(level, Position);
+            return Behaviour.MakeMove(level, Position);
         }
 
         public override string GetStringType()
         {
-            return behaviour.GetStringType();
+            return Behaviour.GetStringType();
         }
     }
 }

@@ -20,25 +20,25 @@ namespace Roguelike.Input.Processors
         
         public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {
-            if (keyInfo.Key == ConsoleKey.F && keyInfo.Modifiers == ConsoleModifiers.Alt)
+            if (keyInfo.Key == ConsoleKey.F && keyInfo.Modifiers == ConsoleModifiers.Shift)
             {
                 inventoryInteractor.PutOff(character, InventoryType.IncreaseForceItem);
                 listener?.MakeAction(character as AbstractPlayer, ActionType.TakeOffForce);
                 return;
             }
-            if (keyInfo.Key == ConsoleKey.H && keyInfo.Modifiers == ConsoleModifiers.Alt)
+            if (keyInfo.Key == ConsoleKey.H && keyInfo.Modifiers == ConsoleModifiers.Shift)
             {
                 inventoryInteractor.PutOff(character, InventoryType.IncreaseHealthItem);
                 listener?.MakeAction(character as AbstractPlayer, ActionType.TakeOffHealth);
                 return;
             }
-            if (keyInfo.Key == ConsoleKey.E && keyInfo.Modifiers == ConsoleModifiers.Alt)
+            if (keyInfo.Key == ConsoleKey.E && keyInfo.Modifiers == ConsoleModifiers.Shift)
             {
                 inventoryInteractor.PutOff(character, InventoryType.IncreaseExperienceItem);
                 listener?.MakeAction(character as AbstractPlayer, ActionType.TakeOffExperience);
                 return;
             }
-            if (keyInfo.Key == ConsoleKey.A && keyInfo.Modifiers == ConsoleModifiers.Alt)
+            if (keyInfo.Key == ConsoleKey.A && keyInfo.Modifiers == ConsoleModifiers.Shift)
             {
                 inventoryInteractor.PutOff(character, InventoryType.IncreaseAllItem);
                 listener?.MakeAction(character as AbstractPlayer, ActionType.TakeOffAll);

@@ -13,11 +13,11 @@ namespace Roguelike.Network
                 KeyInput.F =>  new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false),
                 KeyInput.H =>  new ConsoleKeyInfo('h', ConsoleKey.H, false, false, false),
                 KeyInput.E => new ConsoleKeyInfo('e', ConsoleKey.E, false, false, false),
-                KeyInput.AltA =>  new ConsoleKeyInfo('a', ConsoleKey.A, false, true, false),
-                KeyInput.AltF =>  new ConsoleKeyInfo('f', ConsoleKey.F, false, true, false),
-                KeyInput.AltH =>  new ConsoleKeyInfo('h', ConsoleKey.H, false, true, false),
-                KeyInput.AltE =>  new ConsoleKeyInfo('e', ConsoleKey.E, false, true, false),
-                KeyInput.Up => new ConsoleKeyInfo('\0', ConsoleKey.UpArrow, false, false, false),
+                KeyInput.AltA =>  new ConsoleKeyInfo('a', ConsoleKey.A, true, false, false),
+                KeyInput.AltF =>  new ConsoleKeyInfo('f', ConsoleKey.F, true, false, false),
+                KeyInput.AltH =>  new ConsoleKeyInfo('h', ConsoleKey.H, true, false, false),
+                KeyInput.AltE =>  new ConsoleKeyInfo('e', ConsoleKey.E, true, false, false),
+                KeyInput.Up => new ConsoleKeyInfo('\0', ConsoleKey.UpArrow, true, false, false),
                 KeyInput.Down => new ConsoleKeyInfo('\0', ConsoleKey.DownArrow, false, false, false),
                 KeyInput.Left => new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false),
                 KeyInput.Right => new ConsoleKeyInfo('\0', ConsoleKey.RightArrow, false, false, false),
@@ -26,9 +26,21 @@ namespace Roguelike.Network
                 _ => new ConsoleKeyInfo('\0', ConsoleKey.NoName, false, false, false),
             };
         }
-        
+
         public static KeyInput FromConsoleKey(ConsoleKeyInfo key)
         {
+            switch (key.Key)
+            {
+                case ConsoleKey.A when key.Modifiers == ConsoleModifiers.Shift:
+                    return KeyInput.AltA;
+                case ConsoleKey.F when key.Modifiers == ConsoleModifiers.Shift:
+                    return KeyInput.AltF;
+                case ConsoleKey.H when key.Modifiers == ConsoleModifiers.Shift:
+                    return KeyInput.AltH;
+                case ConsoleKey.E when key.Modifiers == ConsoleModifiers.Shift:
+                    return KeyInput.AltE;
+            }
+
             switch (key.Key)
             {
                 case ConsoleKey.UpArrow:
@@ -49,18 +61,6 @@ namespace Roguelike.Network
                     return KeyInput.E;
                 case ConsoleKey.Escape:
                     return KeyInput.Exit;
-            }
-
-            switch (key.Key)
-            {
-                case ConsoleKey.A when key.Modifiers == ConsoleModifiers.Alt:
-                    return KeyInput.AltA;
-                case ConsoleKey.F when key.Modifiers == ConsoleModifiers.Alt:
-                    return KeyInput.AltF;
-                case ConsoleKey.H when key.Modifiers == ConsoleModifiers.Alt:
-                    return KeyInput.AltH;
-                case ConsoleKey.E when key.Modifiers == ConsoleModifiers.Alt:
-                    return KeyInput.AltE;
             }
 
             return KeyInput.None;

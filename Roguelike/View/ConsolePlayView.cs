@@ -29,12 +29,14 @@ namespace Roguelike.View
         public void UpdatePosition(Level level, Position position)
         {
             RedrawPosition(level, position);
+            UpdateInventory(level);
         }
 
         public void UpdateMob(Level level, Position first, Position second)
         {
             RedrawPosition(level, first);
             RedrawPosition(level, second);
+            UpdateInventory(level);
         }
 
         public void UpdatePlayer(Level level, Position first, Position second)

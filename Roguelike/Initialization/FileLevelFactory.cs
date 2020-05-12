@@ -108,7 +108,7 @@ namespace Roguelike.Initialization
             };
         }
 
-        private static GameObject GetGameObject(Level level, string[] info)
+        private GameObject GetGameObject(Level level, string[] info)
         {
             var index = 0;
             var type = info[index++];
@@ -146,7 +146,7 @@ namespace Roguelike.Initialization
         {
             return new CharacterStatistics(int.Parse(info[index++]), int.Parse(info[index++]), int.Parse(info[index++]));
         }
-        private static InventoryItem GetInventory(ref int index, string[] info)
+        private InventoryItem GetInventory(ref int index, string[] info)
         {
             var type = info[index++];
             if (InventoryType.Contains(type))
@@ -155,7 +155,7 @@ namespace Roguelike.Initialization
             }
             throw new ArgumentException($"Unknown inventory type: {type}.");
         }
-        private static List<InventoryItem> GetAllInventory(ref int index, string[] info)
+        private List<InventoryItem> GetAllInventory(ref int index, string[] info)
         {
             var inventory = new List<InventoryItem>();
             var count = int.Parse(info[index++]);

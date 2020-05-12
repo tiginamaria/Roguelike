@@ -6,6 +6,7 @@ using Roguelike.Initialization;
 using Roguelike.Input.Processors;
 using Roguelike.Interaction;
 using Roguelike.Model;
+using Roguelike.Model.Mobs;
 using Roguelike.Network;
 using Roguelike.View;
 
@@ -71,6 +72,7 @@ namespace Roguelike.Input.Controllers
                 {
                     var snapshot = initResponse.Level;
                     var levelFactory = FileLevelFactory.FromString(snapshot);
+                    levelFactory.SetMobFactory(new NetworkMobFactory());
                     return levelFactory.CreateLevel();
                 }
             }

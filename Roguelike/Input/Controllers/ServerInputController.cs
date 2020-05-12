@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
@@ -13,13 +14,18 @@ using Roguelike.Network;
 namespace Roguelike.Input.Controllers
 {
     public class ServerInputController : ServerInputControllerService.ServerInputControllerServiceBase, 
-        IMobMoveListener, IActionListener, IPlayerMoveListener
+        IMobMoveListener, IActionListener, IPlayerMoveListener, IUpdatable
     {
         private readonly Level level;
         private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
-        private readonly Dictionary<string, IServerStreamWriter<ServerResponse>> clientStreams =
-            new Dictionary<string, IServerStreamWriter<ServerResponse>>();
 
+        private readonly ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> responses = 
+            new ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>>();
+        private readonly ConcurrentQueue<InputRequest> requests = new ConcurrentQueue<InputRequest>();
+        private readonly ConcurrentQueue<LoginRequest> loginRequests = new ConcurrentQueue<LoginRequest>();
+        private readonly ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> loginResponses = 
+            new ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>>();
+        
         public ServerInputController(Level level)
         {
             this.level = level;
@@ -33,62 +39,130 @@ namespace Roguelike.Input.Controllers
         public override async Task Login(LoginRequest request, IServerStreamWriter<ServerResponse> responseStream,
             ServerCallContext context)
         {
-            if (!clientStreams.ContainsKey(request.Login))
+            try
+            {
+                loginRequests.Enqueue(request);
+
+                while (true)
+                {
+                    if (!loginResponses.ContainsKey(request.Login))
+                    {
+                        continue;
+                    }
+                    
+                    if (loginResponses[request.Login].TryDequeue(out var loginResponse))
+                    {
+                        await SendLoginResponses(request.Login, responseStream, loginResponse);
+                    }
+
+                    if (responses[request.Login].TryDequeue(out var response))
+                    {
+                        await responseStream.WriteAsync(response);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        private async Task SendLoginResponses(string targetLogin, 
+            IServerStreamWriter<ServerResponse> responseStream,
+            ServerResponse loginResponse)
+        {
+            if (loginResponse.Type == ResponseType.Init || loginResponse.Type == ResponseType.LoginExists)
+            {
+                Console.WriteLine($"Send login response {targetLogin} {loginResponse.Type.ToString()} to {targetLogin}");
+                await responseStream.WriteAsync(loginResponse);
+                if (loginResponse.Type == ResponseType.Init)
+                {
+                    responses.TryAdd(targetLogin, new ConcurrentQueue<ServerResponse>());
+                }
+            }
+            else if (loginResponse.Type == ResponseType.PlayerJoin)
+            {
+                Console.WriteLine(
+                    $"Send login response {loginResponse.Type.ToString()} {loginResponse.Login} to {targetLogin}");
+                await responseStream.WriteAsync(loginResponse);
+            }
+        }
+
+        public override Task<Empty> Move(InputRequest request, ServerCallContext context)
+        {
+            requests.Enqueue(request);
+            return Task.FromResult(new Empty());
+        }
+
+        public void Update()
+        {
+            if (loginRequests.TryDequeue(out var loginRequest))
+            {
+                ProcessLoginRequest(loginRequest);
+            }
+            if (requests.TryDequeue(out var request))
+            {
+                ProcessRequest(request);
+            }
+        }
+
+        private void ProcessLoginRequest(LoginRequest request)
+        {
+            if (!loginResponses.ContainsKey(request.Login))
             {
                 var newPlayer = level.AddPlayerAtEmpty(request.Login);
                 var levelSnapshot = level.Save().ToString();
-                var initResponse = new ServerResponse {Type = ResponseType.Init, Level = levelSnapshot};
-                await responseStream.WriteAsync(initResponse);
+                var initResponse = new ServerResponse {Type = ResponseType.Init, Level = levelSnapshot, Login = request.Login};
+
+                if (!loginResponses.TryAdd(request.Login, new ConcurrentQueue<ServerResponse>()))
+                {
+                    var rejectResponse = new ServerResponse {Type = ResponseType.LoginExists, Login = request.Login};
+                    loginResponses[request.Login].Enqueue(rejectResponse);
+                    return;
+                }
                 
-                foreach (var targetLogin in clientStreams.Keys)
+                loginResponses[request.Login].Enqueue(initResponse);
+
+                foreach (var targetLogin in loginResponses.Keys)
                 {
                     if (targetLogin == request.Login)
                     {
                         continue;
                     }
-                    
+
                     var response = new ServerResponse
                     {
                         Type = ResponseType.PlayerJoin,
                         Login = request.Login,
                         Pair = new Pair {Y = newPlayer.Position.Y, X = newPlayer.Position.X}
                     };
-                    Console.WriteLine($"Sending {response.Type.ToString()} {request.Login} to {targetLogin}");
-                    await clientStreams[targetLogin].WriteAsync(response);
+                    loginResponses[targetLogin].Enqueue(response);
                 }
-                clientStreams.Add(request.Login, responseStream);
             }
             else
             {
-                var rejectResponse = new ServerResponse {Type = ResponseType.LoginExists};
-                await responseStream.WriteAsync(rejectResponse);
-            }
-
-            while (true)
-            {
-                
+                var rejectResponse = new ServerResponse {Type = ResponseType.LoginExists, Login = request.Login};
+                loginResponses[request.Login].Enqueue(rejectResponse);
             }
         }
 
-        public override Task<Empty> Move(InputRequest request, ServerCallContext context)
+        private void ProcessRequest(InputRequest request)
         {
             var key = KeyParser.ToConsoleKey(request.KeyInput);
             var login = request.Login;
             var character = level.GetCharacter(login);
 
             Console.WriteLine($"Receive {key.Key} {login}");
-            
+
             foreach (var subscriber in subscribers)
             {
                 subscriber.ProcessInput(key, character);
             }
-
-            return Task.FromResult(new Empty());
         }
 
-        public async void MakeAction(AbstractPlayer player, ActionType actionType)
+        public void MakeAction(AbstractPlayer player, ActionType actionType)
         {
-            foreach (var targetLogin in clientStreams.Keys)
+            foreach (var targetLogin in responses.Keys)
             {
                 var response = new ServerResponse
                 {
@@ -97,13 +171,13 @@ namespace Roguelike.Input.Controllers
                     KeyInput = KeyParser.FromActionTypeToKeyInput(actionType)
                 };
                 Console.WriteLine($"Sending {response.Type.ToString()} {response.KeyInput} to {targetLogin}");
-                await clientStreams[targetLogin].WriteAsync(response);
+                responses[targetLogin].Enqueue(response);
             }
         }
 
-        public async void MovePlayer(AbstractPlayer player, Position intentPosition)
+        public void MovePlayer(AbstractPlayer player, Position intentPosition)
         {
-            foreach (var targetLogin in clientStreams.Keys)
+            foreach (var targetLogin in responses.Keys)
             {
                 var response = new ServerResponse
                 {
@@ -113,13 +187,13 @@ namespace Roguelike.Input.Controllers
                 };
                 Console.WriteLine($"Sending {response.Type.ToString()} " +
                                   $"{intentPosition.Y} {intentPosition.X} to {targetLogin}");
-                await clientStreams[targetLogin].WriteAsync(response);
+                responses[targetLogin].Enqueue(response);
             }
         }
 
-        public async void Move(Mob mob, Position intentPosition)
+        public void Move(Mob mob, Position intentPosition)
         {
-            foreach (var targetLogin in clientStreams.Keys)
+            foreach (var targetLogin in responses.Keys)
             {
                 var response = new ServerResponse
                 {
@@ -128,18 +202,8 @@ namespace Roguelike.Input.Controllers
                     Pair = new Pair {X = intentPosition.X, Y = intentPosition.Y}
                 };
                 Console.WriteLine($"Sending {response.Type.ToString()} {response.Pair.Y} {response.Pair.X} to {targetLogin}");
-                await clientStreams[targetLogin].WriteAsync(response);
+                responses[targetLogin].Enqueue(response);
             }
         }
-    }
-
-    public interface IPlayerMoveListener
-    {
-        void MovePlayer(AbstractPlayer player, Position intentPosition);
-    }
-
-    public interface IActionListener
-    {
-        void MakeAction(AbstractPlayer player, ActionType actionType);
     }
 }
