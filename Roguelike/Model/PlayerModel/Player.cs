@@ -98,7 +98,12 @@ namespace Roguelike.Model.PlayerModel
 
         public override string GetStringType()
         {
-            return PlayerType.Player;
+            if (level.IsCurrentPlayer(this))
+            {
+                return PlayerType.Player;
+            }
+
+            return PlayerType.EnemyPlayer;
         }
     }
 }

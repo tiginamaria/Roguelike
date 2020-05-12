@@ -108,7 +108,12 @@ namespace Roguelike.Model.PlayerModel
 
         public override string GetStringType()
         {
-            return PlayerType.ConfusedPlayer;
+            if (level.IsCurrentPlayer(this))
+            {
+                return PlayerType.ConfusedPlayer;
+            }
+
+            return PlayerType.EnemyConfusedPlayer;
         }
     }
 }

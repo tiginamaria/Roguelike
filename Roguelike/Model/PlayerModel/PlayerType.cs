@@ -6,6 +6,8 @@ namespace Roguelike.Model.PlayerModel
     {
         public const string Player = "$";
         public const string ConfusedPlayer = "?";
+        public const string EnemyPlayer = "J";
+        public const string EnemyConfusedPlayer = "Q";
         
         public static bool Contains(string type)
         {
