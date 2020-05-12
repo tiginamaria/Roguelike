@@ -7,6 +7,7 @@ using Roguelike.Model;
 using Roguelike.Model.Mobs;
 using Roguelike.Model.PlayerModel;
 using Roguelike.Network;
+using Roguelike.Network.Services;
 
 namespace Roguelike.Input.Controllers
 {

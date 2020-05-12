@@ -5,6 +5,7 @@ using Roguelike.Interaction;
 using Roguelike.Model;
 using Roguelike.Model.PlayerModel;
 using Roguelike.Network;
+using Roguelike.Network.Services;
 using Roguelike.View;
 
 namespace Roguelike.Initialization

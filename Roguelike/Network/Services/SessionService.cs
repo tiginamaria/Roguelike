@@ -5,7 +5,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Roguelike.Initialization;
 
-namespace Roguelike.Network
+namespace Roguelike.Network.Services
 {
     public class SessionService : NetworkSessionService.NetworkSessionServiceBase
     {

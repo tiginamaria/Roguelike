@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 
-namespace Roguelike.Network
+namespace Roguelike.Network.Services
 {
     public class ServerInputService : NetworkServerInputService.NetworkServerInputServiceBase
     {
