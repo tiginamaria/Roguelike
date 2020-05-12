@@ -13,6 +13,11 @@ namespace Roguelike.Interaction
         
         public override void IntentMove(Mob mob, int deltaY, int deltaX)
         {
+            if (mob == null)
+            {
+                return;
+            }
+            
             var oldPosition = mob.Position;
             mob.MoveStraightforward(deltaY, deltaX, level.Board);
             playView.UpdateMob(level, oldPosition, mob.Position);

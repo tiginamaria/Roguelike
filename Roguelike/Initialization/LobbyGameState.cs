@@ -2,16 +2,19 @@ using System;
 using System.Collections.Generic;
 using Roguelike.Exceptions;
 using Roguelike.Input.Processors;
+using Roguelike.Network.Services;
 
 namespace Roguelike.Initialization
 {
     public class LobbyGameState : IGameState
     {
         private readonly StateManager stateManager;
-        private readonly ClientInputProcessor inputProcessor = new ClientInputProcessor();
+        private readonly ClientInputProcessor inputProcessor;
 
         public LobbyGameState()
         {
+            var clientService = new ClientService();
+            inputProcessor = new ClientInputProcessor(clientService);
             stateManager = StateManager.GetInstance();
         }
         

@@ -56,7 +56,11 @@ namespace Roguelike.Initialization
             {
                 var mobMoveProcessor = new MobMoveProcessor(mob, mobMoveInteractor);
                 tickController.AddTickProcessor(mobMoveProcessor);
-                mob.OnDie += (sender, args) => { tickController.RemoveTickProcessor(mobMoveProcessor); };
+                mob.OnDie += (sender, args) =>
+                {
+                    level.Mobs.Remove(mob);
+                    tickController.RemoveTickProcessor(mobMoveProcessor);
+                };
             }
 
             inputLoop.Start();

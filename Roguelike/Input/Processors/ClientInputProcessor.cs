@@ -1,67 +1,50 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
 using Roguelike.Initialization;
 using Roguelike.Interaction;
 using Roguelike.Model;
 using Roguelike.Model.Mobs;
 using Roguelike.Network;
+using Roguelike.Network.Services;
 
 namespace Roguelike.Input.Processors
 {
     public class ClientInputProcessor : IUpdatable, IInputProcessor
     {
-        private IAsyncStreamReader<ServerResponse> call;
+        private readonly ClientService client;
+        private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
+        
         private string login;
-        private Task<bool> checkIncomingTask;
         private Level level;
         private MobMoveInteractor mobMoveInteractor;
         private PlayerMoveInteractor playerMoveInteractor;
         private SpawnPlayerInteractor spawnPlayerInteractor;
-        private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
-        private readonly NetworkServerInputService.NetworkServerInputServiceClient client;
+
         private bool stopped;
-        private readonly NetworkSessionService.NetworkSessionServiceClient sessionClient;
         private int sessionId;
 
-        public ClientInputProcessor(string host = "localhost", int port = 8080)
+        public ClientInputProcessor(ClientService client)
         {
-            var channel = new Channel($"{host}:{port}", ChannelCredentials.Insecure);
-            client = new NetworkServerInputService.NetworkServerInputServiceClient(channel);
-            sessionClient = new NetworkSessionService.NetworkSessionServiceClient(channel);
+            this.client = client;
         }
 
         public int CreateSession()
         {
-            var response = sessionClient.CreateSession(new Empty());
+            var response = client.CreateSession(new Empty());
             return response.Id;
         }
         
         public List<int> ListSessions()
         {
-            var result = new List<int>();
-            var response = sessionClient.ListSessions(new Empty());
-            while (true)
-            {
-                var task = response.ResponseStream.MoveNext();
-                task.Wait();
-                if (!task.Result)
-                {
-                    break;
-                }
-                result.Add(response.ResponseStream.Current.Id);
-            }
-
-            return result;
+            return client.ListSessions();
         }
 
         public Level Login(string login, int sessionId)
         {
             this.sessionId = sessionId;
             this.login = login;
-            call = client.Login(new LoginRequest {Login = login, SessionId = sessionId}).ResponseStream;
+            client.Login(login, sessionId);
             level = ProcessInitResponse();
 
             return level;
@@ -91,10 +74,8 @@ namespace Roguelike.Input.Processors
         {
             while (true)
             {
-                var initTask = call.MoveNext();
-                initTask.Wait();
-                var initResponse = call.Current;
-
+                var initResponse = client.GetResponse();
+                
                 if (initResponse.Type == ResponseType.LoginExists)
                 {
                     return null;
@@ -112,22 +93,10 @@ namespace Roguelike.Input.Processors
 
         public void Update()
         {
-            checkIncomingTask ??= call.MoveNext();
-
-            if (!checkIncomingTask.IsCompleted)
+            if (!client.TryGetResponse(out var serverResponse))
             {
                 return;
             }
-
-            if (!checkIncomingTask.Result)
-            {
-                checkIncomingTask = null;
-                return;
-            }    
-            
-            checkIncomingTask = null;
-            
-            var serverResponse = call.Current;
 
             if (serverResponse.Type == ResponseType.Action)
             {
@@ -184,10 +153,10 @@ namespace Roguelike.Input.Processors
                 KeyInput = KeyParser.FromConsoleKey(key),
                 SessionId = sessionId
             };
-            
+
             if (moveRequest.KeyInput != KeyInput.None)
             {
-                client.MoveAsync(moveRequest);
+                client.SendRequest(moveRequest);
             }
         }
     }
