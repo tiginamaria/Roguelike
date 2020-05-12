@@ -38,10 +38,7 @@ namespace Roguelike.Model.Mobs
             }
         }
 
-        public override CharacterStatistics GetStatistics()
-        {
-            return statistics;
-        }
+        public override CharacterStatistics GetStatistics() => statistics;
 
         public override void Confuse(Character other)
         {
@@ -50,10 +47,7 @@ namespace Roguelike.Model.Mobs
             statistics.Force += other.GetStatistics().Force / 2;
         }
 
-        public override void Collect(InventoryItem inventory)
-        {
-            inventory.Apply(statistics);
-        }
+        public override void Collect(InventoryItem inventory) => inventory.Apply(statistics);
 
         public override void AcceptConfuse(Character other)
         {
@@ -87,14 +81,8 @@ namespace Roguelike.Model.Mobs
             cancelled = false;
         }
 
-        public Position GetMove()
-        {
-            return Behaviour.MakeMove(level, Position);
-        }
+        public Position GetMove() => Behaviour.MakeMove(level, Position);
 
-        public override string GetStringType()
-        {
-            return Behaviour.GetStringType();
-        }
+        public override string GetStringType() => Behaviour.GetStringType();
     }
 }

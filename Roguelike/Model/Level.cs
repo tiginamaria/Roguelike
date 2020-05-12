@@ -36,30 +36,16 @@ namespace Roguelike.Model
             }
         }
 
-        public LevelSnapshot Save()
-        {
-            return new LevelSnapshot(new Board(Board.Width, Board.Height, Board.CloneGameObjects()));
-        }
+        public LevelSnapshot Save() => 
+            new LevelSnapshot(new Board(Board.Width, Board.Height, Board.CloneGameObjects()));
 
-        public AbstractPlayer GetPlayer(string login)
-        {
-            return playerManager.GetPlayer(login);
-        }
+        public AbstractPlayer GetPlayer(string login) => playerManager.GetPlayer(login);
 
-        public Mob GetMob(string id)
-        {
-            return Mobs.Find(mob => mob.Id == int.Parse(id));
-        }
+        public Mob GetMob(string id) => Mobs.Find(mob => mob.Id == int.Parse(id));
 
-        public bool IsCurrentPlayer(Character character)
-        {
-            return playerManager.IsCurrentPlayer(character);
-        }
+        public bool IsCurrentPlayer(Character character) => playerManager.IsCurrentPlayer(character);
 
-        public void UpdatePlayer(AbstractPlayer newPlayer)
-        {
-            playerManager.UpdatePlayer(newPlayer);
-        }
+        public void UpdatePlayer(AbstractPlayer newPlayer) => playerManager.UpdatePlayer(newPlayer);
 
         public AbstractPlayer RegisterPlayer(string login, Position position)
         {
@@ -95,15 +81,9 @@ namespace Roguelike.Model
             return newPlayer;
         }
 
-        public void DeletePlayer(AbstractPlayer player)
-        {
-            playerManager.DeletePlayer(player);
-        }
+        public void DeletePlayer(AbstractPlayer player) => playerManager.DeletePlayer(player);
 
-        public bool ContainsPlayer(string login)
-        {
-            return playerManager.ContainsPlayer(login);
-        }
+        public bool ContainsPlayer(string login) => playerManager.ContainsPlayer(login);
 
         public Position? NearestPlayerPosition(Position position) => playerManager.Players.Values
             .OrderBy(p => Graph.GetDistance(position, p.Position))

@@ -11,15 +11,9 @@ namespace Roguelike.Input.Controllers
         private readonly HashSet<ITickProcessor> subscribers = new HashSet<ITickProcessor>();
         private readonly HashSet<ITickProcessor> removedSubscribers = new HashSet<ITickProcessor>();
 
-        public void AddTickProcessor(ITickProcessor tickProcessor)
-        {
-            subscribers.Add(tickProcessor);
-        }
+        public void AddTickProcessor(ITickProcessor tickProcessor) => subscribers.Add(tickProcessor);
 
-        public void RemoveTickProcessor(ITickProcessor processor)
-        {
-            removedSubscribers.Add(processor);
-        }
+        public void RemoveTickProcessor(ITickProcessor processor) => removedSubscribers.Add(processor);
 
         /// <summary>
         /// Notifies the subscribed processors.

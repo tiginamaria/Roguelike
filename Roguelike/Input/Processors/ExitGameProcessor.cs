@@ -11,10 +11,7 @@ namespace Roguelike.Input.Processors
     public class ExitGameProcessor : IInputProcessor
     {
         private readonly ExitGameInteractor exitInteractor;
-        public ExitGameProcessor(ExitGameInteractor exitInteractor)
-        {
-            this.exitInteractor = exitInteractor;
-        }
+        public ExitGameProcessor(ExitGameInteractor exitInteractor) => this.exitInteractor = exitInteractor;
 
         public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {

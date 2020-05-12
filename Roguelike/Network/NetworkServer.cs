@@ -31,6 +31,7 @@ namespace Roguelike.Network
             };
             server.Start();
 
+            // To prevent the server from stop
             while (true)
             {
             }

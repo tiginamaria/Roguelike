@@ -48,22 +48,14 @@ namespace Roguelike.Initialization
         /// <summary>
         /// Creates the factory by the path to a file with a level description.
         /// </summary>
-        public FileLevelFactory(string path)
-        {
-            lines = File.ReadAllLines(path);
-        }
+        public FileLevelFactory(string path) => lines = File.ReadAllLines(path);
 
-        private FileLevelFactory(string[] lines)
-        {
-            this.lines = lines;
-        }
+        private FileLevelFactory(string[] lines) => this.lines = lines;
 
-        public static FileLevelFactory FromString(string snapshot)
-        {
-            return new FileLevelFactory(snapshot
-            .Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries)
+        public static FileLevelFactory FromString(string snapshot) =>
+            new FileLevelFactory(snapshot
+                .Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries)
                 .ToArray());
-        }
 
         public override Level CreateLevel()
         {
@@ -139,15 +131,13 @@ namespace Roguelike.Initialization
             return info[index++];
         }
 
-        private static Position GetPosition(ref int index, string[] info)
-        {
-            return new Position(int.Parse(info[index++]), int.Parse(info[index++]));
-        }
-        private static CharacterStatistics GetStatistics(ref int index, IReadOnlyList<string> info)
-        {
-            return new CharacterStatistics(int.Parse(info[index++]), 
+        private static Position GetPosition(ref int index, string[] info) => 
+            new Position(int.Parse(info[index++]), int.Parse(info[index++]));
+
+        private static CharacterStatistics GetStatistics(ref int index, IReadOnlyList<string> info) =>
+            new CharacterStatistics(int.Parse(info[index++]), 
                 int.Parse(info[index++]), int.Parse(info[index++]));
-        }
+
         private InventoryItem GetInventory(ref int index, string[] info)
         {
             var type = info[index++];

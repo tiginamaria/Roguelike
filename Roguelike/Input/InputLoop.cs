@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Timers;
-using Roguelike.Input.Controllers;
 
 namespace Roguelike.Input
 {

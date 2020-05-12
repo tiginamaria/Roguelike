@@ -19,14 +19,8 @@ namespace Roguelike.Initialization
         /// </summary>
         public abstract Level CreateLevel();
 
-        public void SetMobFactory(MobFactory mobFactory)
-        {
-            MobFactory = mobFactory;
-        }
+        public void SetMobFactory(MobFactory mobFactory) => MobFactory = mobFactory;
 
-        public void SetPlayerFactory(PlayerFactory playerFactory)
-        {
-            PlayerFactory = playerFactory;
-        }
+        public void SetPlayerFactory(PlayerFactory playerFactory) => PlayerFactory = playerFactory;
     }
 }

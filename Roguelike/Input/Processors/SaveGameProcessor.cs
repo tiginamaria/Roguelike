@@ -8,10 +8,7 @@ namespace Roguelike.Input.Processors
     {
         private readonly SaveGameInteractor interactor;
 
-        public SaveGameProcessor(SaveGameInteractor interactor)
-        {
-            this.interactor = interactor;
-        }
+        public SaveGameProcessor(SaveGameInteractor interactor) => this.interactor = interactor;
 
         public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {

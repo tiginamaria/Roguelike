@@ -18,9 +18,6 @@ namespace Roguelike.Model
             Experience = experience;
         }
 
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
+        public object Clone() => MemberwiseClone();
     }
 }

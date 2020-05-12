@@ -9,11 +9,9 @@ namespace Roguelike.Model.PlayerModel
     {
         private readonly ExitGameInteractor exitGameInteractor;
 
-        public NetworkPlayerFactory(ExitGameInteractor exitGameInteractor)
-        {
+        public NetworkPlayerFactory(ExitGameInteractor exitGameInteractor) => 
             this.exitGameInteractor = exitGameInteractor;
-        }
-        
+
         public override AbstractPlayer Create(string login, string type, Level level, Position position, 
             CharacterStatistics statistics, List<InventoryItem> inventory,  List<InventoryItem> appliedInventory)
         {

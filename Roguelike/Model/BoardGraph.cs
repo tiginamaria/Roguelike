@@ -27,10 +27,7 @@ namespace Roguelike.Model
             CalculateDistances();
         }
 
-        public int GetDistance(Position from, Position to)
-        {
-            return distance[PositionToId(from), PositionToId(to)];
-        }
+        public int GetDistance(Position from, Position to) => distance[PositionToId(@from), PositionToId(to)];
 
         private void CalculateDistances()
         {
@@ -43,10 +40,7 @@ namespace Roguelike.Model
             }
         }
 
-        private int PositionToId(Position position)
-        {
-            return position.Y * board.Width + position.X;
-        }
+        private int PositionToId(Position position) => position.Y * board.Width + position.X;
 
         private void Bfs(Position v)
         {

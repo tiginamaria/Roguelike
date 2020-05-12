@@ -25,10 +25,7 @@ namespace Roguelike.Input.Controllers
             this.serverInputService = serverInputService;
         }
         
-        public void AddInputProcessor(IInputProcessor inputProcessor)
-        {
-            subscribers.Add(inputProcessor);
-        }
+        public void AddInputProcessor(IInputProcessor inputProcessor) => subscribers.Add(inputProcessor);
 
         public void Update()
         {
@@ -70,11 +67,6 @@ namespace Roguelike.Input.Controllers
             {
                 ProcessRequest(loginRequest);
             }
-        }
-
-        public void Stop()
-        {
-            throw new NotImplementedException();
         }
 
         private void ProcessLoginRequest(LoginRequest request)
@@ -193,6 +185,10 @@ namespace Roguelike.Input.Controllers
                                   $"{response.Pair.X} to {targetLogin}");
                 serverInputService.Responses[targetLogin].Enqueue(response);
             }
+        }
+        
+        public void Stop()
+        {
         }
     }
 }

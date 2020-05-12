@@ -13,11 +13,8 @@ namespace Roguelike.Network.Services
         private int id;
         private readonly Dictionary<int, IGameState> sessions = new Dictionary<int, IGameState>();
 
-        public SessionService(ServerInputService inputService)
-        {
-            this.inputService = inputService;
-        }
-        
+        public SessionService(ServerInputService inputService) => this.inputService = inputService;
+
         public override async Task<CreateSessionResponse> CreateSession(Empty request, ServerCallContext context)
         {
             var newSessionId = id;

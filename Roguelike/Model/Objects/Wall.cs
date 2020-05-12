@@ -9,9 +9,7 @@ namespace Roguelike.Model.Objects
         public Wall(Position position) : base(position)
         {
         }
-        public override string GetStringType()
-        {
-            return BoardObject.Wall;
-        }
+        
+        public override string GetStringType() => BoardObject.Wall;
     }
 }

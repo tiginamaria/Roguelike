@@ -9,9 +9,6 @@ namespace Roguelike.Model.Objects
         {
         }
 
-        public override string GetStringType()
-        {
-            return BoardObject.Empty;
-        }
+        public override string GetStringType() => BoardObject.Empty;
     }
 }

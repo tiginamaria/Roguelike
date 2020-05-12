@@ -14,7 +14,7 @@ namespace Roguelike.View
         
         public int Left
         {
-            get { return left; }
+            get => left;
             set
             {
                 left = value;
@@ -24,7 +24,7 @@ namespace Roguelike.View
 
         public int Right
         {
-            get { return right; }
+            get => right;
             set
             {
                 right = value;
@@ -34,7 +34,7 @@ namespace Roguelike.View
 
         public int Top
         {
-            get { return top; }
+            get => top;
             set
             {
                 top = value;
@@ -44,7 +44,7 @@ namespace Roguelike.View
 
         public int Bottom
         {
-            get { return bottom; }
+            get => bottom;
             set
             {
                 bottom = value;

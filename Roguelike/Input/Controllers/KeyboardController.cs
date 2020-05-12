@@ -21,15 +21,9 @@ namespace Roguelike.Input.Controllers
             this.login = login;
         }
 
-        public void AddInputProcessor(IInputProcessor inputProcessor)
-        {
-            subscribers.Add(inputProcessor);
-        }
+        public void AddInputProcessor(IInputProcessor inputProcessor) => subscribers.Add(inputProcessor);
 
-        public void Stop()
-        {
-            stopped = true;
-        }
+        public void Stop() => stopped = true;
 
         /// <summary>
         /// Updates the input in non-blocking mode.

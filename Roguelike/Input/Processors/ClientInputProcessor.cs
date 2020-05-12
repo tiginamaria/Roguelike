@@ -24,10 +24,7 @@ namespace Roguelike.Input.Processors
         private bool stopped;
         private int sessionId;
 
-        public ClientInputProcessor(ClientService client)
-        {
-            this.client = client;
-        }
+        public ClientInputProcessor(ClientService client) => this.client = client;
 
         public int CreateSession()
         {
@@ -35,10 +32,7 @@ namespace Roguelike.Input.Processors
             return response.Id;
         }
         
-        public List<int> ListSessions()
-        {
-            return client.ListSessions();
-        }
+        public List<int> ListSessions() => client.ListSessions();
 
         public Level Login(string login, int sessionId)
         {
@@ -50,25 +44,17 @@ namespace Roguelike.Input.Processors
             return level;
         }
         
-        public void AddInputProcessor(IInputProcessor inputProcessor)
-        {
+        public void AddInputProcessor(IInputProcessor inputProcessor) => 
             subscribers.Add(inputProcessor);
-        }
 
-        public void SetMobInteractor(MobMoveInteractor mobMoveInteractor)
-        {
+        public void SetMobInteractor(MobMoveInteractor mobMoveInteractor) => 
             this.mobMoveInteractor = mobMoveInteractor;
-        }
-        
-        public void SetPlayerMoveInteractor(PlayerMoveInteractor playerMoveInteractor)
-        {
+
+        public void SetPlayerMoveInteractor(PlayerMoveInteractor playerMoveInteractor) => 
             this.playerMoveInteractor = playerMoveInteractor;
-        }
-        
-        public void SetSpawnPlayerInteractor(SpawnPlayerInteractor spawnPlayerInteractor)
-        {
+
+        public void SetSpawnPlayerInteractor(SpawnPlayerInteractor spawnPlayerInteractor) => 
             this.spawnPlayerInteractor = spawnPlayerInteractor;
-        }
 
         private Level ProcessInitResponse()
         {
@@ -135,10 +121,7 @@ namespace Roguelike.Input.Processors
             }
         }
 
-        public void Stop()
-        {
-            stopped = true;
-        }
+        public void Stop() => stopped = true;
 
         public void ProcessInput(ConsoleKeyInfo key, Character character)
         {

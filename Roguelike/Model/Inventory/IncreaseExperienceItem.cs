@@ -7,9 +7,6 @@
         {
         }
 
-        public override string GetStringType()
-        {
-            return InventoryType.IncreaseExperienceItem;
-        }
+        public override string GetStringType() => InventoryType.IncreaseExperienceItem;
     }
 }

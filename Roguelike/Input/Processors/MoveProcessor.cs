@@ -11,10 +11,7 @@ namespace Roguelike.Input.Processors
     {
         private readonly PlayerMoveInteractor moveInteractor;
         
-        public MoveProcessor(PlayerMoveInteractor moveInteractor)
-        {
-            this.moveInteractor = moveInteractor;
-        }
+        public MoveProcessor(PlayerMoveInteractor moveInteractor) => this.moveInteractor = moveInteractor;
 
         public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {

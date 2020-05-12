@@ -29,10 +29,7 @@ namespace Roguelike.Model.PlayerModel
             this.appliedInventoryItems = appliedInventoryItems;
         }
 
-        public override CharacterStatistics GetStatistics()
-        {
-            return statistics;
-        }
+        public override CharacterStatistics GetStatistics() => statistics;
 
         public override void Confuse(Character other)
         {
@@ -41,10 +38,7 @@ namespace Roguelike.Model.PlayerModel
             statistics.Force += other.GetStatistics().Force / 2;
         }
 
-        public override void Collect(InventoryItem newInventory)
-        {
-            inventoryItems.Add(newInventory);
-        }
+        public override void Collect(InventoryItem newInventory) => inventoryItems.Add(newInventory);
 
         public override void AcceptConfuse(Character other)
         {
@@ -86,15 +80,9 @@ namespace Roguelike.Model.PlayerModel
             }
         }
 
-        public override List<InventoryItem> GetInventory()
-        {
-            return inventoryItems;
-        }
+        public override List<InventoryItem> GetInventory() => inventoryItems;
 
-        public override List<InventoryItem> GetAppliedInventory()
-        {
-            return appliedInventoryItems;
-        }
+        public override List<InventoryItem> GetAppliedInventory() => appliedInventoryItems;
 
         public override string GetStringType()
         {

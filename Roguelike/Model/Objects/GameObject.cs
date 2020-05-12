@@ -7,10 +7,7 @@ namespace Roguelike.Model.Objects
     {
         public Position Position { get; protected set; }
 
-        public GameObject(Position initPosition)
-        {
-            Position = initPosition;
-        }
+        public GameObject(Position initPosition) => Position = initPosition;
 
         public abstract string GetStringType();
     }

@@ -25,20 +25,9 @@ namespace Roguelike.Interaction
             this.saveGameInteractor = saveGameInteractor;
         }
 
-        public void SetLevel(Level level)
-        {
-            this.level = level;
-        }
-        
-        public void SetListener(IActionListener listener)
-        {
-            this.listener = listener;
-        }
-        
-        public void SetSaveGameInteractor(SaveGameInteractor saveGameInteractor)
-        {
-            this.saveGameInteractor = saveGameInteractor;
-        }
+        public void SetLevel(Level level) => this.level = level;
+
+        public void SetListener(IActionListener listener) => this.listener = listener;
 
         public void Exit(Character character)
         {

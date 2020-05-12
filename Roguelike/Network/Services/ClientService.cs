@@ -19,10 +19,7 @@ namespace Roguelike.Network.Services
             sessionClient = new NetworkSessionService.NetworkSessionServiceClient(channel);
         }
 
-        public CreateSessionResponse CreateSession(Empty empty)
-        {
-            return sessionClient.CreateSession(empty);
-        }
+        public CreateSessionResponse CreateSession(Empty empty) => sessionClient.CreateSession(empty);
 
         public List<int> ListSessions()
         {
@@ -42,11 +39,9 @@ namespace Roguelike.Network.Services
             return result;
         }
 
-        public void Login(string login, int sessionId)
-        {
+        public void Login(string login, int sessionId) => 
             call = client.Login(new LoginRequest {Login = login, SessionId = sessionId}).ResponseStream;
-        }
-        
+
         public ServerResponse GetResponse()
         {
             var initTask = call.MoveNext();
@@ -76,9 +71,6 @@ namespace Roguelike.Network.Services
             return true;
         }
 
-        public void SendRequest(InputRequest moveRequest)
-        {
-            client.MoveAsync(moveRequest);
-        }
+        public void SendRequest(InputRequest moveRequest) => client.MoveAsync(moveRequest);
     }
 }

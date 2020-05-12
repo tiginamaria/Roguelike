@@ -7,9 +7,6 @@
         {
         }
 
-        public override string GetStringType()
-        {
-            return InventoryType.IncreaseAllItem;
-        }
+        public override string GetStringType() => InventoryType.IncreaseAllItem;
     }
 }

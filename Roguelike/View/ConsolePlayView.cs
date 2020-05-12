@@ -12,10 +12,7 @@ namespace Roguelike.View
     {
         private FixedBoundRectangle focusRectangle;
         
-        public ConsolePlayView()
-        {
-            Console.CursorVisible = false;
-        }
+        public ConsolePlayView() => Console.CursorVisible = false;
 
         /// <summary>
         /// Displays the given level by drawing its board in the console.

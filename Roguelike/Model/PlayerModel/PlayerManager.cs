@@ -29,24 +29,12 @@ namespace Roguelike.Model.PlayerModel
             }
         }
 
-        public void RegisterPlayer(AbstractPlayer player)
-        {
-            Players.Add(player.Login, player);
-        }
+        public void RegisterPlayer(AbstractPlayer player) => Players.Add(player.Login, player);
 
-        public void DeletePlayer(AbstractPlayer player)
-        {
-            Players.Remove(player.Login);
-        }
+        public void DeletePlayer(AbstractPlayer player) => Players.Remove(player.Login);
 
-        public bool ContainsPlayer(string login)
-        {
-            return Players.ContainsKey(login);
-        }
+        public bool ContainsPlayer(string login) => Players.ContainsKey(login);
 
-        public AbstractPlayer GetPlayer(string login)
-        {
-            return Players[login];
-        }
+        public AbstractPlayer GetPlayer(string login) => Players[login];
     }
 }

@@ -12,10 +12,7 @@ namespace Roguelike.Model
     {
         private readonly Board board;
 
-        public LevelSnapshot(Board board)
-        {
-            this.board = board;
-        }
+        public LevelSnapshot(Board board) => this.board = board;
 
         public override string ToString()
         {

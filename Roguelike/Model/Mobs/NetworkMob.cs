@@ -8,9 +8,6 @@ namespace Roguelike.Model.Mobs
         {
         }
 
-        protected override void BecomeConfused()
-        {
-            Behaviour = new ConfusedMobBehaviour();
-        }
+        protected override void BecomeConfused() => Behaviour = new ConfusedMobBehaviour();
     }
 }

@@ -16,10 +16,7 @@ namespace Roguelike
         {
         }
 
-        public static StateManager GetInstance()
-        {
-            return instance ??= new StateManager();
-        }
+        public static StateManager GetInstance() => instance ??= new StateManager();
 
         /// <summary>
         /// Switches to the given state and calls its invoke() method.

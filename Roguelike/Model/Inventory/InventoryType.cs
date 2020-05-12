@@ -9,15 +9,13 @@ namespace Roguelike.Model.Inventory
         public const string IncreaseExperienceItem = "E";
         public const string IncreaseAllItem = "A";
 
-        public static bool Contains(string symbol)
-        {
-            return new[]
+        public static bool Contains(string symbol) =>
+            new[]
             {
                 IncreaseHealthItem,
                 IncreaseForceItem,
                 IncreaseExperienceItem,
                 IncreaseAllItem
             }.Contains(symbol);
-        }
     }
 }

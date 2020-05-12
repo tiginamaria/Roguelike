@@ -10,16 +10,12 @@ namespace Roguelike.Model
     {
         public abstract CharacterStatistics GetStatistics();
 
-        private bool CanMoveTo(Position newPosition, Board board)
-        {
-            return newPosition != Position && board.CheckOnBoard(newPosition) &&
-                   !board.IsWall(newPosition);
-        }
-        
-        public virtual void Move(int intentVerticalMove, int intentHorizontalMove, Board board)
-        {
+        private bool CanMoveTo(Position newPosition, Board board) =>
+            newPosition != Position && board.CheckOnBoard(newPosition) &&
+            !board.IsWall(newPosition);
+
+        public virtual void Move(int intentVerticalMove, int intentHorizontalMove, Board board) => 
             MoveStraightforward(intentVerticalMove, intentHorizontalMove, board);
-        }
 
         public virtual void MoveStraightforward(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
@@ -48,11 +44,8 @@ namespace Roguelike.Model
             }
         }
 
-        public void Delete(Board board)
-        {
-            board.DeleteObject(Position);
-        }
-        
+        public void Delete(Board board) => board.DeleteObject(Position);
+
         /// <summary>
         /// Attacks another character. Calls AcceptConfuse on it.
         /// </summary>

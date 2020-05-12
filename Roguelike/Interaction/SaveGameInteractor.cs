@@ -9,11 +9,8 @@ namespace Roguelike.Interaction
         private readonly Level level;
         private LevelSnapshot snapshot;
 
-        public SaveGameInteractor(Level level)
-        {
-            this.level = level;
-        }
-        
+        public SaveGameInteractor(Level level) => this.level = level;
+
         public static string SaveFileName => 
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
                 "dump.txt");
@@ -26,10 +23,7 @@ namespace Roguelike.Interaction
             }
         }
 
-        public void Dump()
-        {
-            snapshot.Dump(SaveFileName);
-        }
+        public void Dump() => snapshot.Dump(SaveFileName);
 
         public void DeleteSaving()
         {

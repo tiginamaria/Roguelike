@@ -33,20 +33,15 @@ namespace Roguelike.Model.PlayerModel
                 });
         }
 
-        private int Confusion()
-        {
-            return Random.Next(2) == 1 ? 1 : -1;
-        }
+        private static int GetConfusion() => Random.Next(2) == 1 ? 1 : -1;
 
-        public Position ConfuseIntent(Position intent)
-        {
-            return new Position(Confusion() * intent.Y, Confusion() * intent.X);
-        }
+        public Position ConfuseIntent(Position intent) => 
+            new Position(GetConfusion() * intent.Y, GetConfusion() * intent.X);
 
         public override void Move(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
-            var newVerticalIntent = Confusion() * intentVerticalMove;
-            var newHorizontalIntent = Confusion() * intentHorizontalMove;
+            var newVerticalIntent = GetConfusion() * intentVerticalMove;
+            var newHorizontalIntent = GetConfusion() * intentHorizontalMove;
             player.Move(newVerticalIntent, newHorizontalIntent, board);
             Position = player.Position;
         }
@@ -57,20 +52,11 @@ namespace Roguelike.Model.PlayerModel
             Position = player.Position;
         }
 
-        public override CharacterStatistics GetStatistics()
-        {
-            return player.GetStatistics();
-        }
+        public override CharacterStatistics GetStatistics() => player.GetStatistics();
 
-        public override void Confuse(Character other)
-        {
-            player.Confuse(other);
-        }
+        public override void Confuse(Character other) => player.Confuse(other);
 
-        public override void Collect(InventoryItem inventory)
-        {
-            player.Collect(inventory);
-        }
+        public override void Collect(InventoryItem inventory) => player.Collect(inventory);
 
         public override void AcceptConfuse(Character other)
         {
@@ -86,25 +72,13 @@ namespace Roguelike.Model.PlayerModel
             level.Board.SetObject(Position, player);
         }
 
-        public override void PutOff(string inventoryType)
-        {
-            player.PutOff(inventoryType);
-        }
+        public override void PutOff(string inventoryType) => player.PutOff(inventoryType);
 
-        public override void PutOn(string inventoryType)
-        {
-            player.PutOn(inventoryType);
-        }
+        public override void PutOn(string inventoryType) => player.PutOn(inventoryType);
 
-        public override List<InventoryItem> GetInventory()
-        {
-            return player.GetInventory();
-        }
+        public override List<InventoryItem> GetInventory() => player.GetInventory();
 
-        public override List<InventoryItem> GetAppliedInventory()
-        {
-            return player.GetAppliedInventory();
-        }
+        public override List<InventoryItem> GetAppliedInventory() => player.GetAppliedInventory();
 
         public override string GetStringType()
         {

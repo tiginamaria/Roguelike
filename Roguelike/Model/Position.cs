@@ -30,10 +30,7 @@ namespace Roguelike.Model
             return first.X != second.X || first.Y != second.Y;
         }
         
-        public bool Equals(Position other)
-        {
-            return X == other.X && Y == other.Y;
-        }
+        public bool Equals(Position other) => X == other.X && Y == other.Y;
 
         public override bool Equals(object obj)
         {

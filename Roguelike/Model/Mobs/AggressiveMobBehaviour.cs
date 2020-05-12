@@ -20,9 +20,6 @@ namespace Roguelike.Model.Mobs
             return position;
         }
 
-        public string GetStringType()
-        {
-            return MobType.AggressiveMob;
-        }
+        public string GetStringType() => MobType.AggressiveMob;
     }
 }
