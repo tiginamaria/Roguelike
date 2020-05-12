@@ -2,7 +2,7 @@ namespace Roguelike.Model.Mobs
 {
     public class AggressiveMobBehaviour : IMobBehaviour
     {
-        private const int SearchRadius = 10;
+        private const int SearchRadius = 3;
 
         public Position MakeMove(Level level, Position position)
         {
