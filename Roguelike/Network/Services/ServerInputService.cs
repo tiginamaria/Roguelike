@@ -6,7 +6,7 @@ using Grpc.Core;
 
 namespace Roguelike.Network
 {
-    public class ServerInputService : ServerInputControllerService.ServerInputControllerServiceBase
+    public class ServerInputService : NetworkServerInputService.NetworkServerInputServiceBase
     {
         private readonly ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> responses = 
             new ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>>();

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Roguelike.Exceptions;
 using Roguelike.Input.Processors;
 
 namespace Roguelike.Initialization
@@ -23,15 +24,22 @@ namespace Roguelike.Initialization
 
                 Console.Write("Input login: ");
                 var login = Console.ReadLine();
-                
+
                 try
                 {
                     var clientGameState = new ClientGameState(inputProcessor, login, id);
                     stateManager.ChangeState(clientGameState);
                 }
+                catch (LoginExistsException e)
+                {
+                    Console.WriteLine("Login exists, try again.");
+                    Console.Error.WriteLine(e);
+                }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine("Something went wrong, exiting...");
+                    Console.Error.WriteLine(e);
+                    break;
                 }
             }
         }
@@ -72,7 +80,7 @@ namespace Roguelike.Initialization
         private List<int> ListSessions()
         {
             var sessions = inputProcessor.ListSessions();
-            Console.WriteLine($"Available sessions: {sessions.Count}");
+            Console.WriteLine($"Available sessions: {sessions.Count} found");
             foreach (var session in sessions)
             {
                 Console.WriteLine($"* {session}");

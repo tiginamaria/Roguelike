@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-service SessionService {
+service NetworkSessionService {
     rpc CreateSession(google.protobuf.Empty) returns (CreateSessionResponse) {}
     rpc ListSessions(google.protobuf.Empty) returns (stream ListSessionsResponse) {}
 }

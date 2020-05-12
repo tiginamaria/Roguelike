@@ -8,12 +8,12 @@ namespace Roguelike.Network
         private readonly ServerInputService inputService;
         private readonly string host;
         private readonly int port;
-        private readonly SessionManager sessionManager;
+        private readonly SessionService sessionService;
 
         public NetworkServer(string host = "localhost", int port = 8080)
         {
             inputService = new ServerInputService();
-            sessionManager = new SessionManager(inputService);
+            sessionService = new SessionService(inputService);
             this.host = host;
             this.port = port;
         }
@@ -23,8 +23,8 @@ namespace Roguelike.Network
             var server = new Server
             {
                 Services = {
-                    ServerInputControllerService.BindService(inputService), 
-                    SessionService.BindService(sessionManager)
+                    NetworkServerInputService.BindService(inputService), 
+                    NetworkSessionService.BindService(sessionService)
                 },
                 Ports = {new ServerPort(host, port, ServerCredentials.Insecure)}
             };

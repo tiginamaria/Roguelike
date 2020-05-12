@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-service ServerInputControllerService {
+service NetworkServerInputService {
     rpc Login (LoginRequest) returns (stream ServerResponse) {}
     rpc Move (InputRequest) returns (google.protobuf.Empty) {}
 }

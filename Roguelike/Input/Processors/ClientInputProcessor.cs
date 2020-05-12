@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Roguelike.Initialization;
-using Roguelike.Input.Controllers;
 using Roguelike.Interaction;
 using Roguelike.Model;
 using Roguelike.Model.Mobs;
@@ -22,16 +21,16 @@ namespace Roguelike.Input.Processors
         private PlayerMoveInteractor playerMoveInteractor;
         private SpawnPlayerInteractor spawnPlayerInteractor;
         private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
-        private readonly ServerInputControllerService.ServerInputControllerServiceClient client;
+        private readonly NetworkServerInputService.NetworkServerInputServiceClient client;
         private bool stopped;
-        private readonly SessionService.SessionServiceClient sessionClient;
+        private readonly NetworkSessionService.NetworkSessionServiceClient sessionClient;
         private int sessionId;
 
         public ClientInputProcessor(string host = "localhost", int port = 8080)
         {
             var channel = new Channel($"{host}:{port}", ChannelCredentials.Insecure);
-            client = new ServerInputControllerService.ServerInputControllerServiceClient(channel);
-            sessionClient = new SessionService.SessionServiceClient(channel);
+            client = new NetworkServerInputService.NetworkServerInputServiceClient(channel);
+            sessionClient = new NetworkSessionService.NetworkSessionServiceClient(channel);
         }
 
         public int CreateSession()
@@ -142,7 +141,7 @@ namespace Roguelike.Input.Processors
                 var key = KeyParser.ToConsoleKey(serverResponse.KeyInput);
                 foreach (var subscriber in subscribers)
                 {
-                    if (level.ContainsCharacter(incomingLogin))
+                    if (level.ContainsPlayer(incomingLogin))
                     {
                         subscriber.ProcessInput(key, level.GetPlayer(incomingLogin));
                     }

@@ -11,12 +11,17 @@ namespace Roguelike.Model
     /// </summary>
     public class Level
     {
-        //public AbstractPlayer Player { get; set; }
-        private readonly Dictionary<string, AbstractPlayer> players = new Dictionary<string, AbstractPlayer>();
+        private readonly PlayerManager playerManager = new PlayerManager();
+        
         public List<Mob> Mobs { get; }
         public Board Board { get; }
         public BoardGraph Graph { get; }
-        public AbstractPlayer CurrentPlayer { get; set; }
+
+        public AbstractPlayer CurrentPlayer
+        {
+            get => playerManager.CurrentPlayer;
+            set => playerManager.CurrentPlayer = value;
+        }
 
         public Level(Func<Level, Board> boardCreator)
         {
@@ -26,7 +31,7 @@ namespace Roguelike.Model
             var playersList = Board.FindPlayers();
             foreach (var player in playersList)
             {
-                players.Add(player.Login, player);
+                playerManager.RegisterPlayer(player);
             }
         }
 
@@ -37,7 +42,7 @@ namespace Roguelike.Model
 
         public AbstractPlayer GetPlayer(string login)
         {
-            return players[login];
+            return playerManager.GetPlayer(login);
         }
 
         public Mob GetMob(string id)
@@ -47,28 +52,18 @@ namespace Roguelike.Model
 
         public bool IsCurrentPlayer(Character character)
         {
-            if (!(character is AbstractPlayer))
-            {
-                return false;
-            }
-
-            var playerCharacter = (AbstractPlayer) character;
-            return playerCharacter.Login == CurrentPlayer.Login;
+            return playerManager.IsCurrentPlayer(character);
         }
 
         public void UpdatePlayer(AbstractPlayer newPlayer)
         {
-            players[newPlayer.Login] = newPlayer;
-            if (IsCurrentPlayer(newPlayer))
-            {
-                CurrentPlayer = newPlayer;
-            }
+            playerManager.UpdatePlayer(newPlayer);
         }
 
         public AbstractPlayer RegisterPlayer(string login, Position position)
         {
             var newPlayer = new Player(login, this, position);
-            players.Add(login, newPlayer);
+            playerManager.RegisterPlayer(newPlayer);
             return newPlayer;
         }
         
@@ -101,12 +96,12 @@ namespace Roguelike.Model
 
         public void DeletePlayer(AbstractPlayer player)
         {
-            players.Remove(player.Login);
+            playerManager.DeletePlayer(player);
         }
 
-        public bool ContainsCharacter(string login)
+        public bool ContainsPlayer(string login)
         {
-            return players.ContainsKey(login);
+            return playerManager.ContainsPlayer(login);
         }
     }
 }

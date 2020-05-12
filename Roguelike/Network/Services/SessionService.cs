@@ -7,13 +7,13 @@ using Roguelike.Initialization;
 
 namespace Roguelike.Network
 {
-    public class SessionManager : SessionService.SessionServiceBase
+    public class SessionService : NetworkSessionService.NetworkSessionServiceBase
     {
         private readonly ServerInputService inputService;
         private int id;
         private readonly Dictionary<int, IGameState> sessions = new Dictionary<int, IGameState>();
 
-        public SessionManager(ServerInputService inputService)
+        public SessionService(ServerInputService inputService)
         {
             this.inputService = inputService;
         }

@@ -16,9 +16,9 @@
           <OutputDir>obj/Debug/netcoreapp3.1/</OutputDir>
           <Link>Network/Protos/SessionService.proto</Link>
         </Protobuf>
-        <Protobuf Include="Network\Protos\NetworkMode.proto">
+        <Protobuf Include="Network\Protos\ServerInputService.proto">
             <OutputDir>obj/Debug/netcoreapp3.1/</OutputDir>
-          <Link>Network/Protos/NetworkMode.proto</Link>
+          <Link>Network/Protos/ServerInputService.proto</Link>
         </Protobuf>
     </ItemGroup>
 </Project>

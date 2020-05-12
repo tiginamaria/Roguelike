@@ -1,5 +1,4 @@
 using Roguelike.Model;
-using Roguelike.Model.PlayerModel;
 using Roguelike.View;
 
 namespace Roguelike.Interaction
@@ -24,7 +23,7 @@ namespace Roguelike.Interaction
 
         public void DeletePlayer(string login)
         {
-            if (!level.ContainsCharacter(login))
+            if (!level.ContainsPlayer(login))
             {
                 return;
             }
