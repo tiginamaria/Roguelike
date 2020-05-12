@@ -3,14 +3,19 @@ namespace Roguelike.Model.Mobs
     public class AggressiveMobBehaviour : IMobBehaviour
     {
         private const int SearchRadius = 10;
-        
+
         public Position MakeMove(Level level, Position position)
         {
             var graph = level.Graph;
-            // if (graph.GetDistance(position, level.Player.Position) <= SearchRadius)
-            // {
-            //     return level.Graph.Nearest(position, level.Player.Position);
-            // }
+            var nearestPlayerPosition = level.NearestPlayerPosition(position);
+            if (nearestPlayerPosition != null)
+            {
+                var notNullNearestPlayerPosition = (Position) nearestPlayerPosition;
+                if (graph.GetDistance(position, notNullNearestPlayerPosition) <= SearchRadius)
+                {
+                    return level.Graph.Nearest(position, notNullNearestPlayerPosition);
+                }
+            }
 
             return position;
         }

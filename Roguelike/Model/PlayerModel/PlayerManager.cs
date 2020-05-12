@@ -7,6 +7,8 @@ namespace Roguelike.Model.PlayerModel
         private readonly Dictionary<string, AbstractPlayer> players = new Dictionary<string, AbstractPlayer>();
         public AbstractPlayer CurrentPlayer { get; set; }
 
+        public Dictionary<string, AbstractPlayer> Players => players;
+
         public bool IsCurrentPlayer(Character character)
         {
             if (!(character is AbstractPlayer))
