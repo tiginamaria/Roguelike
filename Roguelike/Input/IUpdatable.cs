@@ -1,4 +1,4 @@
-namespace Roguelike.Input.Controllers
+namespace Roguelike.Input
 {
     /// <summary>
     /// An interface for objects than should be automatically updated.

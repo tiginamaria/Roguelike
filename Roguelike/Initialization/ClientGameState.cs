@@ -63,7 +63,7 @@ namespace Roguelike.Initialization
             inputLoop.AddUpdatable(keyboardController);
             inputLoop.AddUpdatable(client);
 
-            level.CurrentPlayer = level.GetCharacter(login) as AbstractPlayer;
+            level.CurrentPlayer = level.GetPlayer(login) as AbstractPlayer;
             
             level.CurrentPlayer.OnDie += (sender, args) =>
             {

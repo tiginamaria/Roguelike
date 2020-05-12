@@ -49,7 +49,7 @@ namespace Roguelike.Input.Controllers
                 {
                     break;
                 }
-                subscriber.ProcessInput(key, level.GetCharacter(login));
+                subscriber.ProcessInput(key, level.GetPlayer(login));
             }
         }
     }

@@ -1,7 +1,7 @@
 using Roguelike.Interaction;
 using Roguelike.Model.PlayerModel;
 
-namespace Roguelike.Input.Controllers
+namespace Roguelike.Input
 {
     public interface IActionListener
     {

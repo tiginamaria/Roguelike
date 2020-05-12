@@ -3,7 +3,6 @@ using Roguelike.Model;
 using Roguelike.Model.Inventory;
 using Roguelike.Model.Mobs;
 using Roguelike.Model.Objects;
-using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.Initialization
 {

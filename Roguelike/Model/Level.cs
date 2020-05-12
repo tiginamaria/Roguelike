@@ -35,7 +35,7 @@ namespace Roguelike.Model
             return new LevelSnapshot(new Board(Board.Width, Board.Height, Board.CloneGameObjects()));
         }
 
-        public Character GetCharacter(string login)
+        public AbstractPlayer GetPlayer(string login)
         {
             return players[login];
         }

@@ -33,7 +33,7 @@ namespace Roguelike.Model.PlayerModel
                 });
         }
 
-        public int Confusion()
+        private int Confusion()
         {
             return Random.Next(2) == 1 ? 1 : -1;
         }

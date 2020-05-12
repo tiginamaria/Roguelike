@@ -12,6 +12,7 @@ namespace Roguelike.Input.Processors
         /// This method is called whenever the user input is handled.
         /// </summary>
         /// <param name="key">A key pressed</param>
+        /// <param name="character"></param>
         void ProcessInput(ConsoleKeyInfo key, Character character);
     }
 }

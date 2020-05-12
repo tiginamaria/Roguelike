@@ -85,7 +85,7 @@ namespace Roguelike.Initialization
                 level.AddPlayerAtEmpty(Login);
             }
 
-            level.CurrentPlayer = level.GetCharacter(Login) as AbstractPlayer;
+            level.CurrentPlayer = level.GetPlayer(Login) as AbstractPlayer;
             level.CurrentPlayer.OnDie += (sender, args) =>
             {
                 inputLoop.Stop();

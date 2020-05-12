@@ -7,7 +7,7 @@ namespace Roguelike.Input
     /// <summary>
     /// Updates the input sources of the game.
     /// </summary>
-    public class InputLoop : IStoppable
+    public class InputLoop
     {
         private readonly List<IUpdatable> subscribers = new List<IUpdatable>();
         private readonly List<IUpdatable> fixedSubscribers = new List<IUpdatable>();

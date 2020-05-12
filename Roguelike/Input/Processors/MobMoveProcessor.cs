@@ -1,5 +1,4 @@
 using Roguelike.Interaction;
-using Roguelike.Model;
 using Roguelike.Model.Mobs;
 
 namespace Roguelike.Input.Processors

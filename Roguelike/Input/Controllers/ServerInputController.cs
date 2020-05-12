@@ -137,7 +137,7 @@ namespace Roguelike.Input.Controllers
         {
             var key = KeyParser.ToConsoleKey(request.KeyInput);
             var login = request.Login;
-            var character = level.GetCharacter(login);
+            var character = level.GetPlayer(login);
 
             Console.WriteLine($"Receive {key.Key} {login}");
 

@@ -65,7 +65,8 @@ namespace Roguelike.Model.PlayerModel
 
         public override void PutOff(string inventoryType)
         {
-            var inventoryToRemove = appliedInventoryItems.FirstOrDefault(inv => inv.GetStringType() == inventoryType);
+            var inventoryToRemove = appliedInventoryItems
+                .FirstOrDefault(inv => inv.GetStringType() == inventoryType);
             if (inventoryToRemove != null)
             {
                 inventoryToRemove.Remove(statistics);
@@ -75,7 +76,8 @@ namespace Roguelike.Model.PlayerModel
 
         public override void PutOn(string inventoryType)
         {
-            var inventoryToActivate = inventoryItems.FirstOrDefault(inv => inv.GetStringType() == inventoryType);
+            var inventoryToActivate = inventoryItems
+                .FirstOrDefault(inv => inv.GetStringType() == inventoryType);
             if (inventoryToActivate != null)
             {
                 appliedInventoryItems.Add(inventoryToActivate);

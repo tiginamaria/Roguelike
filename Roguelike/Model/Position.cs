@@ -3,7 +3,7 @@ namespace Roguelike.Model
     /// <summary>
     /// Represents the position in a grid with integer nodes.
     /// </summary>
-    public struct Position
+    public readonly struct Position
     {
         public int X { get; }
         public int Y { get; }

@@ -32,7 +32,8 @@ namespace Roguelike.Network
             return await Task.FromResult(new CreateSessionResponse {Id = newSessionId});
         }
 
-        public override async Task ListSessions(Empty request, IServerStreamWriter<ListSessionsResponse> responseStream, 
+        public override async Task ListSessions(Empty request, 
+            IServerStreamWriter<ListSessionsResponse> responseStream, 
             ServerCallContext context)
         {
             foreach (var sessionsKey in sessions.Keys)

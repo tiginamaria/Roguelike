@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Roguelike.Input.Controllers;
 using Roguelike.Input.Processors;
 
 namespace Roguelike.Initialization

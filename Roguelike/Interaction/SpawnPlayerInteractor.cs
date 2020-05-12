@@ -29,7 +29,7 @@ namespace Roguelike.Interaction
                 return;
             }
             
-            var player = level.GetCharacter(login) as AbstractPlayer;
+            var player = level.GetPlayer(login);
             player.Delete(level.Board);
             level.DeletePlayer(player);
             

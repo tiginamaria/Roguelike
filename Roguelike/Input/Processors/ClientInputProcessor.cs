@@ -144,7 +144,7 @@ namespace Roguelike.Input.Processors
                 {
                     if (level.ContainsCharacter(incomingLogin))
                     {
-                        subscriber.ProcessInput(key, level.GetCharacter(incomingLogin));
+                        subscriber.ProcessInput(key, level.GetPlayer(incomingLogin));
                     }
                 }
             } 
@@ -158,7 +158,7 @@ namespace Roguelike.Input.Processors
             {
                 var incomingLogin = serverResponse.Login;
                 var deltaMove = serverResponse.Pair;
-                playerMoveInteractor.IntentMove(level.GetCharacter(incomingLogin), deltaMove.Y, deltaMove.X);
+                playerMoveInteractor.IntentMove(level.GetPlayer(incomingLogin), deltaMove.Y, deltaMove.X);
             }
             else if (serverResponse.Type == ResponseType.PlayerJoin)
             {

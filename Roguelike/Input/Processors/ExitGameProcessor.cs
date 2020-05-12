@@ -1,8 +1,6 @@
 using System;
-using Roguelike.Input.Controllers;
 using Roguelike.Interaction;
 using Roguelike.Model;
-using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.Input.Processors
 {
