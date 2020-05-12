@@ -11,11 +11,15 @@ namespace Roguelike.Initialization
 {
     public class ServerGameState : IGameState
     {
+        private readonly int newSessionId;
+        private readonly ServerInputService inputService;
         private readonly LevelFactory levelFactory;
         private const string DummyLogin = "Dummy";
 
-        public ServerGameState()
+        public ServerGameState(int newSessionId, ServerInputService inputService)
         {
+            this.newSessionId = newSessionId;
+            this.inputService = inputService;
             levelFactory = new RandomLevelFactory();
         }
 
@@ -25,7 +29,7 @@ namespace Roguelike.Initialization
             var inputLoop = new InputLoop();
             var playView = new VoidView();
             
-            var inputController = new ServerInputController(level);
+            var inputController = new ServerInputController(level, newSessionId, inputService);
             
             var playerMoveInteractor = new PlayerMoveInteractor(level, playView, inputController);
             var mobMoveInteractor = new MobMoveInteractor(level, playView, inputController);
@@ -54,9 +58,6 @@ namespace Roguelike.Initialization
                 mob.OnDie += (sender, args) => { tickController.RemoveTickProcessor(mobMoveProcessor); };
             }
 
-            var server = new NetworkServer(inputController);
-            server.Start();
-            
             inputLoop.Start();
         }
     }

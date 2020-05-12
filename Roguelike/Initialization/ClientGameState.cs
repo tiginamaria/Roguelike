@@ -10,19 +10,22 @@ namespace Roguelike.Initialization
 {
     public class ClientGameState : IGameState
     {
+        private readonly ClientInputProcessor client;
         private readonly string login;
+        private readonly int sessionId;
 
-        public ClientGameState(string login)
+        public ClientGameState(ClientInputProcessor client, string login, int sessionId)
         {
+            this.client = client;
             this.login = login;
+            this.sessionId = sessionId;
         }
 
         public void InvokeState()
         {
             var playView = new ConsolePlayView();
             
-            var client = new ClientInputProcessor(playView);
-            var level = client.Login(login);
+            var level = client.Login(login, sessionId);
 
             if (level == null)
             {

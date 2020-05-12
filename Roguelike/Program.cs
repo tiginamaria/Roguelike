@@ -1,5 +1,6 @@
 using System;
 using Roguelike.Initialization;
+using Roguelike.Network;
 
 namespace Roguelike
 {
@@ -32,7 +33,7 @@ namespace Roguelike
 
             if (args[0] == "--server")
             {
-                return new ServerGameState();
+                return new NetworkServer();
             }
 
             if (args[0] == "--client")

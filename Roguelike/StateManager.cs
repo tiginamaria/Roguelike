@@ -8,7 +8,7 @@ namespace Roguelike
     /// </summary>
     public class StateManager
     {
-        public IGameState CurrentState { get; private set; }
+        private IGameState currentState;
 
         private static StateManager instance;
 
@@ -18,7 +18,7 @@ namespace Roguelike
 
         public static StateManager GetInstance()
         {
-            return instance ?? (instance = new StateManager());
+            return instance ??= new StateManager();
         }
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace Roguelike
         /// </summary>
         public void ChangeState(IGameState newGameState)
         {
-            CurrentState = newGameState;
-            CurrentState?.InvokeState();
+            currentState = newGameState;
+            currentState?.InvokeState();
         }
     }
 }

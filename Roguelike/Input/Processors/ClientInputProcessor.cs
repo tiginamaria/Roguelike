@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Roguelike.Initialization;
-using Roguelike.Input.Processors;
+using Roguelike.Input.Controllers;
 using Roguelike.Interaction;
 using Roguelike.Model;
 using Roguelike.Model.Mobs;
 using Roguelike.Network;
-using Roguelike.View;
 
-namespace Roguelike.Input.Controllers
+namespace Roguelike.Input.Processors
 {
     public class ClientInputProcessor : IUpdatable, IInputProcessor
     {
@@ -24,17 +24,45 @@ namespace Roguelike.Input.Controllers
         private readonly List<IInputProcessor> subscribers = new List<IInputProcessor>();
         private readonly ServerInputControllerService.ServerInputControllerServiceClient client;
         private bool stopped;
+        private readonly SessionService.SessionServiceClient sessionClient;
+        private int sessionId;
 
-        public ClientInputProcessor(IPlayView view, string host = "localhost", int port = 8080)
+        public ClientInputProcessor(string host = "localhost", int port = 8080)
         {
             var channel = new Channel($"{host}:{port}", ChannelCredentials.Insecure);
             client = new ServerInputControllerService.ServerInputControllerServiceClient(channel);
+            sessionClient = new SessionService.SessionServiceClient(channel);
         }
 
-        public Level Login(string login)
+        public int CreateSession()
         {
+            var response = sessionClient.CreateSession(new Empty());
+            return response.Id;
+        }
+        
+        public List<int> ListSessions()
+        {
+            var result = new List<int>();
+            var response = sessionClient.ListSessions(new Empty());
+            while (true)
+            {
+                var task = response.ResponseStream.MoveNext();
+                task.Wait();
+                if (!task.Result)
+                {
+                    break;
+                }
+                result.Add(response.ResponseStream.Current.Id);
+            }
+
+            return result;
+        }
+
+        public Level Login(string login, int sessionId)
+        {
+            this.sessionId = sessionId;
             this.login = login;
-            call = client.Login(new LoginRequest {Login = login}).ResponseStream;
+            call = client.Login(new LoginRequest {Login = login, SessionId = sessionId}).ResponseStream;
             level = ProcessInitResponse();
 
             return level;
@@ -151,7 +179,13 @@ namespace Roguelike.Input.Controllers
                 return;
             }
             
-            var moveRequest = new InputRequest {Login = login, KeyInput = KeyParser.FromConsoleKey(key)};
+            var moveRequest = new InputRequest
+            {
+                Login = login, 
+                KeyInput = KeyParser.FromConsoleKey(key),
+                SessionId = sessionId
+            };
+            
             if (moveRequest.KeyInput != KeyInput.None)
             {
                 client.MoveAsync(moveRequest);

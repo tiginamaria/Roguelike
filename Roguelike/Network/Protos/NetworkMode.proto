@@ -10,10 +10,12 @@ service ServerInputControllerService {
 message InputRequest {
     string login = 1;
     KeyInput keyInput = 2;
+    int32 sessionId = 3;
 }
 
 message LoginRequest {
     string login = 1;
+    int32 sessionId = 2;
 }
 
 message ServerResponse {
