@@ -74,6 +74,7 @@ namespace Roguelike.Model
         
         public AbstractPlayer AddPlayerAtEmpty(string login)
         {
+            var emptyPositions = new List<Position>();
             for (var i = 0; i < Board.Height; i++)
             {
                 for (var j = 0; j < Board.Width; j++)
@@ -81,14 +82,21 @@ namespace Roguelike.Model
                     var position = new Position(i, j);
                     if (Board.IsEmpty(position))
                     {
-                        var newPlayer = RegisterPlayer(login, position);
-                        Board.SetObject(position, newPlayer);
-                        return newPlayer;
+                        emptyPositions.Add(position);
                     }
                 }
             }
 
-            return null;
+            if (emptyPositions.Count == 0)
+            {
+                return null;
+            }
+
+            var random = new Random();
+            var emptyPosition = emptyPositions[random.Next(emptyPositions.Count)];
+            var newPlayer = RegisterPlayer(login, emptyPosition);
+            Board.SetObject(emptyPosition, newPlayer);
+            return newPlayer;
         }
 
         public void DeletePlayer(AbstractPlayer player)
