@@ -5,7 +5,7 @@ https://docs.google.com/document/d/1gGd7HVuZDebvwOwDosIV9V6NMwdhsqI7JzbrhdflZwk/
 
 Пререквизиты:
 ```
-.NET Framework 4.6
+.NET Core 3.1
 ```
 
 Сборка под Linux:
@@ -23,7 +23,8 @@ msbuild Roguelike.sln
 `Roguelike/bin/Debug/Roguelike.exe --server`
 
 ## Запуск клиента: 
-`Roguelike/bin/Debug/Roguelike.exe --client`, требуется указать имя пользователя
+`Roguelike/bin/Debug/Roguelike.exe --client`
+Далее потребуется указать имя пользователя и id сессии.
 
 ## Запуск локальной игры: 
 `Roguelike/bin/Debug/Roguelike.exe`
