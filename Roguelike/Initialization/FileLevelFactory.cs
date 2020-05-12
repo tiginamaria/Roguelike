@@ -60,8 +60,8 @@ namespace Roguelike.Initialization
 
         public static FileLevelFactory FromString(string snapshot)
         {
-            return new FileLevelFactory(snapshot.Split('\n')
-                .Where(s => s.Length > 0)
+            return new FileLevelFactory(snapshot
+            .Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries)
                 .ToArray());
         }
 
