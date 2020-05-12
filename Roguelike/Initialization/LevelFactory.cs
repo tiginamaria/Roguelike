@@ -10,19 +10,14 @@ namespace Roguelike.Initialization
     /// </summary>
     public abstract class LevelFactory
     {
-        protected InventoryFactory InventoryFactory = new InventoryFactory();
+        protected readonly InventoryFactory InventoryFactory = new InventoryFactory();
         protected MobFactory MobFactory = new MobFactory();
-        protected AbstractPlayerFactory PlayerFactory = new AbstractPlayerFactory();
+        protected readonly AbstractPlayerFactory PlayerFactory = new AbstractPlayerFactory();
         
         /// <summary>
         /// Returns a new level.
         /// </summary>
         public abstract Level CreateLevel();
-
-        public virtual AbstractPlayer AddPlayer(string login)
-        {
-            return null;
-        }
 
         public void SetMobFactory(MobFactory mobFactory)
         {

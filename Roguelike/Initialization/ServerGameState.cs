@@ -54,11 +54,6 @@ namespace Roguelike.Initialization
                 mob.OnDie += (sender, args) => { tickController.RemoveTickProcessor(mobMoveProcessor); };
             }
 
-            // level.Player.OnDie += (sender, args) =>
-            // {
-            //     inputLoop.Stop();
-            // };
-
             var server = new NetworkServer(inputController);
             server.Start();
             

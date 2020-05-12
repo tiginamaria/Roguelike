@@ -29,7 +29,8 @@ namespace Roguelike.Initialization
     ///             F -- force increase inventory
     ///             E -- experience increase inventory
     ///             A -- all statistics increase inventory
-    ///         2. Position (Y, X)
+    ///         2*. Login
+    ///         3. Position (Y, X)
     ///         3*. Statistics (Experience, Force, Health) -- only for player and mob
     ///         4*. (K, N) - count of (Inventory, Applied Inventory) -- only for player
     ///         5*. List of K Inventory and N Applied Inventory then in format down -- only for player
@@ -144,7 +145,8 @@ namespace Roguelike.Initialization
         }
         private static CharacterStatistics GetStatistics(ref int index, IReadOnlyList<string> info)
         {
-            return new CharacterStatistics(int.Parse(info[index++]), int.Parse(info[index++]), int.Parse(info[index++]));
+            return new CharacterStatistics(int.Parse(info[index++]), 
+                int.Parse(info[index++]), int.Parse(info[index++]));
         }
         private InventoryItem GetInventory(ref int index, string[] info)
         {
