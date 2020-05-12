@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Roguelike.Model.Mobs;
 using Roguelike.Model.Objects;
 using Roguelike.Model.PlayerModel;
@@ -12,7 +13,7 @@ namespace Roguelike.Model
     public class Level
     {
         private readonly PlayerManager playerManager = new PlayerManager();
-        
+
         public List<Mob> Mobs { get; }
         public Board Board { get; }
         public BoardGraph Graph { get; }
@@ -66,7 +67,7 @@ namespace Roguelike.Model
             playerManager.RegisterPlayer(newPlayer);
             return newPlayer;
         }
-        
+
         public AbstractPlayer AddPlayerAtEmpty(string login)
         {
             var emptyPositions = new List<Position>();
@@ -103,5 +104,9 @@ namespace Roguelike.Model
         {
             return playerManager.ContainsPlayer(login);
         }
+
+        public Position? NearestPlayerPosition(Position position) => playerManager.Players.Values
+            .OrderBy(p => Graph.GetDistance(position, p.Position))
+            .FirstOrDefault()?.Position;
     }
 }
