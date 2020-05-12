@@ -8,48 +8,46 @@ namespace Roguelike.Network.Services
 {
     public class ServerInputService : NetworkServerInputService.NetworkServerInputServiceBase
     {
-        private readonly ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> responses = 
+        public ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> LoginResponses { get; } = 
             new ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>>();
-        private readonly ConcurrentQueue<InputRequest> requests = new ConcurrentQueue<InputRequest>();
-        private readonly ConcurrentQueue<LoginRequest> loginRequests = new ConcurrentQueue<LoginRequest>();
-        private readonly ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> loginResponses = 
+        public ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> Responses { get; } = 
             new ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>>();
+        public ConcurrentQueue<LoginRequest> LoginRequests { get; } = 
+            new ConcurrentQueue<LoginRequest>();
+        public ConcurrentQueue<InputRequest> Requests { get; } = 
+            new ConcurrentQueue<InputRequest>();
 
-        public ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> LoginResponses => loginResponses;
-        public ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> Responses => responses;
-        public ConcurrentQueue<LoginRequest> LoginRequests => loginRequests;
-        public ConcurrentQueue<InputRequest> Requests => requests;
-
-        public override async Task Login(LoginRequest request, IServerStreamWriter<ServerResponse> responseStream,
+        public override async Task Login(LoginRequest request, 
+            IServerStreamWriter<ServerResponse> responseStream,
             ServerCallContext context)
         {
             try
             {
-                loginRequests.Enqueue(request);
+                LoginRequests.Enqueue(request);
 
                 while (true)
                 {
-                    if (!loginResponses.ContainsKey(request.Login))
+                    if (!LoginResponses.ContainsKey(request.Login))
                     {
                         continue;
                     }
                     
-                    if (loginResponses[request.Login].TryDequeue(out var loginResponse))
+                    if (LoginResponses[request.Login].TryDequeue(out var loginResponse))
                     {
                         await SendLoginResponses(request.Login, responseStream, loginResponse);
                     }
 
-                    if (!responses.ContainsKey(request.Login))
+                    if (!Responses.ContainsKey(request.Login))
                     {
                         continue;
                     }
 
-                    if (responses[request.Login].TryDequeue(out var response))
+                    if (Responses[request.Login].TryDequeue(out var response))
                     {
                         if (response.KeyInput == KeyInput.Exit && response.Login == request.Login)
                         {
-                            loginResponses.TryRemove(request.Login, out _);
-                            responses.TryRemove(request.Login, out _);
+                            LoginResponses.TryRemove(request.Login, out _);
+                            Responses.TryRemove(request.Login, out _);
                             break;
                         }
                         await responseStream.WriteAsync(response);
@@ -73,7 +71,7 @@ namespace Roguelike.Network.Services
                 await responseStream.WriteAsync(loginResponse);
                 if (loginResponse.Type == ResponseType.Init)
                 {
-                    responses.TryAdd(targetLogin, new ConcurrentQueue<ServerResponse>());
+                    Responses.TryAdd(targetLogin, new ConcurrentQueue<ServerResponse>());
                 }
             }
             else if (loginResponse.Type == ResponseType.PlayerJoin)
@@ -88,7 +86,7 @@ namespace Roguelike.Network.Services
         public override Task<Empty> Move(InputRequest request, ServerCallContext context)
         {
             Console.WriteLine($"Receive request {request.SessionId} {request.KeyInput} from {request.Login}");
-            requests.Enqueue(request);
+            Requests.Enqueue(request);
             return Task.FromResult(new Empty());
         }
     }
