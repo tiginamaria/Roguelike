@@ -9,5 +9,11 @@ namespace TestRoguelike
         {
             Assert.NotEqual(1, 2);
         }
+        
+        [Fact]
+        public void NewIdShouldReturnUniqueValues2()
+        {
+            Assert.Equal(1, 2);
+        }
     }
 }
