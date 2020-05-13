@@ -9,4 +9,4 @@ env:
 
 script:
   - dotnet build Roguelike.sln -c Release
-  - dotnet test -c Release -l "console;verbosity=detailed" RoguelikeTest/RoguelikeTest.csproj
+  - dotnet test -c Release -l "console;verbosity=detailed" --no-build RoguelikeTest/RoguelikeTest.csproj
