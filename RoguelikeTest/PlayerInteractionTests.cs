@@ -28,6 +28,7 @@ namespace TestRoguelike
             level.Player.Move(1, 0, board);
             Assert.IsTrue(board.IsEmpty(oldPlayerPosition));
             Assert.AreEqual(newPlayerPosition, level.Player.Position);
+            Assert.IsTrue(false);
         }
         
         [Test]
