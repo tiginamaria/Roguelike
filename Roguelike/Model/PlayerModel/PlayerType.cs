@@ -2,6 +2,9 @@ using System.Linq;
 
 namespace Roguelike.Model.PlayerModel
 {
+    /// <summary>
+    /// Returns a string representation of the player state.
+    /// </summary>
     public static class PlayerType
     {
         public const string Player = "$";

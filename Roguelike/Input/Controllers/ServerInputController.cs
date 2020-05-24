@@ -11,6 +11,10 @@ using Roguelike.Network.Services;
 
 namespace Roguelike.Input.Controllers
 {
+    /// <summary>
+    /// Receives requests from the network and passes them to subscribers.
+    /// Receives actions from interactors and passes them to the network.
+    /// </summary>
     public class ServerInputController : IMobMoveListener, IActionListener, IPlayerMoveListener, IUpdatable
     {
         private readonly Level level;
@@ -27,6 +31,9 @@ namespace Roguelike.Input.Controllers
         
         public void AddInputProcessor(IInputProcessor inputProcessor) => subscribers.Add(inputProcessor);
 
+        /// <summary>
+        /// Lookup for request and pass them to the subscribers.
+        /// </summary>
         public void Update()
         {
             UpdateLoginRequest();
@@ -140,6 +147,9 @@ namespace Roguelike.Input.Controllers
             }
         }
 
+        /// <summary>
+        /// Sends a player action by the network.
+        /// </summary>
         public void MakeAction(AbstractPlayer player, ActionType actionType)
         {
             foreach (var targetLogin in serverInputService.Responses.Keys)
@@ -155,6 +165,9 @@ namespace Roguelike.Input.Controllers
             }
         }
 
+        /// <summary>
+        /// Sends a player move by the network.
+        /// </summary>
         public void MovePlayer(AbstractPlayer player, Position intentPosition)
         {
             foreach (var targetLogin in serverInputService.Responses.Keys)
@@ -170,7 +183,10 @@ namespace Roguelike.Input.Controllers
                 serverInputService.Responses[targetLogin].Enqueue(response);
             }
         }
-
+        
+        /// <summary>
+        /// Sends a mob move by the network.
+        /// </summary>
         public void Move(Mob mob, Position intentPosition)
         {
             foreach (var targetLogin in serverInputService.Responses.Keys)
@@ -187,6 +203,9 @@ namespace Roguelike.Input.Controllers
             }
         }
         
+        /// <summary>
+        /// Server cannot be stopped this way.
+        /// </summary>
         public void Stop()
         {
         }

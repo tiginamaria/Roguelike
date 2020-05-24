@@ -2,6 +2,9 @@ using System.Linq;
 
 namespace Roguelike.Model.Mobs
 {
+    /// <summary>
+    /// A string representation of the mob state.
+    /// </summary>
     public static class MobType
     {
         public const string AggressiveMob = "*";

@@ -5,6 +5,9 @@ using Grpc.Core;
 
 namespace Roguelike.Network.Services
 {
+    /// <summary>
+    /// A service to receive and send requests to the server 
+    /// </summary>
     public class ClientService
     {
         private IAsyncStreamReader<ServerResponse> call;
@@ -21,6 +24,9 @@ namespace Roguelike.Network.Services
 
         public CreateSessionResponse CreateSession(Empty empty) => sessionClient.CreateSession(empty);
 
+        /// <summary>
+        /// Returns a list of available session ids.
+        /// </summary>
         public List<int> ListSessions()
         {
             var result = new List<int>();
@@ -39,16 +45,26 @@ namespace Roguelike.Network.Services
             return result;
         }
 
+        /// <summary>
+        /// Logins to the given session with the given login.
+        /// </summary>
         public void Login(string login, int sessionId) => 
             call = client.Login(new LoginRequest {Login = login, SessionId = sessionId}).ResponseStream;
 
+        /// <summary>
+        /// Synchronously waits for the response from the server.
+        /// </summary>
         public ServerResponse GetResponse()
         {
             var initTask = call.MoveNext();
             initTask.Wait();
-            return  call.Current;
+            return call.Current;
         }
         
+        /// <summary>
+        /// Returns a response from the server in non-blocking mode.
+        /// Returns true if response was received and false otherwise.
+        /// </summary>
         public bool TryGetResponse(out ServerResponse serverResponse)
         {
             checkIncomingTask ??= call.MoveNext();
@@ -71,6 +87,9 @@ namespace Roguelike.Network.Services
             return true;
         }
 
+        /// <summary>
+        /// Send a request in non-blocking mode.
+        /// </summary>
         public void SendRequest(InputRequest moveRequest) => client.MoveAsync(moveRequest);
     }
 }

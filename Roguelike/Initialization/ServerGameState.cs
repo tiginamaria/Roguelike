@@ -9,6 +9,9 @@ using Roguelike.View;
 
 namespace Roguelike.Initialization
 {
+    /// <summary>
+    /// Sets up the game on the server side in a network mode.
+    /// </summary>
     public class ServerGameState : IGameState
     {
         private readonly int newSessionId;

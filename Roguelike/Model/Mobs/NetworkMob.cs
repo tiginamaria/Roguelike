@@ -1,5 +1,8 @@
 namespace Roguelike.Model.Mobs
 {
+    /// <summary>
+    /// A representation of the mob in a network mode.
+    /// </summary>
     public class NetworkMob : Mob
     {
         public NetworkMob(Level level, IMobBehaviour behaviour, Position startPosition, 

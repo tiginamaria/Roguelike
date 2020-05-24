@@ -4,6 +4,9 @@ using Roguelike.Model.Inventory;
 
 namespace Roguelike.Model.PlayerModel
 {
+    /// <summary>
+    /// A player creation logic.
+    /// </summary>
     public class PlayerFactory
     {
         public virtual AbstractPlayer Create(string login, string type, Level level, Position position, 

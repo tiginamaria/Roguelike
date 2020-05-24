@@ -4,6 +4,9 @@ using Roguelike.Network.Services;
 
 namespace Roguelike.Network
 {
+    /// <summary>
+    /// Represents a server mode. Creates and starts server services.
+    /// </summary>
     public class NetworkServer : IGameState
     {
         private readonly ServerInputService inputService;

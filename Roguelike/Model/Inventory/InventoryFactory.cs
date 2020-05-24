@@ -2,6 +2,9 @@
 
 namespace Roguelike.Model.Inventory
 {
+    /// <summary>
+    /// A logic for inventory items creation.
+    /// </summary>
     public class InventoryFactory
     {
         public InventoryItem Create(string type, Position position)

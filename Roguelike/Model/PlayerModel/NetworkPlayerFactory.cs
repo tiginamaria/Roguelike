@@ -5,6 +5,10 @@ using Roguelike.Model.Inventory;
 
 namespace Roguelike.Model.PlayerModel
 {
+    /// <summary>
+    /// A player creation logic in network mode.
+    /// Redirects a die event.
+    /// </summary>
     public class NetworkPlayerFactory : PlayerFactory
     {
         private readonly ExitGameInteractor exitGameInteractor;

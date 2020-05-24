@@ -4,6 +4,9 @@ using Roguelike.Model;
 
 namespace Roguelike.Input.Processors
 {
+    /// <summary>
+    /// Handles a saving game input and passes it to the interactor.
+    /// </summary>
     public class SaveGameProcessor: IInputProcessor
     {
         private readonly SaveGameInteractor interactor;

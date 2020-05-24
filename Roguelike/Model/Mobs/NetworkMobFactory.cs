@@ -2,6 +2,10 @@ using System;
 
 namespace Roguelike.Model.Mobs
 {
+    /// <summary>
+    /// A logic of mob creation in network mode.
+    /// Substitutes a confused mob with a passive one.
+    /// </summary>
     public class NetworkMobFactory : MobFactory
     {
         public override Mob Create(string type, Level level, Position position, CharacterStatistics statistics)

@@ -8,12 +8,19 @@ using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.Model
 {
+    /// <summary>
+    /// Represents a snapshot of the game state.
+    /// </summary>
     public class LevelSnapshot
     {
         private readonly Board board;
 
         public LevelSnapshot(Board board) => this.board = board;
 
+        /// <summary>
+        /// Converts a snapshot to the string
+        /// using the format specified in FileLevelFactory.cs
+        /// </summary>
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -54,6 +61,9 @@ namespace Roguelike.Model
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Writes the snapshot to the file on the given path.
+        /// </summary>
         public void Dump(string path)
         {
             using var txtWriter = new StreamWriter(File.Open(path, FileMode.Create));

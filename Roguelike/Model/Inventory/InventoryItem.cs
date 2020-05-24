@@ -2,6 +2,11 @@
 
 namespace Roguelike.Model.Inventory
 {
+    /// <summary>
+    /// A basic class for inventory items.
+    /// Items can be activated and deactivated.
+    /// Increase player's characteristics while activated.
+    /// </summary>
     public abstract class InventoryItem: GameObject
     {
         private readonly int forceEffect;
@@ -16,6 +21,9 @@ namespace Roguelike.Model.Inventory
             this.experienceEffect = experienceEffect;
         }
 
+        /// <summary>
+        /// Activates an item.
+        /// </summary>
         public void Apply(CharacterStatistics statistics)
         {
             statistics.Force += forceEffect;
@@ -23,6 +31,9 @@ namespace Roguelike.Model.Inventory
             statistics.Experience += experienceEffect;
         }
         
+        /// <summary>
+        /// Deactivates an item.
+        /// </summary>
         public void Remove(CharacterStatistics statistics)
         {
             statistics.Force -= forceEffect;

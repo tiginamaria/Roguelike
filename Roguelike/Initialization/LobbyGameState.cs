@@ -6,6 +6,9 @@ using Roguelike.Network.Services;
 
 namespace Roguelike.Initialization
 {
+    /// <summary>
+    /// An interaction with the user before entering a game session.
+    /// </summary>
     public class LobbyGameState : IGameState
     {
         private readonly StateManager stateManager;
@@ -32,11 +35,13 @@ namespace Roguelike.Initialization
                 {
                     var clientGameState = new ClientGameState(inputProcessor, login, id);
                     stateManager.ChangeState(clientGameState);
+                    break;
                 }
                 catch (LoginExistsException e)
                 {
                     Console.WriteLine("Login exists, try again.");
                     Console.Error.WriteLine(e);
+                    break;
                 }
                 catch (Exception e)
                 {

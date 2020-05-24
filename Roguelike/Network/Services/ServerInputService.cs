@@ -6,6 +6,10 @@ using Grpc.Core;
 
 namespace Roguelike.Network.Services
 {
+    /// <summary>
+    /// Listen for the client to login and interacts with it.
+    /// Flattens the multithreading of incoming messages in one queue.
+    /// </summary>
     public class ServerInputService : NetworkServerInputService.NetworkServerInputServiceBase
     {
         public ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> LoginResponses { get; } = 
@@ -17,6 +21,9 @@ namespace Roguelike.Network.Services
         public ConcurrentQueue<InputRequest> Requests { get; } = 
             new ConcurrentQueue<InputRequest>();
 
+        /// <summary>
+        /// Starts a session with a client.
+        /// </summary>
         public override async Task Login(LoginRequest request, 
             IServerStreamWriter<ServerResponse> responseStream,
             ServerCallContext context)
@@ -66,8 +73,6 @@ namespace Roguelike.Network.Services
         {
             if (loginResponse.Type == ResponseType.Init || loginResponse.Type == ResponseType.LoginExists)
             {
-                Console.WriteLine($"Send login response {targetLogin} " +
-                                  $"{loginResponse.Type.ToString()} to {targetLogin}");
                 await responseStream.WriteAsync(loginResponse);
                 if (loginResponse.Type == ResponseType.Init)
                 {
@@ -76,16 +81,15 @@ namespace Roguelike.Network.Services
             }
             else if (loginResponse.Type == ResponseType.PlayerJoin)
             {
-                Console.WriteLine(
-                    $"Send login response {loginResponse.Type.ToString()} " +
-                    $"{loginResponse.Login} to {targetLogin}");
                 await responseStream.WriteAsync(loginResponse);
             }
         }
 
+        /// <summary>
+        /// Adds the incoming move request to the queue.
+        /// </summary>
         public override Task<Empty> Move(InputRequest request, ServerCallContext context)
         {
-            Console.WriteLine($"Receive request {request.SessionId} {request.KeyInput} from {request.Login}");
             Requests.Enqueue(request);
             return Task.FromResult(new Empty());
         }

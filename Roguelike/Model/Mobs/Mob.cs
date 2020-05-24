@@ -5,10 +5,12 @@ using Roguelike.Model.Inventory;
 
 namespace Roguelike.Model.Mobs
 {
+    /// <summary>
+    /// A system controlled character.
+    /// </summary>
     public class Mob : Character
     {
         private static int lastId;
-        
         private readonly Level level;
         private readonly IMobBehaviour originalBehaviour;
         private readonly CharacterStatistics statistics;
@@ -16,9 +18,15 @@ namespace Roguelike.Model.Mobs
         private readonly CancellationTokenSource cancellation = new CancellationTokenSource();
         private bool cancelled = true;
 
+        /// <summary>
+        /// A unique id.
+        /// </summary>
         public readonly int Id;
         protected IMobBehaviour Behaviour { get; set; }
 
+        /// <summary>
+        /// An event that is risen when the mob dies.
+        /// </summary>
         public event EventHandler OnDie;
 
         public Mob(Level level, IMobBehaviour behaviour, Position startPosition, 

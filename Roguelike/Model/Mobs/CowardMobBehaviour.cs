@@ -1,8 +1,11 @@
 namespace Roguelike.Model.Mobs
 {
+    /// <summary>
+    /// A mob behaviour when it runs from the nearest player in some radius.
+    /// </summary>
     public class CowardMobBehaviour : IMobBehaviour
     {
-        private const int SearchRadius = 10;
+        private const int SearchRadius = 4;
 
         public Position MakeMove(Level level, Position position)
         {

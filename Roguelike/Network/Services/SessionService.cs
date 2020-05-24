@@ -7,6 +7,9 @@ using Roguelike.Initialization;
 
 namespace Roguelike.Network.Services
 {
+    /// <summary>
+    /// Stores game sessions and provides an interface to them.
+    /// </summary>
     public class SessionService : NetworkSessionService.NetworkSessionServiceBase
     {
         private readonly ServerInputService inputService;
@@ -15,20 +18,24 @@ namespace Roguelike.Network.Services
 
         public SessionService(ServerInputService inputService) => this.inputService = inputService;
 
+        /// <summary>
+        /// Creates a game session and returns its new id asynchronously.
+        /// </summary>
         public override async Task<CreateSessionResponse> CreateSession(Empty request, ServerCallContext context)
         {
             var newSessionId = id;
             id++;
             
             var newSession = new ServerGameState(newSessionId, inputService);
-            Console.WriteLine($"Creating a session {newSessionId}");
             Task.Run(() => newSession.InvokeState());
             sessions.Add(newSessionId, newSession);
-            Console.WriteLine($"Session {newSessionId} created");
             
             return await Task.FromResult(new CreateSessionResponse {Id = newSessionId});
         }
 
+        /// <summary>
+        /// Writes available session ids to the given stream asynchronously.
+        /// </summary>
         public override async Task ListSessions(Empty request, 
             IServerStreamWriter<ListSessionsResponse> responseStream, 
             ServerCallContext context)

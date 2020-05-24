@@ -2,6 +2,9 @@ using System;
 
 namespace Roguelike.Model.Mobs
 {
+    /// <summary>
+    /// A mob behaviour when it randomly chooses its move direction.
+    /// </summary>
     public class ConfusedMobBehaviour : IMobBehaviour
     {
         private static readonly int[] Dx = {0, 0, -1, 1, 0};

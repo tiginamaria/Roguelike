@@ -3,6 +3,9 @@ using Roguelike.Interaction;
 
 namespace Roguelike.Network
 {
+    /// <summary>
+    /// Translates the input keys between different representations.
+    /// </summary>
     public static class KeyParser
     {
         public static ConsoleKeyInfo ToConsoleKey(KeyInput requestKeyInput)

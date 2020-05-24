@@ -5,6 +5,10 @@ using Roguelike.View;
 
 namespace Roguelike.Interaction
 {
+    /// <summary>
+    /// A specific interactor for network mode.
+    /// Moves a player whenever it is confused or not. 
+    /// </summary>
     public class NetworkMobMoveInteractor : MobMoveInteractor
     {
         public NetworkMobMoveInteractor(Level level, IPlayView playView) : base(level, playView)

@@ -1,5 +1,8 @@
 namespace Roguelike.Model.Mobs
 {
+    /// <summary>
+    /// A behaviour when a mob follows the nearest player in some radius.
+    /// </summary>
     public class AggressiveMobBehaviour : IMobBehaviour
     {
         private const int SearchRadius = 3;

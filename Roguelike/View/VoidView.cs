@@ -2,12 +2,11 @@ using Roguelike.Model;
 
 namespace Roguelike.View
 {
+    /// <summary>
+    /// Displays nothing. Used for the server mode.
+    /// </summary>
     public class VoidView : IPlayView
     {
-        public void Draw(Level level)
-        {
-        }
-
         public void UpdatePosition(Level level, Position position)
         {
         }

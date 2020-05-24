@@ -6,6 +6,9 @@ using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.Input.Processors
 {
+    /// <summary>
+    /// Handles inventory actions.
+    /// </summary>
     public class InventoryProcessor: IInputProcessor
     {
         private readonly InventoryInteractor inventoryInteractor;
@@ -17,6 +20,9 @@ namespace Roguelike.Input.Processors
             this.listener = listener;
         }
         
+        /// <summary>
+        /// Pass the action to the appropriate interactor.
+        /// </summary>
         public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {
             switch (keyInfo.Key)

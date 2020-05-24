@@ -2,6 +2,10 @@ using System.Collections.Generic;
 
 namespace Roguelike.Model.PlayerModel
 {
+    /// <summary>
+    /// Tracks the players on board.
+    /// Level.cs is used as its facade.
+    /// </summary>
     public class PlayerManager
     {
         public AbstractPlayer CurrentPlayer { get; set; }

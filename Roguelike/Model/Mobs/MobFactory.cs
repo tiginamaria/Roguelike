@@ -2,6 +2,9 @@
 
 namespace Roguelike.Model.Mobs
 {
+    /// <summary>
+    /// A logic of mob creation.
+    /// </summary>
     public class MobFactory
     {
         public Mob Create(string type, Level level, Position position) => 

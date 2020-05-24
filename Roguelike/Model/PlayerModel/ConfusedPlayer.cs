@@ -34,10 +34,16 @@ namespace Roguelike.Model.PlayerModel
         }
 
         private static int GetConfusion() => Random.Next(2) == 1 ? 1 : -1;
-
+        
+        /// <summary>
+        /// Randomly reflects the given vector.
+        /// </summary>
         public Position ConfuseIntent(Position intent) => 
             new Position(GetConfusion() * intent.Y, GetConfusion() * intent.X);
 
+        /// <summary>
+        /// Moves the player, randomly reflecting its intent.
+        /// </summary>
         public override void Move(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
             var newVerticalIntent = GetConfusion() * intentVerticalMove;
@@ -46,6 +52,9 @@ namespace Roguelike.Model.PlayerModel
             Position = player.Position;
         }
 
+        /// <summary>
+        /// Moves the player directly.
+        /// </summary>
         public override void MoveStraightforward(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
             player.MoveStraightforward(intentVerticalMove, intentHorizontalMove, board);

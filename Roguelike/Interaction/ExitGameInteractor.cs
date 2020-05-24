@@ -5,6 +5,9 @@ using Roguelike.Model.PlayerModel;
 
 namespace Roguelike.Interaction
 {
+    /// <summary>
+    /// Performs a logic of exiting the game.
+    /// </summary>
     public class ExitGameInteractor
     {
         private Level level;
@@ -29,6 +32,11 @@ namespace Roguelike.Interaction
 
         public void SetListener(IActionListener listener) => this.listener = listener;
 
+        /// <summary>
+        /// Deletes the character from the board.
+        /// Saves the game if it is user controlled player and save interactor is set.
+        /// Notifies listeners.
+        /// </summary>
         public void Exit(Character character)
         {
             var player = character as AbstractPlayer;

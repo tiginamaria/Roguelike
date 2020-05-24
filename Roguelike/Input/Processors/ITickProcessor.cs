@@ -1,7 +1,7 @@
 namespace Roguelike.Input.Processors
 {
     /// <summary>
-    /// An interface to process ticks.
+    /// An interface to handle ticks.
     /// </summary>
     public interface ITickProcessor
     {

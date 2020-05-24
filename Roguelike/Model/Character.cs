@@ -14,9 +14,15 @@ namespace Roguelike.Model
             newPosition != Position && board.CheckOnBoard(newPosition) &&
             !board.IsWall(newPosition);
 
+        /// <summary>
+        /// Attempts to move a character considering all its effects.
+        /// </summary>
         public virtual void Move(int intentVerticalMove, int intentHorizontalMove, Board board) => 
             MoveStraightforward(intentVerticalMove, intentHorizontalMove, board);
 
+        /// <summary>
+        /// Attempts to move the character directly by the given delta.
+        /// </summary>
         public virtual void MoveStraightforward(int intentVerticalMove, int intentHorizontalMove, Board board)
         {
             var newPosition = Position + new Position(intentVerticalMove, intentHorizontalMove);
@@ -44,6 +50,9 @@ namespace Roguelike.Model
             }
         }
 
+        /// <summary>
+        /// Deletes itself from board.
+        /// </summary>
         public void Delete(Board board) => board.DeleteObject(Position);
 
         /// <summary>
@@ -51,6 +60,9 @@ namespace Roguelike.Model
         /// </summary>
         public abstract void Confuse(Character other);
         
+        /// <summary>
+        /// Adds the given item to the inventory.
+        /// </summary>
         public abstract void Collect(InventoryItem inventory);
 
         /// <summary>

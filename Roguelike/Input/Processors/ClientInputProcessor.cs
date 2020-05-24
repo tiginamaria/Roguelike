@@ -10,6 +10,10 @@ using Roguelike.Network.Services;
 
 namespace Roguelike.Input.Processors
 {
+    /// <summary>
+    /// Receives an input from the server and pass it to interactors.
+    /// Receives an input from the user and sends it to the server.
+    /// </summary>
     public class ClientInputProcessor : IUpdatable, IInputProcessor
     {
         private readonly ClientService client;
@@ -77,6 +81,9 @@ namespace Roguelike.Input.Processors
             }
         }
 
+        /// <summary>
+        /// Lookup for the server response and pass it to the corresponding interactor.
+        /// </summary>
         public void Update()
         {
             if (!client.TryGetResponse(out var serverResponse))
@@ -121,8 +128,14 @@ namespace Roguelike.Input.Processors
             }
         }
 
+        /// <summary>
+        /// Stops receiving user input.
+        /// </summary>
         public void Stop() => stopped = true;
 
+        /// <summary>
+        /// Pass the current input to the server.
+        /// </summary>
         public void ProcessInput(ConsoleKeyInfo key, Character character)
         {
             if (stopped)

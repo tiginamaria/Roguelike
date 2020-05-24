@@ -4,7 +4,7 @@ using Roguelike.Model;
 namespace Roguelike.Input.Processors
 {
     /// <summary>
-    /// An interface for processing user input.
+    /// An interface for handling user input.
     /// </summary>
     public interface IInputProcessor
     {

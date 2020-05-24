@@ -4,6 +4,9 @@ using Roguelike.View;
 
 namespace Roguelike.Interaction
 {
+    /// <summary>
+    /// Performs a logic of player's inventory actions.
+    /// </summary>
     public class InventoryInteractor
     {
         private readonly IPlayView playView;
@@ -15,9 +18,13 @@ namespace Roguelike.Interaction
             this.playView = playView;
         }
 
+        /// <summary>
+        /// Activates the inventory item with the given type
+        /// if it is a user-controlled player.
+        /// </summary>
         public void PutOn(Character character, string inventoryType)
         {
-            if (character is Player player)
+            if (character is AbstractPlayer player)
             {
                 player.PutOn(inventoryType);
             }
@@ -28,9 +35,13 @@ namespace Roguelike.Interaction
             }
         }
 
+        /// <summary>
+        /// Deactivates the inventory item with the given type
+        /// if it is a user-controlled player.
+        /// </summary>
         public void PutOff(Character character, string inventoryType)
         {
-            if (character is Player player)
+            if (character is AbstractPlayer player)
             {
                 player.PutOff(inventoryType);
             }
