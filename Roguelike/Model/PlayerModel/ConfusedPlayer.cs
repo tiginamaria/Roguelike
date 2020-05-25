@@ -38,7 +38,7 @@ namespace Roguelike.Model.PlayerModel
         /// <summary>
         /// Randomly reflects the given vector.
         /// </summary>
-        public Position ConfuseIntent(Position intent) => 
+        public static Position ConfuseIntent(Position intent) => 
             new Position(GetConfusion() * intent.Y, GetConfusion() * intent.X);
 
         /// <summary>
@@ -63,15 +63,15 @@ namespace Roguelike.Model.PlayerModel
 
         public override CharacterStatistics GetStatistics() => player.GetStatistics();
 
-        public override void Confuse(Character other) => player.Confuse(other);
+        public override void MakeDamage(Character other) => player.MakeDamage(other);
 
         public override void Collect(InventoryItem inventory) => player.Collect(inventory);
 
-        public override void AcceptConfuse(Character other)
+        public override void AcceptDamage(Character other)
         {
             cancellation.Cancel();
             RemoveEffect();
-            player.AcceptConfuse(other);
+            player.AcceptDamage(other);
         }
 
         private void RemoveEffect()

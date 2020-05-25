@@ -33,7 +33,7 @@ namespace Roguelike.Model
 
             if (board.IsCharacter(newPosition))
             {
-                Confuse(board.GetObject(newPosition) as Character);
+                MakeDamage(board.GetObject(newPosition) as Character);
             }
 
             if (board.IsInventory(newPosition))
@@ -56,9 +56,9 @@ namespace Roguelike.Model
         public void Delete(Board board) => board.DeleteObject(Position);
 
         /// <summary>
-        /// Attacks another character. Calls AcceptConfuse on it.
+        /// Attacks another character. Calls AcceptDamage on it.
         /// </summary>
-        public abstract void Confuse(Character other);
+        public abstract void MakeDamage(Character other);
         
         /// <summary>
         /// Adds the given item to the inventory.
@@ -68,7 +68,7 @@ namespace Roguelike.Model
         /// <summary>
         /// Updates itself when attacked by another character.
         /// </summary>
-        public abstract void AcceptConfuse(Character other);
+        public abstract void AcceptDamage(Character other);
 
         protected Character(Position initPosition) : base(initPosition)
         {

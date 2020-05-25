@@ -48,16 +48,16 @@ namespace Roguelike.Model.Mobs
 
         public override CharacterStatistics GetStatistics() => statistics;
 
-        public override void Confuse(Character other)
+        public override void MakeDamage(Character other)
         {
-            other.AcceptConfuse(this);
+            other.AcceptDamage(this);
             statistics.Experience++;
             statistics.Force += other.GetStatistics().Force / 2;
         }
 
         public override void Collect(InventoryItem inventory) => inventory.Apply(statistics);
 
-        public override void AcceptConfuse(Character other)
+        public override void AcceptDamage(Character other)
         {
             statistics.Health = Math.Max(0, statistics.Health - other.GetStatistics().Force / 2);
             if (statistics.Health == 0)

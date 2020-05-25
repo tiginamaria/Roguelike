@@ -34,7 +34,7 @@ namespace Roguelike.Interaction
 
             if (player is ConfusedPlayer confusedPlayer)
             {
-                var confusedPosition = confusedPlayer.ConfuseIntent(new Position(deltaY, deltaX));
+                var confusedPosition = ConfusedPlayer.ConfuseIntent(new Position(deltaY, deltaX));
                 deltaY = confusedPosition.Y;
                 deltaX = confusedPosition.X;
             }
