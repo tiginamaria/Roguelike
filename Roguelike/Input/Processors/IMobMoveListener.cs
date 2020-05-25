@@ -8,6 +8,9 @@ namespace Roguelike.Input.Processors
     /// </summary>
     public interface IMobMoveListener
     {
+        /// <summary>
+        /// This method is called when a mob intents to move to the given position.
+        /// </summary>
         void Move(Mob mob, Position intentPosition);
     }
 }

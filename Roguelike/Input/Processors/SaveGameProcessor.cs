@@ -13,6 +13,9 @@ namespace Roguelike.Input.Processors
 
         public SaveGameProcessor(SaveGameInteractor interactor) => this.interactor = interactor;
 
+        /// <summary>
+        /// Handles a saving game input and passes it to the interactor.
+        /// </summary>
         public void ProcessInput(ConsoleKeyInfo keyInfo, Character character)
         {
             if (keyInfo.Key == ConsoleKey.S)

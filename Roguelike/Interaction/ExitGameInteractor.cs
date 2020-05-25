@@ -12,7 +12,7 @@ namespace Roguelike.Interaction
     {
         private Level level;
         private IActionListener listener;
-        private SaveGameInteractor saveGameInteractor;
+        private readonly SaveGameInteractor saveGameInteractor;
 
         public EventHandler<AbstractPlayer> OnExit;
 
