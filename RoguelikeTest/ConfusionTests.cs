@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Roguelike.Initialization;
 using Roguelike.Model;
@@ -15,22 +14,11 @@ namespace RoguelikeTest
     [TestFixture]
     public class ConfusionTests
     {
-        private int height;
-        private int width;
         private Level level;
-        private char[][] boardConfiguration;
 
         [SetUp]
         public void SetUp()
         {
-            height = 3;
-            width = 3;
-            boardConfiguration = new[]
-            {
-                new[] {'.', '*', '.'},
-                new[] {'#', '$', '.'},
-                new[] {'.', '.', '.'}
-            };
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../test_maps/confusion_test_map.txt");
             level = new FileLevelFactory(path).CreateLevel();
             level.CurrentPlayer = level.GetPlayer("testplayer");

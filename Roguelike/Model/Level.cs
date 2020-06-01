@@ -12,7 +12,6 @@ namespace Roguelike.Model
     /// </summary>
     public class Level
     {
-        private static readonly string OfflinePlayerLogin = "OfflinePlayer"; 
         private readonly PlayerManager playerManager = new PlayerManager();
 
         /// <summary>
