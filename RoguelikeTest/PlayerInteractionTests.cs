@@ -37,6 +37,10 @@ namespace RoguelikeTest
             var board = level.Board;
             var player = level.CurrentPlayer;
             var oldPlayerPosition = player.Position;
+            
+            level.CurrentPlayer.Move(0, 0, board);
+            Assert.AreEqual(oldPlayerPosition, level.CurrentPlayer.Position);
+            
             level.CurrentPlayer.Move(0, -1, board);
             Assert.AreEqual(oldPlayerPosition, level.CurrentPlayer.Position);
         }

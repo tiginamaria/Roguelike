@@ -87,14 +87,6 @@ namespace Roguelike.Model
             return newPlayer;
         }
 
-        public AbstractPlayer AddOfflinePlayer(Position position)
-        {
-            var newPlayer = RegisterPlayer(OfflinePlayerLogin, position);
-            Board.SetObject(position, newPlayer);
-            CurrentPlayer = newPlayer;
-            return newPlayer;
-        }
-
         /// <summary>
         /// Adds player on a random empty position.
         /// Returns null if no empty positions found.

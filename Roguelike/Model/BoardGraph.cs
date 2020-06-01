@@ -109,7 +109,7 @@ namespace Roguelike.Model
         }
 
         /// <summary>
-        /// Return the best empty position next to 'from' in order to go from 'to'.
+        /// Return the best empty position far from 'from' in order to go from 'to'.
         /// </summary>
         public Position Farthest(Position from, Position to)
         {

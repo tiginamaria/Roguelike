@@ -92,7 +92,7 @@ namespace Roguelike.Initialization
         /// </summary>
         public bool AreConnected(int y1, int x1, int y2, int x2)
         {
-            if (!(IsValidCell(y1, x1) && IsValidCell(y2, x2)))
+            if (!IsValidCell(y1, x1) || !IsValidCell(y2, x2))
             {
                 return false;
             }
