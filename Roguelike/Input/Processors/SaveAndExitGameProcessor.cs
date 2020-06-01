@@ -8,11 +8,13 @@ namespace Roguelike.Input.Processors
     /// A controller to handle exit button click.
     /// Notifies the target if occurred.
     /// </summary>
-    public class ExitGameProcessor : IInputProcessor
+    public class SaveAndExitGameProcessor : IInputProcessor
     {
         private readonly ExitGameInteractor exitInteractor;
-        public ExitGameProcessor(ExitGameInteractor exitInteractor)
+        private readonly SaveGameInteractor saveInteractor;
+        public SaveAndExitGameProcessor(ExitGameInteractor exitInteractor, SaveGameInteractor saveInteractor)
         {
+            this.saveInteractor = saveInteractor;
             this.exitInteractor = exitInteractor;
         }
 
@@ -20,6 +22,8 @@ namespace Roguelike.Input.Processors
         {
             if (keyInfo.Key == ConsoleKey.Escape)
             {
+                saveInteractor.Save();
+                saveInteractor.Dump();
                 exitInteractor.Exit(character);
             }
         }

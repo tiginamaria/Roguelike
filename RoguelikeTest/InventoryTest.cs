@@ -1,4 +1,4 @@
-﻿namespace TestRoguelike
+﻿namespace RoguelikeTest
 {
     public class InventoryTest
     {

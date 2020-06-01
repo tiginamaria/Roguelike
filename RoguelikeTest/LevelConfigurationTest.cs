@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
@@ -7,10 +7,9 @@ using Roguelike.Model;
 using Roguelike.Model.Inventory;
 using Roguelike.Model.Mobs;
 
- namespace TestRoguelike
+namespace RoguelikeTest
 {
-    [TestFixture]
-    public class LevelConfigurationTests
+    public class LevelConfigurationTest
     {
         private int height;
         private int width;
@@ -29,7 +28,7 @@ using Roguelike.Model.Mobs;
                 new[]{'#', 'E', '#', 'A', '.', '#'},
                 new[]{'#', '#', 'o', '.', 'F', '#'}
             };
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../test_maps/level_snapshot.txt");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? string.Empty, "../../../test_maps/level_snapshot.txt");
             level = new FileLevelFactory(path).CreateLevel();
         }
 
@@ -50,22 +49,26 @@ using Roguelike.Model.Mobs;
                             Assert.IsTrue(level.Board.IsEmpty(new Position(i, j)));
                             break;
                         case '$':
-                            Assert.AreEqual(level.Player.Position, new Position(i, j));
-                            Assert.AreEqual(6, level.Player.GetStatistics().Experience);
-                            Assert.AreEqual(4, level.Player.GetStatistics().Force);
-                            Assert.AreEqual(5, level.Player.GetStatistics().Health);
-                            var inventory = level.Player.GetInventory();
+                            Assert.IsTrue(level.ContainsPlayer("testplayer"));
+                            var player = level.GetPlayer("testplayer");
+                            level.CurrentPlayer = level.GetPlayer("testplayer");
+                            Assert.IsTrue(level.IsCurrentPlayer(player));
+                            Assert.AreEqual(player.Position,  new Position(i, j));
+                            Assert.AreEqual(6, player.GetStatistics().Experience);
+                            Assert.AreEqual(4, player.GetStatistics().Force);
+                            Assert.AreEqual(5, player.GetStatistics().Health);
+                            var inventory = player.GetInventory();
                             Assert.AreEqual(2, inventory.Count);
                             Assert.AreEqual(typeof(IncreaseAllItem), inventory[0].GetType());
                             Assert.AreEqual(typeof(IncreaseForceItem), inventory[1].GetType());
-                            var appliedInventory = level.Player.GetAppliedInventory();
+                            var appliedInventory = player.GetAppliedInventory();
                             Assert.AreEqual(1, appliedInventory.Count);
                             Assert.AreEqual(typeof(IncreaseHealthItem), appliedInventory[0].GetType());
                             break;
                         case '*':
                             var aggressiveMob = level.Board.GetObject(new Position(i, j)) as Mob;
                             Assert.IsNotNull(aggressiveMob);
-                            Assert.AreEqual(typeof(AggressiveMobBehaviour), aggressiveMob.Behaviour.GetType());
+                            Assert.AreEqual(typeof(AggressiveMobBehaviour), aggressiveMob.GetBehaviour().GetType());
                             Assert.AreEqual(1, aggressiveMob.GetStatistics().Experience);
                             Assert.AreEqual(1, aggressiveMob.GetStatistics().Force);
                             Assert.AreEqual(11, aggressiveMob.GetStatistics().Health);
@@ -73,7 +76,7 @@ using Roguelike.Model.Mobs;
                         case '@':
                             var passiveMob = level.Board.GetObject(new Position(i, j)) as Mob;
                             Assert.IsNotNull(passiveMob);
-                            Assert.AreEqual(typeof(PassiveMobBehaviour), passiveMob.Behaviour.GetType());
+                            Assert.AreEqual(typeof(PassiveMobBehaviour), passiveMob.GetBehaviour().GetType());
                             Assert.AreEqual(0, passiveMob.GetStatistics().Experience);
                             Assert.AreEqual(2, passiveMob.GetStatistics().Force);
                             Assert.AreEqual(1, passiveMob.GetStatistics().Health);
@@ -81,7 +84,7 @@ using Roguelike.Model.Mobs;
                         case '%':
                             var cowardMob = level.Board.GetObject(new Position(i, j)) as Mob;
                             Assert.IsNotNull(cowardMob);
-                            Assert.AreEqual(typeof(CowardMobBehaviour), cowardMob.Behaviour.GetType());
+                            Assert.AreEqual(typeof(CowardMobBehaviour), cowardMob.GetBehaviour().GetType());
                             Assert.AreEqual(1, cowardMob.GetStatistics().Experience);
                             Assert.AreEqual(3, cowardMob.GetStatistics().Force);
                             Assert.AreEqual(2, cowardMob.GetStatistics().Health);
@@ -89,7 +92,7 @@ using Roguelike.Model.Mobs;
                         case 'o':
                             var confusedMob = level.Board.GetObject(new Position(i, j)) as Mob;
                             Assert.IsNotNull(confusedMob);
-                            Assert.AreEqual(typeof(ConfusedMobBehaviour), confusedMob.Behaviour.GetType());
+                            Assert.AreEqual(typeof(ConfusedMobBehaviour), confusedMob.GetBehaviour().GetType());
                             Assert.AreEqual(6, confusedMob.GetStatistics().Experience);
                             Assert.AreEqual(3, confusedMob.GetStatistics().Force);
                             Assert.AreEqual(2, confusedMob.GetStatistics().Health);

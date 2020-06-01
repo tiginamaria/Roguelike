@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Roguelike" type="DotNetProject" factoryName=".NET Project" singleton="false">
-    <option name="EXE_PATH" value="$PROJECT_DIR$/Roguelike/bin/Release/netcoreapp3.1/Roguelike.dll" />
+    <option name="EXE_PATH" value="$PROJECT_DIR$/Roguelike/bin/Debug/netcoreapp3.1/Roguelike.dll" />
     <option name="PROGRAM_PARAMETERS" value="--server" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Roguelike/bin/Release/netcoreapp3.1" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Roguelike/bin/Debug/netcoreapp3.1" />
     <option name="PASS_PARENT_ENVS" value="1" />
     <option name="USE_EXTERNAL_CONSOLE" value="1" />
     <option name="USE_MONO" value="0" />
@@ -14,7 +14,7 @@
     <option name="PROJECT_KIND" value="DotNetCore" />
     <option name="PROJECT_TFM" value=".NETCoreApp,Version=v3.1" />
     <method v="2">
-      <option name="Build" enabled="true" />
+      <option name="Build" />
     </method>
   </configuration>
 </component>

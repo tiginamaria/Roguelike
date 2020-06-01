@@ -39,20 +39,17 @@ namespace Roguelike.Initialization
             var playerMoveInteractor = new NetworkPlayerMoveInteractor(level, playView);
             var mobMoveInteractor = new NetworkMobMoveInteractor(level, playView);
             var exitGameInteractor = new ExitGameInteractor(level);
-            var saveGameInteractor = new SaveGameInteractor(level);
             var inventoryInteractor = new InventoryInteractor(level, playView);
             var spawnPlayerInteractor = new SpawnPlayerInteractor(level, playView);
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);
             var exitGameProcessor = new ExitGameProcessor(exitGameInteractor);
-            var saveGameProcessor = new SaveGameProcessor(saveGameInteractor);
             var inventoryProcessor = new InventoryProcessor(inventoryInteractor);
 
             var keyboardController = new KeyboardController(level, login);
             keyboardController.AddInputProcessor(client);
             
             keyboardController.AddInputProcessor(exitGameProcessor);
-            keyboardController.AddInputProcessor(saveGameProcessor);
             
             client.AddInputProcessor(moveProcessor);
             client.AddInputProcessor(exitGameProcessor);

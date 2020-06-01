@@ -86,7 +86,7 @@ namespace Roguelike.Initialization
                     var gameObject = GetGameObject(level, info);
                     boardTable[gameObject.Position.Y, gameObject.Position.X] = gameObject;
                 }
-
+                
                 return new Board(width, height, boardTable);
             });
         }
@@ -117,7 +117,8 @@ namespace Roguelike.Initialization
             }
             if (PlayerType.Contains(type))
             {
-                return PlayerFactory.Create(GetLogin(ref index, info), type, level, 
+                return PlayerFactory.Create(
+                    GetLogin(ref index, info), type, level, 
                     GetPosition(ref index, info), 
                     GetStatistics(ref index, info),
                     GetAllInventory(ref index, info),

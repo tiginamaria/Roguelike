@@ -5,7 +5,7 @@ using Roguelike.Initialization;
 using Roguelike.Model;
 using Roguelike.Model.Mobs;
 
-namespace TestRoguelike
+namespace RoguelikeTest
 {
     [TestFixture]
     public class MobInteractionTests
@@ -20,8 +20,9 @@ namespace TestRoguelike
         {
             height = 5;
             width = 6;
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../test_maps/mob_interaction_test_map.txt");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../test_maps/mob_interaction_test_map.txt");
             level = new FileLevelFactory(path).CreateLevel();
+            level.CurrentPlayer = level.GetPlayer("testplayer");
         }
 
         private void moveMobOnEmptyField(Level level, Mob mob, int dx, int dy)
@@ -72,9 +73,9 @@ namespace TestRoguelike
             var mob = level.Board.GetObject( new Position(0, 5)) as Mob;
             Assert.NotNull(mob);
             var oldMobPosition = mob.Position;
-            level.Player.Move(1, 0, level.Board);
+            level.CurrentPlayer.Move(1, 0, level.Board);
             Assert.AreEqual(oldMobPosition, mob.Position);
-            level.Player.Move(0, 1, level.Board);
+            level.CurrentPlayer.Move(0, 1, level.Board);
             Assert.AreEqual(oldMobPosition, mob.Position);
         }
     }

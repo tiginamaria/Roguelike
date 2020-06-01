@@ -1,14 +1,15 @@
-﻿﻿using System;
- using System.IO;
- using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Roguelike.Initialization;
 using Roguelike.Model;
 using Roguelike.Model.Mobs;
 using Roguelike.Model.PlayerModel;
 
-namespace TestRoguelike
+namespace RoguelikeTest
 {
 
     [TestFixture]
@@ -30,15 +31,15 @@ namespace TestRoguelike
                 new[] {'#', '$', '.'},
                 new[] {'.', '.', '.'}
             };
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../test_maps/confusion_test_map.txt");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../test_maps/confusion_test_map.txt");
             level = new FileLevelFactory(path).CreateLevel();
+            level.CurrentPlayer = level.GetPlayer("testplayer");
         }
 
         [Test]
         public void ConfusedPlayerMoveTest()
         {
-
-            var confusedPlayer = new ConfusedPlayer(level, level.Player);
+            var confusedPlayer = new ConfusedPlayer(level, level.CurrentPlayer);
             var startPosition = confusedPlayer.Position;
             var possiblePositions = new[]
             {
@@ -58,17 +59,17 @@ namespace TestRoguelike
             Assert.NotNull(mob);
 
             var mobStatBeforeConfuse = mob.GetStatistics().Clone() as CharacterStatistics;
-            var playerStatBeforeConfuse = level.Player.GetStatistics().Clone() as CharacterStatistics;
+            var playerStatBeforeConfuse = level.CurrentPlayer.GetStatistics().Clone() as CharacterStatistics;
 
-            mob.Confuse(level.Player);
+            mob.MakeDamage(level.CurrentPlayer);
 
-            Assert.AreEqual(typeof(ConfusedPlayer), level.Player.GetType());
+            Assert.AreEqual(typeof(ConfusedPlayer), level.CurrentPlayer.GetType());
 
             Thread.Sleep(6000);
-            Assert.AreEqual(typeof(Player), level.Player.GetType());
+            Assert.AreEqual(typeof(Player), level.CurrentPlayer.GetType());
 
             var mobStatAfterConfuse = mob.GetStatistics();
-            var playerStatAfterConfuse = level.Player.GetStatistics();
+            var playerStatAfterConfuse = level.CurrentPlayer.GetStatistics();
 
             Assert.AreEqual(mobStatBeforeConfuse.Health, mobStatAfterConfuse.Health);
             Assert.AreEqual(mobStatBeforeConfuse.Force + playerStatBeforeConfuse.Force / 2, mobStatAfterConfuse.Force);
@@ -88,13 +89,13 @@ namespace TestRoguelike
 
             for (var i = 0; i < 3; i++)
             {
-                mob.Confuse(level.Player);
-                Assert.AreEqual(typeof(ConfusedPlayer), level.Player.GetType());
+                mob.MakeDamage(level.CurrentPlayer);
+                Assert.AreEqual(typeof(ConfusedPlayer), level.CurrentPlayer.GetType());
             }
 
-            mob.Confuse(level.Player);
-            Assert.AreEqual(0, level.Player.GetStatistics().Health);
-            Assert.AreEqual(typeof(Player), level.Player.GetType());
+            mob.MakeDamage(level.CurrentPlayer);
+            Assert.AreEqual(0, level.CurrentPlayer.GetStatistics().Health);
+            Assert.AreEqual(typeof(Player), level.CurrentPlayer.GetType());
         }
 
         [Test]
@@ -103,14 +104,15 @@ namespace TestRoguelike
             var mobPosition = new Position(0, 1);
             var mob = level.Board.GetObject(mobPosition) as Mob;
             Assert.NotNull(mob);
-
-            for (var i = 0; i < 4; i++)
-            {
-                level.Player.Confuse(mob);
-                Assert.AreEqual(typeof(ConfusedMobBehaviour), mob.Behaviour.GetType());
-                Assert.AreEqual(typeof(Player), level.Player.GetType());
-            }
-
+            Assert.AreEqual(typeof(AggressiveMobBehaviour), mob.GetBehaviour().GetType());
+            
+            level.CurrentPlayer.MakeDamage(mob);
+            Assert.AreEqual(typeof(ConfusedMobBehaviour), mob.GetBehaviour().GetType());
+            Assert.AreEqual(typeof(Player), level.CurrentPlayer.GetType());
+            Assert.AreEqual(1, mob.GetStatistics().Health);
+            Thread.Sleep(6000);
+            
+            level.CurrentPlayer.MakeDamage(mob);
             Assert.AreEqual(0, mob.GetStatistics().Health);
             level.Board.IsEmpty(mobPosition);
         }

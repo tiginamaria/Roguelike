@@ -12,7 +12,6 @@ namespace Roguelike.Interaction
     {
         private Level level;
         private IActionListener listener;
-        private readonly SaveGameInteractor saveGameInteractor;
 
         public EventHandler<AbstractPlayer> OnExit;
 
@@ -20,12 +19,10 @@ namespace Roguelike.Interaction
         {
         }
 
-        public ExitGameInteractor(Level level, IActionListener listener = null,
-            SaveGameInteractor saveGameInteractor = null)
+        public ExitGameInteractor(Level level, IActionListener listener = null)
         {
             this.level = level;
             this.listener = listener;
-            this.saveGameInteractor = saveGameInteractor;
         }
 
         public void SetLevel(Level level) => this.level = level;
@@ -34,19 +31,15 @@ namespace Roguelike.Interaction
 
         /// <summary>
         /// Deletes the character from the board.
-        /// Saves the game if it is user controlled player and save interactor is set.
         /// Notifies listeners.
         /// </summary>
         public void Exit(Character character)
         {
             var player = character as AbstractPlayer;
-            character.Delete(level.Board);
-            level.DeletePlayer(player);
-
             if (level.IsCurrentPlayer(character))
             {
-                saveGameInteractor?.Save(character);
-                saveGameInteractor?.Dump();
+                character.Delete(level.Board);
+                level.DeletePlayer(player);
                 OnExit?.Invoke(this, player);
             }
             

@@ -23,12 +23,12 @@ namespace Roguelike
         {
             if (args.Length ==  0)
             {
-                return new PlayGameState();
+                return new OfflinePlayGameState();
             }
 
             if (args[0] == "--load")
             {
-                return new PlayGameState(args[0]);
+                return new OfflinePlayGameState(args[0]);
             }
 
             if (args[0] == "--server")

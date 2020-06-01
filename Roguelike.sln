@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roguelike", "Roguelike\Roguelike.csproj", "{7D451325-F03C-48DA-9A47-59E20320488C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoguelikeTest", "RoguelikeTest\RoguelikeTest.csproj", "{1AB76660-9721-4A77-BB5B-5B479B3200E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{7D451325-F03C-48DA-9A47-59E20320488C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D451325-F03C-48DA-9A47-59E20320488C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D451325-F03C-48DA-9A47-59E20320488C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AB76660-9721-4A77-BB5B-5B479B3200E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AB76660-9721-4A77-BB5B-5B479B3200E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AB76660-9721-4A77-BB5B-5B479B3200E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AB76660-9721-4A77-BB5B-5B479B3200E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

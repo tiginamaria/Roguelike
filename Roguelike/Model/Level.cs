@@ -12,6 +12,7 @@ namespace Roguelike.Model
     /// </summary>
     public class Level
     {
+        private static readonly string OfflinePlayerLogin = "OfflinePlayer"; 
         private readonly PlayerManager playerManager = new PlayerManager();
 
         /// <summary>
@@ -83,6 +84,14 @@ namespace Roguelike.Model
         {
             var newPlayer = new Player(login, this, position);
             playerManager.RegisterPlayer(newPlayer);
+            return newPlayer;
+        }
+
+        public AbstractPlayer AddOfflinePlayer(Position position)
+        {
+            var newPlayer = RegisterPlayer(OfflinePlayerLogin, position);
+            Board.SetObject(position, newPlayer);
+            CurrentPlayer = newPlayer;
             return newPlayer;
         }
 
