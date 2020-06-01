@@ -28,20 +28,18 @@ namespace Roguelike.Initialization
 
         public void InvokeState()
         {
-            var exitGameInteractor = new ExitGameInteractor();
-            levelFactory.SetPlayerFactory(new NetworkPlayerFactory(exitGameInteractor));
-            
             var level = levelFactory.CreateLevel();
             var inputLoop = new InputLoop();
             var playView = new VoidView();
-            
+
             var inputController = new ServerInputController(level, newSessionId, inputService);
             
+            var exitGameInteractor = new ExitGameInteractor(level, inputController);
             var playerMoveInteractor = new PlayerMoveInteractor(level, playView, inputController);
             var mobMoveInteractor = new MobMoveInteractor(level, playView, inputController);
-            exitGameInteractor.SetLevel(level);
-            exitGameInteractor.SetListener(inputController);
             var inventoryInteractor = new InventoryInteractor(level, playView);
+            
+            levelFactory.SetPlayerFactory(new NetworkPlayerFactory(exitGameInteractor));
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);
             var exitGameProcessor = new ExitGameProcessor(exitGameInteractor);
@@ -55,8 +53,9 @@ namespace Roguelike.Initialization
             
             inputLoop.AddFixedUpdatable(tickController);
             inputLoop.AddUpdatable(inputController);
-
+            
             level.CurrentPlayer = new Player(DummyLogin, level, new Position(-1, -1));
+            
             var mobs = level.Mobs;
             foreach (var mob in mobs)
             {

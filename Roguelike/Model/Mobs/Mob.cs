@@ -10,11 +10,12 @@ namespace Roguelike.Model.Mobs
     /// </summary>
     public class Mob : Character
     {
+        private const int ConfusionTimeMs = 5000;
+        
         private static int lastId;
         private readonly Level level;
         private readonly IMobBehaviour originalBehaviour;
         private readonly CharacterStatistics statistics;
-        private const int ConfusionTimeMs = 5000;
         private readonly CancellationTokenSource cancellation = new CancellationTokenSource();
         private bool cancelled = true;
 
@@ -32,8 +33,7 @@ namespace Roguelike.Model.Mobs
         public Mob(Level level, IMobBehaviour behaviour, Position startPosition, 
             CharacterStatistics statistics, bool confused = false) : base(startPosition)
         {
-            Id = lastId + 1;
-            lastId++;
+            Id = ++lastId;
             
             this.level = level;
             Behaviour = behaviour;
@@ -45,7 +45,6 @@ namespace Roguelike.Model.Mobs
                 BecomeConfused();
             }
         }
-
         public override CharacterStatistics GetStatistics() => statistics;
 
         public override void MakeDamage(Character other)
@@ -72,6 +71,8 @@ namespace Roguelike.Model.Mobs
                 BecomeConfused();
             }
         }
+        
+        public IMobBehaviour GetBehaviour() => Behaviour;
 
         protected virtual void BecomeConfused()
         {

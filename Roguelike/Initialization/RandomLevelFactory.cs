@@ -70,7 +70,6 @@ namespace Roguelike.Initialization
 
             return new Level(level =>
             {
-                //AddPlayerCell(level, 1, 1, boardTable);
                 AddMobs(level, boardTable, Height, Width);
                 AddInventory(boardTable, Height, Width);
                 return new Board(Width, Height, boardTable);

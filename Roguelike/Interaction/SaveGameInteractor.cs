@@ -18,18 +18,14 @@ namespace Roguelike.Interaction
         /// Returns a path to the file to save in.
         /// </summary>
         public static string SaveFileName => 
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
-                "dump.txt");
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "dump.txt");
         
         /// <summary>
         /// Saves the state into the local snapshot.
         /// </summary>
-        public void Save(Character character)
+        public void Save()
         {
-            if (level.IsCurrentPlayer(character))
-            {
-                snapshot = level.Save();
-            }
+            snapshot = level.Save();
         }
 
         /// <summary>

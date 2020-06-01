@@ -12,12 +12,12 @@ namespace Roguelike.Initialization
     /// <summary>
     /// Represents a single play mode.
     /// </summary>
-    public class PlayGameState : IGameState
+    public class OfflinePlayGameState : IGameState
     {
         private readonly LevelFactory levelFactory;
-        private const string Login = "OfflineUser";
+        private const string OfflinePlayerLogin = "OfflinePlayer";
 
-        public PlayGameState(string arg)
+        public OfflinePlayGameState(string arg)
         {
             if (arg == "--load")
             {
@@ -33,7 +33,7 @@ namespace Roguelike.Initialization
             }
         }
         
-        public PlayGameState()
+        public OfflinePlayGameState()
         {
             levelFactory = new RandomLevelFactory();
         }
@@ -53,25 +53,30 @@ namespace Roguelike.Initialization
             var playerMoveInteractor = new PlayerMoveInteractor(level, playView);
             var mobMoveInteractor = new MobMoveInteractor(level, playView);
             var saveGameInteractor = new SaveGameInteractor(level);
-            var exitGameInteractor = new ExitGameInteractor(level, null, saveGameInteractor);
+            var exitGameInteractor = new ExitGameInteractor(level);
             var inventoryInteractor = new InventoryInteractor(level, playView);
             
             var moveProcessor = new MoveProcessor(playerMoveInteractor);
-            var exitGameProcessor = new ExitGameProcessor(exitGameInteractor);
-            var saveGameProcessor = new SaveGameProcessor(saveGameInteractor);
+            var saveAndExitGameProcessor = new SaveAndExitGameProcessor(exitGameInteractor, saveGameInteractor);
             var inventoryProcessor = new InventoryProcessor(inventoryInteractor);
 
-            var keyboardController = new KeyboardController(level, Login);
+            var keyboardController = new KeyboardController(level, OfflinePlayerLogin);
             var tickController = new TickController();
             
             keyboardController.AddInputProcessor(moveProcessor);
-            keyboardController.AddInputProcessor(exitGameProcessor);
-            keyboardController.AddInputProcessor(saveGameProcessor);
+            keyboardController.AddInputProcessor(saveAndExitGameProcessor);
             keyboardController.AddInputProcessor(inventoryProcessor);
             
             inputLoop.AddUpdatable(keyboardController);
             inputLoop.AddFixedUpdatable(tickController);
+            
+            if (!level.ContainsPlayer(OfflinePlayerLogin))
+            {
+                level.AddPlayerAtEmpty(OfflinePlayerLogin);
+            }
 
+            level.CurrentPlayer = level.GetPlayer(OfflinePlayerLogin);
+            
             var mobs = level.Mobs;
             foreach (var mob in mobs)
             {
@@ -84,12 +89,6 @@ namespace Roguelike.Initialization
                 };
             }
 
-            if (levelFactory is RandomLevelFactory)
-            {
-                level.AddPlayerAtEmpty(Login);
-            }
-
-            level.CurrentPlayer = level.GetPlayer(Login) as AbstractPlayer;
             level.CurrentPlayer.OnDie += (sender, args) =>
             {
                 inputLoop.Stop();
