@@ -11,6 +11,6 @@ namespace Roguelike.Model.Mobs
         {
         }
 
-        protected override void BecomeConfused() => Behaviour = new ConfusedMobBehaviour();
+        public override void BecomeConfused() => Behaviour = new ConfusedMobBehaviour();
     }
 }

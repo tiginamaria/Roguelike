@@ -14,8 +14,9 @@ namespace Roguelike.Model.PlayerModel
         private readonly Level level;
         private readonly List<InventoryItem> inventoryItems;
         private readonly List<InventoryItem> appliedInventoryItems;
-        public Player(string login, Level level, Position startPosition) 
-            : this(login, level, startPosition, new CharacterStatistics(2, 15, 1),  
+
+        public Player(string login, Level level, Position startPosition)
+            : this(login, level, startPosition, new CharacterStatistics(2, 15, 1),
                 new List<InventoryItem>(), new List<InventoryItem>())
         {
         }
@@ -31,27 +32,12 @@ namespace Roguelike.Model.PlayerModel
 
         public override CharacterStatistics GetStatistics() => statistics;
 
-        public override void MakeDamage(Character other)
-        {
-            other.AcceptDamage(this);
-            statistics.Experience++;
-            statistics.Force += other.GetStatistics().Force / 2;
-        }
+        public override void Fight(Character other) => CombatSystem.Fight(this, other, level);
 
         public override void Collect(InventoryItem newInventory) => inventoryItems.Add(newInventory);
 
-        public override void AcceptDamage(Character other)
+        public override void BecomeConfused()
         {
-            statistics.Health = Math.Max(0, statistics.Health - other.GetStatistics().Force / 2);
-
-            if (statistics.Health == 0)
-            {
-                level.DeletePlayer(this);
-                Delete(level.Board);
-                OnDie?.Invoke(this, EventArgs.Empty);
-                return;
-            }
-            statistics.Experience = Math.Max(0, statistics.Experience - 1);
             var confusedPlayer = new ConfusedPlayer(level, this);
             level.UpdatePlayer(confusedPlayer);
             level.Board.SetObject(Position, confusedPlayer);
@@ -92,6 +78,12 @@ namespace Roguelike.Model.PlayerModel
             }
 
             return PlayerType.EnemyPlayer;
+        }
+
+        public override void Die()
+        {
+            level.DeletePlayer(this);
+            base.Die();
         }
     }
 }

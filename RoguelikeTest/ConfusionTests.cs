@@ -10,7 +10,6 @@ using Roguelike.Model.PlayerModel;
 
 namespace RoguelikeTest
 {
-
     [TestFixture]
     public class ConfusionTests
     {
@@ -49,7 +48,7 @@ namespace RoguelikeTest
             var mobStatBeforeConfuse = mob.GetStatistics().Clone() as CharacterStatistics;
             var playerStatBeforeConfuse = level.CurrentPlayer.GetStatistics().Clone() as CharacterStatistics;
 
-            mob.MakeDamage(level.CurrentPlayer);
+            mob.Fight(level.CurrentPlayer);
 
             Assert.AreEqual(typeof(ConfusedPlayer), level.CurrentPlayer.GetType());
 
@@ -69,39 +68,65 @@ namespace RoguelikeTest
             Assert.AreEqual(playerStatBeforeConfuse.Experience - 1, playerStatAfterConfuse.Experience);
         }
 
+
+        private static void CheckStatistics(Character character, int health, int force, int experience)
+        {
+            var statistics = character.GetStatistics();
+            Assert.AreEqual(health, statistics.Health);
+            Assert.AreEqual(force, statistics.Force);
+            Assert.AreEqual(experience, statistics.Experience);
+        }
+        
         [Test]
-        public void MobConfusePlayerDyeTest()
+        public void MobConfusePlayerDieTest()
         {
             var mob = level.Board.GetObject(new Position(0, 1)) as Mob;
             Assert.NotNull(mob);
+            CheckStatistics(mob, 8, 2, 3);
+            CheckStatistics(level.CurrentPlayer, 15, 14, 16);
 
-            for (var i = 0; i < 3; i++)
-            {
-                mob.MakeDamage(level.CurrentPlayer);
-                Assert.AreEqual(typeof(ConfusedPlayer), level.CurrentPlayer.GetType());
-            }
+            mob.Fight(level.CurrentPlayer);
+            Assert.AreEqual(typeof(ConfusedPlayer), level.CurrentPlayer.GetType());
+            CheckStatistics(mob, 8, 9, 4);
+            CheckStatistics(level.CurrentPlayer, 14, 14, 15);
+            
+            mob.Fight(level.CurrentPlayer);
+            Assert.AreEqual(typeof(ConfusedPlayer), level.CurrentPlayer.GetType());
+            CheckStatistics(mob, 8, 16, 5);
+            CheckStatistics(level.CurrentPlayer, 10, 14, 14);
+            
+            mob.Fight(level.CurrentPlayer);
+            Assert.AreEqual(typeof(ConfusedPlayer), level.CurrentPlayer.GetType());
+            CheckStatistics(mob, 8, 23, 6);
+            CheckStatistics(level.CurrentPlayer, 2, 14, 13);
 
-            mob.MakeDamage(level.CurrentPlayer);
+            mob.Fight(level.CurrentPlayer);
             Assert.AreEqual(0, level.CurrentPlayer.GetStatistics().Health);
-            Assert.AreEqual(typeof(Player), level.CurrentPlayer.GetType());
+            Assert.False(level.ContainsPlayer(level.CurrentPlayer.Login));
+            CheckStatistics(mob, 8, 30, 7);
+            CheckStatistics(level.CurrentPlayer, 0, 14, 12);
         }
 
         [Test]
-        public void PlayerConfuseMobDyeTest()
+        public void PlayerConfuseMobDieTest()
         {
             var mobPosition = new Position(0, 1);
             var mob = level.Board.GetObject(mobPosition) as Mob;
             Assert.NotNull(mob);
             Assert.AreEqual(typeof(AggressiveMobBehaviour), mob.GetBehaviour().GetType());
-            
-            level.CurrentPlayer.MakeDamage(mob);
+            CheckStatistics(mob, 8, 2, 3);
+            CheckStatistics(level.CurrentPlayer, 15, 14, 16);
+
+            level.CurrentPlayer.Fight(mob);
             Assert.AreEqual(typeof(ConfusedMobBehaviour), mob.GetBehaviour().GetType());
             Assert.AreEqual(typeof(Player), level.CurrentPlayer.GetType());
-            Assert.AreEqual(1, mob.GetStatistics().Health);
+            CheckStatistics(mob, 1, 2, 2);
+            CheckStatistics(level.CurrentPlayer, 15, 15, 17);
             Thread.Sleep(6000);
-            
-            level.CurrentPlayer.MakeDamage(mob);
-            Assert.AreEqual(0, mob.GetStatistics().Health);
+
+            level.CurrentPlayer.Fight(mob);
+            CheckStatistics(mob, 0, 2, 1);
+            CheckStatistics(level.CurrentPlayer, 15, 16, 18);
             level.Board.IsEmpty(mobPosition);
         }
     }
