@@ -1,11 +1,11 @@
 using System;
 using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using Roguelike.Initialization;
 using Roguelike.Model;
 using Roguelike.Model.Inventory;
 using Roguelike.Model.Mobs;
-using Roguelike.Model.Objects;
 
 namespace RoguelikeTest
 {
@@ -14,27 +14,28 @@ namespace RoguelikeTest
         private int height;
         private int width;
         private char[][] boardConfiguration;
-        
+
         [SetUp]
         public void SetUp()
         {
             height = 5;
             width = 6;
-            boardConfiguration = new[] {
-                new[]{'#', '@', '#', '#', '#', '.'}, 
-                new[]{'#', '.', 'H', '#', '.', '%'}, 
-                new[]{'#', '*', '#', '.', '$', '#'},
-                new[]{'#', 'E', '#', 'A', '.', '#'},
-                new[]{'#', '#', 'o', '.', 'F', '#'}
+            boardConfiguration = new[]
+            {
+                new[] {'#', '@', '#', '#', '#', '.'},
+                new[] {'#', '.', 'H', '#', '.', '%'},
+                new[] {'#', '*', '#', '.', '$', '#'},
+                new[] {'#', 'E', '#', 'A', '.', '#'},
+                new[] {'#', '#', 'o', '.', 'F', '#'}
             };
         }
-        
+
         private void CheckLevelConfiguration(Level level)
         {
             Assert.AreEqual(height, level.Board.Height);
             Assert.AreEqual(width, level.Board.Width);
-            
-            
+
+
             for (var i = 0; i < height; i++)
             {
                 for (var j = 0; j < width; j++)
@@ -56,7 +57,7 @@ namespace RoguelikeTest
                             level.CurrentPlayer = level.GetPlayer("testplayer");
                             Assert.IsTrue(level.IsCurrentPlayer(player));
                             Assert.AreEqual("$", level.Board.GetObject(position).GetStringType());
-                            Assert.AreEqual(player.Position,  position);
+                            Assert.AreEqual(player.Position, position);
                             Assert.AreEqual(6, player.GetStatistics().Experience);
                             Assert.AreEqual(4, player.GetStatistics().Force);
                             Assert.AreEqual(5, player.GetStatistics().Health);
@@ -162,7 +163,7 @@ namespace RoguelikeTest
             var level = new FileLevelFactory(path).CreateLevel();
             CheckLevelConfiguration(level);
         }
-        
+
         [Test]
         public void LevelToSnapshotFileTest()
         {
@@ -184,7 +185,10 @@ namespace RoguelikeTest
             var level = FileLevelFactory.FromString(stringSnapshot).CreateLevel();
             level.CurrentPlayer = level.GetPlayer("testplayer");
             var levelSnapshot = level.Save();
-            Assert.AreEqual(stringSnapshot, levelSnapshot.ToString());
+            Assert.AreEqual(
+                stringSnapshot.Split().Select(s => s.Trim()).Where(s => s.Length > 0).ToArray(),
+                levelSnapshot.ToString().Split().Select(s => s.Trim()).Where(s => s.Length > 0).ToArray()
+            );
         }
 
         [Test]
@@ -200,18 +204,20 @@ namespace RoguelikeTest
                     Assert.IsTrue(board.CheckOnBoard(new Position(i, j)));
                 }
             }
+
             for (var i = 0; i < height; i++)
             {
                 Assert.IsFalse(board.CheckOnBoard(new Position(i, -1)));
                 Assert.IsFalse(board.CheckOnBoard(new Position(i, width)));
             }
+
             for (var j = 0; j < width; j++)
             {
                 Assert.IsFalse(board.CheckOnBoard(new Position(-1, j)));
                 Assert.IsFalse(board.CheckOnBoard(new Position(height, j)));
             }
         }
-        
+
         [Test]
         public void GraphConfigurationTest()
         {
@@ -222,7 +228,7 @@ namespace RoguelikeTest
             Assert.AreEqual(4, level.Mobs.Count);
             var modPosition = level.GetMob(level.Mobs[0].Id.ToString()).Position;
             Assert.AreEqual(new Position(2, 4), graph.Farthest(playerPosition, modPosition));
-            
+
             var inventoryPosition = new Position(4, 4);
             Assert.AreEqual(new Position(3, 4), graph.Nearest(playerPosition, inventoryPosition));
         }
