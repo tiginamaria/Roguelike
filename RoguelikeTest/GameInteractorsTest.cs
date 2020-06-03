@@ -39,7 +39,7 @@ namespace RoguelikeTest.test_maps
         }
         
         [Test]
-        public void SpawmPlayerInteractorTest()
+        public void SpawnPlayerInteractorTest()
         {
             var playerView = new VoidView();
             var spawnPlayerInteractor = new SpawnPlayerInteractor(level, playerView);
