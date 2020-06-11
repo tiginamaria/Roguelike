@@ -1,3 +1,4 @@
+using System;
 using Roguelike.Model.Inventory;
 using Roguelike.Model.Objects;
 
@@ -8,6 +9,11 @@ namespace Roguelike.Model
     /// </summary>
     public abstract class Character : GameObject
     {
+        /// <summary>
+        /// An event that is risen when the characted dies.
+        /// </summary>
+        public event EventHandler OnDie;
+
         public abstract CharacterStatistics GetStatistics();
 
         private bool CanMoveTo(Position newPosition, Board board) =>
@@ -17,7 +23,7 @@ namespace Roguelike.Model
         /// <summary>
         /// Attempts to move a character considering all its effects.
         /// </summary>
-        public virtual void Move(int intentVerticalMove, int intentHorizontalMove, Board board) => 
+        public virtual void Move(int intentVerticalMove, int intentHorizontalMove, Board board) =>
             MoveStraightforward(intentVerticalMove, intentHorizontalMove, board);
 
         /// <summary>
@@ -33,7 +39,7 @@ namespace Roguelike.Model
 
             if (board.IsCharacter(newPosition))
             {
-                MakeDamage(board.GetObject(newPosition) as Character);
+                Fight(board.GetObject(newPosition) as Character);
             }
 
             if (board.IsInventory(newPosition))
@@ -56,22 +62,25 @@ namespace Roguelike.Model
         public void Delete(Board board) => board.DeleteObject(Position);
 
         /// <summary>
-        /// Attacks another character. Calls AcceptDamage on it.
+        /// Fight with another character.
         /// </summary>
-        public abstract void MakeDamage(Character other);
-        
+        public abstract void Fight(Character other);
+
         /// <summary>
         /// Adds the given item to the inventory.
         /// </summary>
         public abstract void Collect(InventoryItem inventory);
 
         /// <summary>
-        /// Updates itself when attacked by another character.
+        /// Accept confusion.
         /// </summary>
-        public abstract void AcceptDamage(Character other);
+        public abstract void BecomeConfused();
 
         protected Character(Position initPosition) : base(initPosition)
         {
         }
+
+
+        public virtual void Die() => OnDie?.Invoke(this, EventArgs.Empty);
     }
 }

@@ -39,6 +39,7 @@ namespace Roguelike.Network.Services
                 {
                     break;
                 }
+
                 result.Add(response.ResponseStream.Current.Id);
             }
 

@@ -14,6 +14,7 @@ namespace RoguelikeTest
     {
         private Level level;
         private Level confusedLevel;
+
         [SetUp]
         public void SetUp()
         {

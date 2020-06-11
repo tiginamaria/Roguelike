@@ -93,7 +93,7 @@ namespace RoguelikeTest
             var cowardMob = level.Mobs[0];
             Assert.IsInstanceOf(typeof(CowardMobBehaviour), cowardMob.GetBehaviour());
             var newPosition = cowardMob.GetBehaviour().MakeMove(level, cowardMob.Position);
-            Assert.AreEqual(new Position(0, 5),  newPosition);
+            Assert.AreEqual(new Position(0, 5), newPosition);
         }
         
         [Test]
@@ -103,7 +103,7 @@ namespace RoguelikeTest
             Assert.IsInstanceOf(typeof(PassiveMobBehaviour), passiveMob.GetBehaviour());
             var oldPosition = passiveMob.Position;
             var newPosition = passiveMob.GetBehaviour().MakeMove(level, passiveMob.Position);
-            Assert.AreEqual(oldPosition,  newPosition);
+            Assert.AreEqual(oldPosition, newPosition);
         }
                 
         [Test]
@@ -122,7 +122,7 @@ namespace RoguelikeTest
             var aggressiveMob = level.Mobs[4];
             Assert.IsInstanceOf(typeof(AggressiveMobBehaviour), aggressiveMob.GetBehaviour());
             var newPosition = aggressiveMob.GetBehaviour().MakeMove(level, aggressiveMob.Position);
-            Assert.AreEqual(new Position(2, 5),  newPosition);
+            Assert.AreEqual(new Position(2, 5), newPosition);
         }
 
         private void MoveMobOnEmptyField(Level level, Mob mob, int dx, int dy)
@@ -146,7 +146,7 @@ namespace RoguelikeTest
         [Test]
         public void MobMoveToEmptyPositionTest()
         {
-            var mob = level.Board.GetObject( new Position(1, 1)) as Mob;
+            var mob = level.Board.GetObject(new Position(1, 1)) as Mob;
             Assert.NotNull(mob);
             
             MoveMobOnEmptyField(level, mob, -1, 0);
@@ -158,7 +158,7 @@ namespace RoguelikeTest
         [Test]
         public void MobMoveToWallPositionTest()
         {
-            var mob = level.Board.GetObject( new Position(1, 4)) as Mob;
+            var mob = level.Board.GetObject(new Position(1, 4)) as Mob;
             Assert.NotNull(mob);
 
             MoveMobOnWallField(level, mob, -1, 0);
@@ -170,7 +170,7 @@ namespace RoguelikeTest
         [Test]
         public void MobMoveOutOfBoardTest()
         {
-            var mob = level.Board.GetObject( new Position(0, 5)) as Mob;
+            var mob = level.Board.GetObject(new Position(0, 5)) as Mob;
             Assert.NotNull(mob);
             var oldMobPosition = mob.Position;
             level.CurrentPlayer.Move(1, 0, level.Board);

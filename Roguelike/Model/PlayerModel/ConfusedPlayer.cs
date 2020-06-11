@@ -24,21 +24,21 @@ namespace Roguelike.Model.PlayerModel
         {
             this.level = level;
             this.player = player;
-            Task.Delay(ConfusionTimeMs, cancellation.Token).ContinueWith(t => 
+            Task.Delay(ConfusionTimeMs, cancellation.Token).ContinueWith(t =>
+            {
+                if (!cancelled)
                 {
-                    if (!cancelled)
-                    {
-                        RemoveEffect();
-                    } 
-                });
+                    RemoveEffect();
+                }
+            });
         }
 
         private static int GetConfusion() => Random.Next(2) == 1 ? 1 : -1;
-        
+
         /// <summary>
         /// Randomly reflects the given vector.
         /// </summary>
-        public static Position ConfuseIntent(Position intent) => 
+        public static Position ConfuseIntent(Position intent) =>
             new Position(GetConfusion() * intent.Y, GetConfusion() * intent.X);
 
         /// <summary>
@@ -63,15 +63,18 @@ namespace Roguelike.Model.PlayerModel
 
         public override CharacterStatistics GetStatistics() => player.GetStatistics();
 
-        public override void MakeDamage(Character other) => player.MakeDamage(other);
+        public override void Fight(Character other) => player.Fight(other);
 
         public override void Collect(InventoryItem inventory) => player.Collect(inventory);
 
-        public override void AcceptDamage(Character other)
+        /// <summary>
+        /// Cancel confusion effect and apply it again.
+        /// </summary>
+        public override void BecomeConfused()
         {
             cancellation.Cancel();
             RemoveEffect();
-            player.AcceptDamage(other);
+            player.BecomeConfused();
         }
 
         private void RemoveEffect()
@@ -98,5 +101,7 @@ namespace Roguelike.Model.PlayerModel
 
             return PlayerType.EnemyConfusedPlayer;
         }
+
+        public override void Die() => player.Die();
     }
 }

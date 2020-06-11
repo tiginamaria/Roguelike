@@ -109,12 +109,14 @@ namespace Roguelike.Initialization
             {
                 return InventoryFactory.Create(type, GetPosition(ref index, info));
             }
+
             if (MobType.Contains(type))
             {
                 return MobFactory.Create(type, level, 
                     GetPosition(ref index, info), 
                     GetStatistics(ref index, info));
             }
+
             if (PlayerType.Contains(type))
             {
                 return PlayerFactory.Create(
@@ -124,6 +126,7 @@ namespace Roguelike.Initialization
                     GetAllInventory(ref index, info),
                     GetAllInventory(ref index, info));
             }
+
             throw new ArgumentException($"Unknown character: {type}.");
         }
 
@@ -146,8 +149,10 @@ namespace Roguelike.Initialization
             {
                 return InventoryFactory.Create(type, GetPosition(ref index, info));
             }
+
             throw new ArgumentException($"Unknown inventory type: {type}.");
         }
+
         private List<InventoryItem> GetAllInventory(ref int index, string[] info)
         {
             var inventory = new List<InventoryItem>();
@@ -156,6 +161,7 @@ namespace Roguelike.Initialization
             {
                 inventory.Add(GetInventory(ref index, info));
             }
+
             return inventory;
         }
     }

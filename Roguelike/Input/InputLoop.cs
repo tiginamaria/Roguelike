@@ -74,6 +74,7 @@ namespace Roguelike.Input
             {
                 subscriber.Stop();
             }
+
             foreach (var subscriber in fixedSubscribers)
             {
                 subscriber.Stop();

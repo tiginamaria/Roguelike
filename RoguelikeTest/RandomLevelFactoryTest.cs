@@ -153,11 +153,13 @@ namespace RoguelikeTest
                     Assert.IsTrue(labyrinth.IsValidCell(i, j));
                 }
             }
+
             for (var i = 0; i < height; i++)
             {
                 Assert.IsFalse(labyrinth.IsValidCell(i, -1));
                 Assert.IsFalse(labyrinth.IsValidCell(i, width));
             }
+
             for (var j = 0; j < width; j++)
             {
                 Assert.IsFalse(labyrinth.IsValidCell(-1, j));

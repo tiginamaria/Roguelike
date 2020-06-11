@@ -25,6 +25,7 @@ namespace Roguelike.Initialization
                 {
                     throw new ArgumentException("Loading is impossible as dump file is missing.");
                 }
+
                 levelFactory = new FileLevelFactory(SaveGameInteractor.SaveFileName);
             }
             else

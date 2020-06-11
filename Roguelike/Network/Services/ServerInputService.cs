@@ -12,13 +12,16 @@ namespace Roguelike.Network.Services
     /// </summary>
     public class ServerInputService : NetworkServerInputService.NetworkServerInputServiceBase
     {
-        public ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> LoginResponses { get; } = 
+        public ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> LoginResponses { get; } =
             new ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>>();
-        public ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> Responses { get; } = 
+
+        public ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>> Responses { get; } =
             new ConcurrentDictionary<string, ConcurrentQueue<ServerResponse>>();
-        public ConcurrentQueue<LoginRequest> LoginRequests { get; } = 
+
+        public ConcurrentQueue<LoginRequest> LoginRequests { get; } =
             new ConcurrentQueue<LoginRequest>();
-        public ConcurrentQueue<InputRequest> Requests { get; } = 
+
+        public ConcurrentQueue<InputRequest> Requests { get; } =
             new ConcurrentQueue<InputRequest>();
 
         /// <summary>
@@ -57,6 +60,7 @@ namespace Roguelike.Network.Services
                             Responses.TryRemove(request.Login, out _);
                             break;
                         }
+
                         await responseStream.WriteAsync(response);
                     }
                 }

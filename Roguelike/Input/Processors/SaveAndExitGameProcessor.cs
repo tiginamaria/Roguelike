@@ -12,6 +12,7 @@ namespace Roguelike.Input.Processors
     {
         private readonly ExitGameInteractor exitInteractor;
         private readonly SaveGameInteractor saveInteractor;
+
         public SaveAndExitGameProcessor(ExitGameInteractor exitInteractor, SaveGameInteractor saveInteractor)
         {
             this.saveInteractor = saveInteractor;

@@ -11,6 +11,7 @@ namespace RoguelikeTest.test_maps
     public class GameInteractorsTest
     {
         private Level level;
+
         [SetUp]
         public void SetUp()
         {
