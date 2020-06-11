@@ -7,7 +7,7 @@ namespace Roguelike.Model.Inventory
     /// Items can be activated and deactivated.
     /// Increase player's characteristics while activated.
     /// </summary>
-    public abstract class InventoryItem: GameObject
+    public abstract class InventoryItem : GameObject
     {
         private readonly int forceEffect;
         private readonly int healthEffect;

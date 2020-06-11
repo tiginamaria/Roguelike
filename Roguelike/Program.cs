@@ -21,7 +21,7 @@ namespace Roguelike
         
         private static IGameState GetStartState(string[] args)
         {
-            if (args.Length ==  0)
+            if (args.Length == 0)
             {
                 return new OfflinePlayGameState();
             }

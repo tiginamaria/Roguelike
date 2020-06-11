@@ -35,6 +35,7 @@ namespace Roguelike.Input.Controllers
             {
                 return;
             }
+
             var key = Console.ReadKey(true);
 
             foreach (var subscriber in subscribers)
@@ -43,6 +44,7 @@ namespace Roguelike.Input.Controllers
                 {
                     break;
                 }
+
                 subscriber.ProcessInput(key, level.GetPlayer(login));
             }
         }

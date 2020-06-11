@@ -38,6 +38,7 @@ namespace Roguelike.Model
             {
                 return false;
             }
+
             return obj is Position && Equals((Position) obj);
         }
 

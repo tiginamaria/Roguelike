@@ -9,7 +9,7 @@ namespace Roguelike.Input.Processors
     /// <summary>
     /// Handles inventory actions.
     /// </summary>
-    public class InventoryProcessor: IInputProcessor
+    public class InventoryProcessor : IInputProcessor
     {
         private readonly InventoryInteractor inventoryInteractor;
         private readonly IActionListener listener;

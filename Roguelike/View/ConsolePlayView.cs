@@ -50,9 +50,9 @@ namespace Roguelike.View
         public void UpdateInventory(Level level)
         {
             var board = level.Board;
-            var statisticsRow =  Math.Min(board.Height + 2, GetConsoleBoardHeight);
-            var inventoryRow =  Math.Min(board.Height + 3, GetConsoleBoardHeight + 1);
-            var appliedInventoryRow =  Math.Min(board.Height + 4, GetConsoleBoardHeight + 2);
+            var statisticsRow = Math.Min(board.Height + 2, GetConsoleBoardHeight);
+            var inventoryRow = Math.Min(board.Height + 3, GetConsoleBoardHeight + 1);
+            var appliedInventoryRow = Math.Min(board.Height + 4, GetConsoleBoardHeight + 2);
             DrawPlayerStatistics(level.CurrentPlayer, statisticsRow);
             DrawInventory(level.CurrentPlayer, inventoryRow);
             DrawAppliedInventory(level.CurrentPlayer, appliedInventoryRow);
@@ -137,10 +137,10 @@ namespace Roguelike.View
         private FixedBoundRectangle GetFocusRectangle(Board board, GameObject focus)
         {
             var newRectangle = new FixedBoundRectangle(
-                            0,
-                            0,
-                            Math.Min(board.Width, GetConsoleBoardWidth),
-                            Math.Min(board.Height, GetConsoleBoardHeight));
+                0,
+                0,
+                Math.Min(board.Width, GetConsoleBoardWidth),
+                Math.Min(board.Height, GetConsoleBoardHeight));
 
             var playerPosition = focus.Position;
 
@@ -163,6 +163,7 @@ namespace Roguelike.View
             {
                 newRectangle.Top = Math.Max(0, playerPosition.Y - newRectangle.Height / 2);
             }
+
             return newRectangle;
         }
 
@@ -177,6 +178,7 @@ namespace Roguelike.View
                 {
                     objectChar = " ";
                 }
+
                 Console.Write(objectChar);
             }
         }
@@ -208,6 +210,7 @@ namespace Roguelike.View
             {
                 Console.Write(item.GetStringType() + " ");
             }
+
             Console.Write("   ");
         }
         
@@ -221,6 +224,7 @@ namespace Roguelike.View
             {
                 Console.Write(item.GetStringType() + " ");
             }
+
             Console.Write("   ");
         }
 

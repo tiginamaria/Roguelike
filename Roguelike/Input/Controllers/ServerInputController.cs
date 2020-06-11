@@ -82,11 +82,13 @@ namespace Roguelike.Input.Controllers
             {
                 var newPlayer = level.AddPlayerAtEmpty(request.Login);
                 var levelSnapshot = level.Save().ToString();
-                
-                var initResponse = new ServerResponse {
-                    Type = ResponseType.Init, 
-                    Level = levelSnapshot, 
-                    Login = request.Login};
+
+                var initResponse = new ServerResponse
+                {
+                    Type = ResponseType.Init,
+                    Level = levelSnapshot,
+                    Login = request.Login
+                };
 
                 if (!serverInputService.LoginResponses.TryAdd(request.Login, 
                     new ConcurrentQueue<ServerResponse>()))
@@ -193,7 +195,7 @@ namespace Roguelike.Input.Controllers
             {
                 var response = new ServerResponse
                 {
-                    Type =  ResponseType.MobMove,
+                    Type = ResponseType.MobMove,
                     Login = mob.Id.ToString(),
                     Pair = new Pair {X = intentPosition.X, Y = intentPosition.Y}
                 };

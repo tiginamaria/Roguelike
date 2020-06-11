@@ -21,6 +21,7 @@ namespace Roguelike.Model.Mobs
             {
                 return position;
             }
+
             return newPosition;
         }
 
