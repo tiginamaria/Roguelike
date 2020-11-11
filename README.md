@@ -1,7 +1,14 @@
 # Roguelike
 
-Architecture and documentation:
+Documentation (Russian):
+
 https://docs.google.com/document/d/1gGd7HVuZDebvwOwDosIV9V6NMwdhsqI7JzbrhdflZwk/edit?usp=sharing
+
+
+Project architecture:
+
+https://drive.google.com/file/d/1pjahMQ__q2c_2XQI5jrehokMEN3w2RMF/view
+
 
 Prerequisites:
 ```
