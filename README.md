@@ -1,28 +1,28 @@
 # Roguelike
 
-Архитектурная документация:
+Architecture and documentation:
 https://docs.google.com/document/d/1gGd7HVuZDebvwOwDosIV9V6NMwdhsqI7JzbrhdflZwk/edit?usp=sharing
 
-Пререквизиты:
+Prerequisites:
 ```
 .NET Framework 4.6
 ```
 
-Сборка под Linux:
+Build for Linux:
 ```
 xbuild Roguelike.sln
 ```
 
-Сборка под Windows:
+Build for Windows:
 
 ```
 msbuild Roguelike.sln
 ```
 
-Запуск:
+Launch:
 ```
 Roguelike/bin/Debug/Roguelike.exe [<path>]
 [<path>] - путь до файла с картой
 ```
 
-Примеры карт и их формат можно найти в RoguelikeTest/test_maps/
+You can find several map examples in RoguelikeTest/test_maps/
