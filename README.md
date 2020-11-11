@@ -22,7 +22,7 @@ msbuild Roguelike.sln
 Launch:
 ```
 Roguelike/bin/Debug/Roguelike.exe [<path>]
-[<path>] - путь до файла с картой
+[<path>] - path to the folder with the map
 ```
 
 You can find several map examples in RoguelikeTest/test_maps/
