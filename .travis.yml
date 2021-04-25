@@ -1,11 +1,8 @@
 ﻿language: csharp
 solution: Roguelike.sln
-
-install:
-  - sudo apt-get install nuget
-  - sudo apt-get install nunit-console
-  - nuget restore Roguelike.sln
-
+dotnet: 3.1
+before_script:
+  - dotnet restore
 script:
-  - xbuild Roguelike.sln
-  - nunit-console RoguelikeTest/bin/Debug/RoguelikeTest.dll
+  - dotnet build
+  - dotnet test RoguelikeTest/RoguelikeTest.csproj

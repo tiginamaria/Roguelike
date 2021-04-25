@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+service NetworkServerInputService {
+    rpc Login (LoginRequest) returns (stream ServerResponse) {}
+    rpc Move (InputRequest) returns (google.protobuf.Empty) {}
+}
+
+message InputRequest {
+    string login = 1;
+    KeyInput keyInput = 2;
+    int32 sessionId = 3;
+}
+
+message LoginRequest {
+    string login = 1;
+    int32 sessionId = 2;
+}
+
+message ServerResponse {
+    ResponseType type = 1;
+    string login = 2;
+    KeyInput keyInput = 3;
+    Pair pair = 4;
+    string level = 5;
+}
+
+enum ResponseType {
+    INIT = 0;
+    MOVE = 1;
+    LOGIN_EXISTS = 2;
+    MOB_MOVE = 3;
+    PLAYER_JOIN = 4;
+    ACTION = 5;
+}
+
+message Pair {
+    int32 y = 1;
+    int32 x = 2;
+}
+
+enum KeyInput {
+    UP = 0;
+    DOWN = 1;
+    LEFT = 2;
+    RIGHT = 3;
+    A = 4;
+    F = 5;
+    H = 6;
+    ALT_A = 7;
+    ALT_F = 8;
+    ALT_H = 9;
+    NONE = 10;
+    EXIT = 11;
+    E = 12;
+    ALT_E = 13;
+}

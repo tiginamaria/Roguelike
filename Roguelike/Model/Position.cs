@@ -3,7 +3,7 @@ namespace Roguelike.Model
     /// <summary>
     /// Represents the position in a grid with integer nodes.
     /// </summary>
-    public struct Position
+    public readonly struct Position
     {
         public int X { get; }
         public int Y { get; }
@@ -14,7 +14,11 @@ namespace Roguelike.Model
             Y = y;
         }
         
-        public Position Add(int deltaY, int deltaX) => new Position(Y + deltaY, X + deltaX);
+        public static Position operator +(Position first, Position second) => 
+            new Position(first.Y + second.Y, first.X + second.X);
+        
+        public static Position operator -(Position first, Position second) => 
+            new Position(first.Y - second.Y, first.X - second.X);
 
         public static bool operator ==(Position first, Position second)
         {
@@ -26,10 +30,7 @@ namespace Roguelike.Model
             return first.X != second.X || first.Y != second.Y;
         }
         
-        public bool Equals(Position other)
-        {
-            return X == other.X && Y == other.Y;
-        }
+        public bool Equals(Position other) => X == other.X && Y == other.Y;
 
         public override bool Equals(object obj)
         {
@@ -37,6 +38,7 @@ namespace Roguelike.Model
             {
                 return false;
             }
+
             return obj is Position && Equals((Position) obj);
         }
 

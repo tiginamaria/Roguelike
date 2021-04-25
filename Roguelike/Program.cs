@@ -1,4 +1,6 @@
-﻿using Roguelike.Initialization;
+using System;
+using Roguelike.Initialization;
+using Roguelike.Network;
 
 namespace Roguelike
 {
@@ -19,11 +21,27 @@ namespace Roguelike
         
         private static IGameState GetStartState(string[] args)
         {
-            if (args.Length > 0)
+            if (args.Length == 0)
             {
-                return new PlayGameState(args[0]);
+                return new OfflinePlayGameState();
             }
-            return new PlayGameState();
+
+            if (args[0] == "--load")
+            {
+                return new OfflinePlayGameState(args[0]);
+            }
+
+            if (args[0] == "--server")
+            {
+                return new NetworkServer();
+            }
+
+            if (args[0] == "--client")
+            {
+                return new LobbyGameState();
+            }
+            
+            throw new ArgumentException("Invalid command-line argument", args[0]);
         }
     }
 }
