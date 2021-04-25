@@ -1,23 +1,31 @@
 # Roguelike
 
-Архитектурная документация:
+Documentation (Russian):
+
 https://docs.google.com/document/d/1gGd7HVuZDebvwOwDosIV9V6NMwdhsqI7JzbrhdflZwk/edit?usp=sharing
 
-Пререквизиты:
+
+Project architecture:
+
+https://drive.google.com/file/d/1pjahMQ__q2c_2XQI5jrehokMEN3w2RMF/view
+
+
+Prerequisites:
 ```
 .NET Core 3.1
 ```
 
-Сборка под Linux:
+Build for Linux:
 ```
 xbuild Roguelike.sln
 ```
 
-Сборка под Windows:
+Build for Windows:
 
 ```
 msbuild Roguelike.sln
 ```
+
 
 ## Запуск сервера: 
 `Roguelike/bin/Debug/Roguelike.exe --server`
@@ -33,9 +41,10 @@ msbuild Roguelike.sln
 `Roguelike/bin/Debug/Roguelike.exe --load`
 
 ## Запуск локальной игры с загрузкой карты из файла:
+
 ```
 Roguelike/bin/Debug/Roguelike.exe [<path>]
-[<path>] - путь до файла с картой
+[<path>] - path to the folder with the map
 ```
 
 
